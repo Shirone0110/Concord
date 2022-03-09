@@ -19,6 +19,10 @@ public class User
 		realName = realname;
 		password = pwd;
 		userId = id;
+		profileData = "";
+		profilePic = "";
+		blocks = new ArrayList<User>();
+		isOnline = true;
 	}
 
 	public String getProfileData()

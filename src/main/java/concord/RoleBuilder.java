@@ -13,7 +13,9 @@ public class RoleBuilder
 	
 	public void addRole(String name, String p)
 	{
-		permission.put(name, p);
+		if (!permission.containsKey(name))
+			permission.put(name, p);
+		else buildRole(name);
 	}
 	
 	public Role buildRole(String name)

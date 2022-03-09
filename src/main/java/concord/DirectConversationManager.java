@@ -38,7 +38,7 @@ public class DirectConversationManager
 		for (int i = 0; i < dcList.size(); i++)
 		{
 			DirectConversation tmp = dcList.get(i);
-			if (tmp.users.contains(u)) ans.add(tmp);
+			if (tmp.getUsers().contains(u)) ans.add(tmp);
 		}
 		return ans;
 	}

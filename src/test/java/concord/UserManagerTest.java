@@ -20,7 +20,7 @@ class UserManagerTest
 	}
 
 	@Test
-	void test()
+	void testCreateDelete()
 	{
 		ArrayList<User> tmp = new ArrayList<User>();
 		tmp.add(new User("Prince Bojji", "Chantakrak", "123", 0));

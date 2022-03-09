@@ -21,28 +21,38 @@ class ChannelTest
 		s = new Server(a, "test", 0, true);
 		c = new Channel("channel", s);
 		m1 = new Message(a, "Hi");
-		c.addMessage(m1);
 		m2 = new Message(a, "Hello");
-		c.addMessage(m2);
 	}
 
 	@Test
-	void test()
+	void testMessage()
 	{
+		c.addMessage(m1);
+		c.addMessage(m2);
+		
 		ArrayList<Message> tmp = new ArrayList<Message>();
 		tmp.add(m1);
 		tmp.add(m2);
 		
 		assertEquals(tmp, c.getMessage());
-		assertEquals("channel", c.getName());
-		assertEquals(s, c.getServer());
-		
-		c.setName("change");
-		assertEquals("change", c.getName());
 		
 		tmp.remove(m1);
 		c.deleteMessage(m1);
 		assertEquals(tmp, c.getMessage());
+	}
+	
+	@Test
+	void testName()
+	{
+		assertEquals("channel", c.getName());
+		c.setName("change");
+		assertEquals("change", c.getName());
+	}
+	
+	@Test
+	void testServer()
+	{
+		assertEquals(s, c.getServer());
 	}
 
 }

@@ -18,7 +18,7 @@ class MessageTest
 	}
 
 	@Test
-	void testBasic()
+	void testUserContent()
 	{
 		assertEquals(u, m.getUser());
 		assertEquals("Hi", m.getContent());

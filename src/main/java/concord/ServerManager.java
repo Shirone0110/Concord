@@ -36,7 +36,7 @@ public class ServerManager
 		for (int i = 0; i < servers.size(); i++)
 		{
 			tmp = servers.get(i);
-			if (tmp.users.contains(u)) answer.add(tmp);
+			if (tmp.getUsers().contains(u)) answer.add(tmp);
 		}	
 		return answer;
 	}

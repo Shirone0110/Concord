@@ -5,22 +5,24 @@ import java.util.HashMap;
 
 public class Server
 {
-	String serverName;
-	int serverId;
-	ArrayList<Channel> channels;
-	ArrayList<Message> pins;
-	boolean isPrivate;
-	ArrayList<User> users;
-	String serverLogo;
-	String serverDescription;
-	RoleBuilder roleBuilder;
-	HashMap<User, Role> roleMap;
+	private String serverName;
+	private int serverId;
+	private ArrayList<Channel> channels;
+	private ArrayList<Message> pins;
+	private boolean isPrivate;
+	private ArrayList<User> users;
+	private String serverLogo;
+	private String serverDescription;
+	private RoleBuilder roleBuilder;
+	private HashMap<User, Role> roleMap;
 	
 	public Server(User admin, String name, int id, boolean priv)
 	{
 		serverName = name;
 		serverId = id;
 		isPrivate = priv;
+		serverLogo = "";
+		serverDescription = "";
 		channels = new ArrayList<Channel>();
 		pins = new ArrayList<Message>();
 		users = new ArrayList<User>();
@@ -87,7 +89,7 @@ public class Server
 	public void createRole(User admin, String name, String p) throws InvalidActionException
 	{
 		Role role = roleMap.get(admin);
-		if (role.isModifyMember())
+		if (role.isModifyRole())
 			roleBuilder.addRole(name, p);
 		else 
 			throw new InvalidActionException();
@@ -109,6 +111,11 @@ public class Server
 			return "dummy url";
 		else 
 			throw new InvalidActionException();
+	}
+	
+	public ArrayList<User> getUsers()
+	{
+		return users;
 	}
 
 	/**

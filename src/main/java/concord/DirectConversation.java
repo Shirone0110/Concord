@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class DirectConversation
 {
-	ArrayList <User> users;
-	ArrayList <Message> messages;
-	int directConvoId;
+	private ArrayList <User> users;
+	private ArrayList <Message> messages;
+	private int directConvoId;
 	
 	public DirectConversation(int id)
 	{
@@ -34,6 +34,16 @@ public class DirectConversation
 	public void deleteMessage(Message m)
 	{
 		messages.remove(m);
+	}
+	
+	public ArrayList<User> getUsers()
+	{
+		return users;
+	}
+	
+	public ArrayList<Message> getMessages()
+	{
+		return messages;
 	}
 	
 	public int getId()
