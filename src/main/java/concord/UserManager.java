@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class UserManager
 {
-	ArrayList <User> userList;
-	int numberOfUser;
+	private ArrayList <User> userList;
+	private int numberOfUser;
 	
 	public UserManager()
 	{

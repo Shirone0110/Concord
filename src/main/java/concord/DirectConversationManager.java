@@ -13,15 +13,23 @@ public class DirectConversationManager
 		numberOfDc = 0;
 	}
 	
-	public void createDc()
+	public void createDc(User a, User b)
 	{
-		dcList.add(new DirectConversation(numberOfDc));
+		DirectConversation dc = new DirectConversation(numberOfDc);
+		dc.addUser(a);
+		dc.addUser(b);
+		dcList.add(dc);
 		numberOfDc++;
 	}
 	
 	public void deleteDc(int id)
 	{
 		dcList.remove(id);
+	}
+	
+	public int getNumberOfDc()
+	{
+		return numberOfDc;
 	}
 	
 	public ArrayList<DirectConversation> getPastConversation(User u)
