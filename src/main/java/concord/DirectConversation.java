@@ -26,9 +26,9 @@ public class DirectConversation
 		users.remove(u);
 	}
 	
-	public void addMessage(User u, String text)
+	public void addMessage(Message m)
 	{
-		messages.add(new Message(u, text));
+		messages.add(m);
 	}
 	
 	public void deleteMessage(Message m)

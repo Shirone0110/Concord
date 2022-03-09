@@ -2,9 +2,9 @@ package concord;
 
 public class Concord
 {
-	private DirectConversationManager d;
-	private ServerManager s;
-	private UserManager u;
+	DirectConversationManager d;
+	ServerManager s;
+	UserManager u;
 	
 	public Concord()
 	{

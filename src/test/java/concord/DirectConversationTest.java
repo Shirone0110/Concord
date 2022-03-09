@@ -48,8 +48,8 @@ class DirectConversationTest
 	@Test
 	void testMessage()
 	{
-		d.addMessage(a, "hi");
-		d.addMessage(b, "hello");
+		d.addMessage(m1);
+		d.addMessage(m2);
 		ArrayList<Message> tmp = new ArrayList<Message>();
 		tmp.add(m1);
 		tmp.add(m2);
