@@ -27,9 +27,9 @@ public class Server
 		roleBuilder = new RoleBuilder();
 		roleMap = new HashMap<User, Role>();
 		
-		roleBuilder.addRole("Admin", "111111111");
-		roleBuilder.addRole("Moderator", "101010011");
-		roleBuilder.addRole("Member", "000000000");
+		roleBuilder.addRole("Admin", "11111");
+		roleBuilder.addRole("Moderator", "10101");
+		roleBuilder.addRole("Member", "00000");
 		
 		users.add(admin);
 		roleMap.put(admin, roleBuilder.buildRole("Admin"));
@@ -38,7 +38,7 @@ public class Server
 	public void addChannel(User u, Channel channel) throws InvalidActionException
 	{
 		Role role = roleMap.get(u);
-		if (role.isAddChannel())
+		if (role.isModifyChannel())
 			channels.add(channel);
 		else 
 			throw new InvalidActionException();
@@ -47,7 +47,7 @@ public class Server
 	public void deleteChannel(User u, Channel channel) throws InvalidActionException
 	{
 		Role role = roleMap.get(u);
-		if (role.isRemoveChannel())
+		if (role.isModifyChannel())
 			channels.remove(channel);
 		else 
 			throw new InvalidActionException();
@@ -66,7 +66,7 @@ public class Server
 	public void addMember(User admin, User member) throws InvalidActionException
 	{
 		Role adRole = roleMap.get(admin);
-		if (adRole.isAddMember())
+		if (adRole.isModifyMember())
 		{
 			users.add(member);
 			roleMap.put(member, roleBuilder.buildRole("Member"));
@@ -78,7 +78,7 @@ public class Server
 	public void removeMember(User admin, User member) throws InvalidActionException
 	{
 		Role role = roleMap.get(admin);
-		if (role.isRemoveMember())
+		if (role.isModifyMember())
 			users.remove(member.getUserId());
 		else 
 			throw new InvalidActionException();
@@ -87,7 +87,7 @@ public class Server
 	public void createRole(User admin, String name, String p) throws InvalidActionException
 	{
 		Role role = roleMap.get(admin);
-		if (role.isRemoveMember())
+		if (role.isModifyMember())
 			roleBuilder.addRole(name, p);
 		else 
 			throw new InvalidActionException();
@@ -96,7 +96,7 @@ public class Server
 	public void changeRole(User admin, User user, Role role) throws InvalidActionException
 	{
 		Role r = roleMap.get(admin);
-		if (r.isChangeRole())
+		if (r.isModifyRole())
 			roleMap.put(user, role);
 		else 
 			throw new InvalidActionException();
@@ -105,7 +105,7 @@ public class Server
 	public String invite(User admin, User user) throws InvalidActionException
 	{
 		Role role = roleMap.get(admin);
-		if (role.isAddMember())
+		if (role.isModifyMember())
 			return "dummy url";
 		else 
 			throw new InvalidActionException();
@@ -181,5 +181,15 @@ public class Server
 	public void setServerDescription(String serverDescription)
 	{
 		this.serverDescription = serverDescription;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == this) return true;
+		if (!(obj instanceof Server)) return false;
+		Server s = (Server) obj;
+		if (serverId == s.getServerId()) return true;
+		return false;
 	}
 }

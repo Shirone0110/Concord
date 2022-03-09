@@ -8,13 +8,11 @@ public class DirectConversation
 	ArrayList <User> users;
 	ArrayList <Message> messages;
 	int directConvoId;
-	int messageCount;
 	
 	public DirectConversation(int id)
 	{
 		users = new ArrayList<User>();
 		messages = new ArrayList<Message>();
-		messageCount = 0;
 		directConvoId = id;
 	}
 	
@@ -30,13 +28,12 @@ public class DirectConversation
 	
 	public void addMessage(User u, String text)
 	{
-		messages.add(new Message(u, text, messageCount));
-		messageCount++;
+		messages.add(new Message(u, text));
 	}
 	
-	public void deleteMessage(int id)
+	public void deleteMessage(Message m)
 	{
-		messages.remove(id);
+		messages.remove(m);
 	}
 	
 	public int getId()
@@ -46,6 +43,16 @@ public class DirectConversation
 	
 	public LocalDateTime getLastTimestamp()
 	{
-		return messages.get(messages.size() - 1).time;
+		return messages.get(messages.size() - 1).getTime();
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == this) return true;
+		if (!(obj instanceof DirectConversation)) return false;
+		DirectConversation dc = (DirectConversation) obj;
+		if (directConvoId == dc.getId()) return true;
+		return false;
 	}
 }

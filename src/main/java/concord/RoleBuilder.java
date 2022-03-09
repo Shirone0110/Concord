@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class RoleBuilder
 {
-	HashMap<String, String> permission;
+	private HashMap<String, String> permission;
 	
 	public RoleBuilder()
 	{
@@ -14,7 +14,6 @@ public class RoleBuilder
 	public void addRole(String name, String p)
 	{
 		permission.put(name, p);
-		//return new Role(p);
 	}
 	
 	public Role buildRole(String name)

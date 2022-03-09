@@ -6,12 +6,12 @@ public class Channel
 {
 	private String channelName;
 	private ArrayList<Message> messages;
-	private int channelId;
+	private Server from;
 	
-	public Channel(String name, int id)
+	public Channel(String name, Server server)
 	{
 		channelName = name;
-		channelId = id;
+		from = server;
 		messages = new ArrayList<Message>();
 	}
 	
@@ -30,13 +30,18 @@ public class Channel
 		messages.add(m);
 	}
 	
-	public void deleteMessage(int id)
+	public void deleteMessage(Message m)
 	{
-		messages.remove(id);
+		messages.remove(m);
 	}
 	
-	public int getId()
+	public ArrayList<Message> getMessage()
 	{
-		return channelId;
+		return messages;
+	}
+	
+	public Server getServer()
+	{
+		return from;
 	}
 }

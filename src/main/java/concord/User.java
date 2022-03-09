@@ -101,4 +101,14 @@ public class User
 		isOnline = status;
 	}
 	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == this) return true;
+		if (!(obj instanceof User)) return false;
+		User u = (User) obj;
+		if (userId == u.getUserId()) return true;
+		return false;
+	}
+	
 }

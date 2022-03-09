@@ -13,6 +13,11 @@ public class UserManager
 		numberOfUser = 0;
 	}
 	
+	public ArrayList<User> getUserList()
+	{
+		return userList;
+	}
+
 	public void addUser(String username, String realname, String pwd)
 	{
 		userList.add(new User(username, realname, pwd, numberOfUser));

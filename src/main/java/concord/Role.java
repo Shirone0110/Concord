@@ -2,171 +2,114 @@ package concord;
 
 public class Role
 {
-	private boolean addMember;
-	private boolean addModerator;
-	private boolean addChannel;
-	private boolean addAdmin; 
-	private boolean removeMember;
-	private boolean removeModerator;
-	private boolean removeAdmin;
-	private boolean removeChannel;
-	private boolean changeRole;
+	private boolean modifyMember;
+	private boolean modifyModerator;
+	private boolean modifyChannel;
+	private boolean modifyAdmin; 
+	private boolean modifyRole;
+	private String permission;
 	
 	public Role(String p)
 	{
-		addMember = p.charAt(0) == '1' ? true : false;
-		addModerator = p.charAt(1) == '1' ? true : false;
-		addChannel = p.charAt(2) == '1' ? true : false;
-		addAdmin = p.charAt(3) == '1' ? true : false;
-		removeMember = p.charAt(4) == '1' ? true : false;
-		removeModerator = p.charAt(5) == '1' ? true : false;
-		removeAdmin = p.charAt(6) == '1' ? true : false;
-		removeChannel = p.charAt(7) == '1' ? true : false;
-		changeRole = p.charAt(8) == '1' ? true : false;
+		modifyMember = p.charAt(0) == '1' ? true : false;
+		modifyModerator = p.charAt(1) == '1' ? true : false;
+		modifyChannel = p.charAt(2) == '1' ? true : false;
+		modifyAdmin = p.charAt(3) == '1' ? true : false;
+		modifyRole = p.charAt(4) == '1' ? true : false;
+		permission = p;
 	}
 	
 	public Role()
 	{
-		this("000000000");
+		this("00000");
 	}
 
 	/**
 	 * @return the addMember
 	 */
-	public boolean isAddMember()
+	public boolean isModifyMember()
 	{
-		return addMember;
+		return modifyMember;
 	}
 
 	/**
 	 * @param addMember the addMember to set
 	 */
-	public void setAddMember(boolean addMember)
+	public void setModifyMember(boolean addMember)
 	{
-		this.addMember = addMember;
+		this.modifyMember = addMember;
 	}
 	
 	/**
 	 * @return the addModerator
 	 */
-	public boolean isAddModerator()
+	public boolean isModifyModerator()
 	{
-		return addModerator;
+		return modifyModerator;
 	}
 
 	/**
 	 * @param addModerator the addModerator to set
 	 */
-	public void setAddModerator(boolean addModerator)
+	public void setModifyModerator(boolean addModerator)
 	{
-		this.addModerator = addModerator;
+		this.modifyModerator = addModerator;
 	}
 
 	/**
 	 * @return the addChannel
 	 */
-	public boolean isAddChannel()
+	public boolean isModifyChannel()
 	{
-		return addChannel;
+		return modifyChannel;
 	}
 
 	/**
 	 * @param addChannel the addChannel to set
 	 */
-	public void setAddChannel(boolean addChannel)
+	public void setModifyChannel(boolean addChannel)
 	{
-		this.addChannel = addChannel;
+		this.modifyChannel = addChannel;
 	}
 
 	/**
 	 * @return the addAdmin
 	 */
-	public boolean isAddAdmin()
+	public boolean isModifyAdmin()
 	{
-		return addAdmin;
+		return modifyAdmin;
 	}
 
 	/**
 	 * @param addAdmin the addAdmin to set
 	 */
-	public void setAddAdmin(boolean addAdmin)
+	public void setModifyAdmin(boolean addAdmin)
 	{
-		this.addAdmin = addAdmin;
+		this.modifyAdmin = addAdmin;
 	}
 
-	/**
-	 * @return the removeMember
-	 */
-	public boolean isRemoveMember()
+	public boolean isModifyRole()
 	{
-		return removeMember;
+		return modifyRole;
 	}
 
-	/**
-	 * @param removeMember the removeMember to set
-	 */
-	public void setRemoveMember(boolean removeMember)
+	public void setModifyRole(boolean changeRole)
 	{
-		this.removeMember = removeMember;
-	}
-
-	/**
-	 * @return the removeModerator
-	 */
-	public boolean isRemoveModerator()
-	{
-		return removeModerator;
-	}
-
-	/**
-	 * @param removeModerator the removeModerator to set
-	 */
-	public void setRemoveModerator(boolean removeModerator)
-	{
-		this.removeModerator = removeModerator;
-	}
-
-	/**
-	 * @return the removeAdmin
-	 */
-	public boolean isRemoveAdmin()
-	{
-		return removeAdmin;
-	}
-
-	/**
-	 * @param removeAdmin the removeAdmin to set
-	 */
-	public void setRemoveAdmin(boolean removeAdmin)
-	{
-		this.removeAdmin = removeAdmin;
-	}
-
-	/**
-	 * @return the removeChannel
-	 */
-	public boolean isRemoveChannel()
-	{
-		return removeChannel;
-	}
-
-	/**
-	 * @param removeChannel the removeChannel to set
-	 */
-	public void setRemoveChannel(boolean removeChannel)
-	{
-		this.removeChannel = removeChannel;
-	}
-
-	public boolean isChangeRole()
-	{
-		return changeRole;
-	}
-
-	public void setChangeRole(boolean changeRole)
-	{
-		this.changeRole = changeRole;
+		this.modifyRole = changeRole;
 	}
 	
+	public String getPermission()
+	{
+		return permission;
+	}
 	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == this) return true;
+		if (!(obj instanceof Role)) return false;
+		Role r = (Role) obj;
+		if (permission == r.getPermission()) return true;
+		return false;
+	}
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class DirectConversationManager
 {
-	ArrayList <DirectConversation> dcList;
-	int numberOfDc;
+	private ArrayList <DirectConversation> dcList;
+	private int numberOfDc;
 	
 	public DirectConversationManager()
 	{
@@ -27,9 +27,9 @@ public class DirectConversationManager
 		dcList.remove(id);
 	}
 	
-	public int getNumberOfDc()
+	public ArrayList<DirectConversation> getDcList()
 	{
-		return numberOfDc;
+		return dcList;
 	}
 	
 	public ArrayList<DirectConversation> getPastConversation(User u)

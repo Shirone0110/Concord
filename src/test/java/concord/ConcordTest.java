@@ -21,13 +21,12 @@ class ConcordTest
 		 u = concord.u;
 	}
 
-
 	@Test
 	void testInit()
 	{
-		assertEquals(0, dcm.getNumberOfDc());
-		assertNotNull(dcm.dcList);
-		assertEquals(0, 0);
+		assertNotNull(dcm.getDcList());
+		assertNotNull(s.getServers());
+		assertNotNull(u.getUserList());
 	}
 
 }

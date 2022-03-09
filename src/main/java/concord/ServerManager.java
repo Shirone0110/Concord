@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class ServerManager
 {
-	ArrayList<Server> servers;
-	int numberOfServer;
+	private ArrayList<Server> servers;
+	private int numberOfServer;
 	
 	public ServerManager()
 	{
@@ -18,7 +18,12 @@ public class ServerManager
 		servers.add(new Server(creator, name, numberOfServer, priv));
 		numberOfServer++;
 	}
-	
+
+	public ArrayList<Server> getServers()
+	{
+		return servers;
+	}
+
 	public void deleteServer(int id)
 	{
 		servers.remove(id);
