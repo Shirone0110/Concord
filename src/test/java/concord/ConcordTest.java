@@ -16,9 +16,9 @@ class ConcordTest
 	void setUp() throws Exception
 	{
 		 concord = new Concord();
-		 dcm = concord.d;
-		 s = concord.s;
-		 u = concord.u;
+		 dcm = concord.getDCM();
+		 s = concord.getSM();
+		 u = concord.getUM();
 	}
 
 	@Test

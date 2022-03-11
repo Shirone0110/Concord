@@ -8,6 +8,7 @@ public class DirectConversation
 	private ArrayList <User> users;
 	private ArrayList <Message> messages;
 	private int directConvoId;
+	private final LocalDateTime defaultTime = LocalDateTime.MIN;
 	
 	public DirectConversation(int id)
 	{
@@ -53,6 +54,7 @@ public class DirectConversation
 	
 	public LocalDateTime getLastTimestamp()
 	{
+		if (messages.size() == 0) return defaultTime;
 		return messages.get(messages.size() - 1).getTime();
 	}
 	

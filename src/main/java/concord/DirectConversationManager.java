@@ -40,6 +40,7 @@ public class DirectConversationManager
 			DirectConversation tmp = dcList.get(i);
 			if (tmp.getUsers().contains(u)) ans.add(tmp);
 		}
+		ans.sort((dc1, dc2) -> dc1.getLastTimestamp().compareTo(dc2.getLastTimestamp()));
 		return ans;
 	}
 }

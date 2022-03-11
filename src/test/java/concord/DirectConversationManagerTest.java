@@ -28,11 +28,13 @@ class DirectConversationManagerTest
 		DirectConversation dc = new DirectConversation(0);
 		dc.addUser(a);
 		dc.addUser(b);
+		dc.addMessage(new Message(a, "Hi"));
 		tmp.add(dc);
 		
 		DirectConversation dc2 = new DirectConversation(1);
 		dc2.addUser(b);
 		dc2.addUser(c);
+		dc2.addMessage(new Message(b, "Hello"));
 		tmp.add(dc2);
 	}
 
@@ -49,6 +51,7 @@ class DirectConversationManagerTest
 	@Test
 	void testGetPastConv()
 	{
+		System.out.println(d.getPastConversation(b));
 		assertEquals(tmp, d.getPastConversation(b));
 	}
 
