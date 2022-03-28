@@ -11,6 +11,7 @@ class ServerTest
 {
 	Server s;
 	User ad, noob, rando;
+	Channel c;
 	
 	@BeforeEach
 	void setUp() throws Exception
@@ -19,6 +20,7 @@ class ServerTest
 		s = new Server(ad, "test", 0, true);
 		noob = new User("noob", "noob", "234", 1);
 		rando = new User("rando", "rando", "345", 2);
+		c = new Channel("channel", s);
 	}
 
 	@Test
@@ -55,6 +57,35 @@ class ServerTest
 	{
 		s.setServerDescription("description");
 		assertEquals("description", s.getServerDescription());
+	}
+	
+	@Test
+	void testChannel()
+	{
+		ArrayList<Channel> tmpChannel = new ArrayList<Channel>();
+		tmpChannel.add(c);
+		try
+		{
+			s.addChannel(ad, c);
+			assertEquals(tmpChannel, s.getChannels());
+		} 
+		catch (InvalidActionException e)
+		{
+			e.printStackTrace();
+			fail("threw exception when adding channel");
+		}
+		
+		tmpChannel.remove(0);
+		try
+		{
+			s.deleteChannel(ad, c);
+			assertEquals(tmpChannel, s.getChannels());
+		} 
+		catch (InvalidActionException e)
+		{
+			e.printStackTrace();
+			fail("threw exception when deleting channel");
+		}
 	}
 	
 	@Test

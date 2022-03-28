@@ -113,6 +113,11 @@ public class Server
 			throw new InvalidActionException();
 	}
 	
+	public ArrayList<Channel> getChannels()
+	{
+		return channels;
+	}
+	
 	public ArrayList<User> getUsers()
 	{
 		return users;
