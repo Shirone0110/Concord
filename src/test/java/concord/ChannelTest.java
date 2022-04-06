@@ -19,7 +19,7 @@ class ChannelTest
 	{
 		a = new User("Prince Bojji", "Chantakrak", "123", 0);
 		s = new Server(a, "test", 0, true);
-		c = new Channel("channel", s);
+		c = new Channel("channel", s, 0);
 		m1 = new Message(a, "Hi");
 		m2 = new Message(a, "Hello");
 	}
@@ -34,25 +34,25 @@ class ChannelTest
 		tmp.add(m1);
 		tmp.add(m2);
 		
-		assertEquals(tmp, c.getMessage());
+		assertEquals(tmp, c.getMessages());
 		
 		tmp.remove(m1);
 		c.deleteMessage(m1);
-		assertEquals(tmp, c.getMessage());
+		assertEquals(tmp, c.getMessages());
 	}
 	
 	@Test
 	void testName()
 	{
-		assertEquals("channel", c.getName());
-		c.setName("change");
-		assertEquals("change", c.getName());
+		assertEquals("channel", c.getChannelName());
+		c.setChannelName("change");
+		assertEquals("change", c.getChannelName());
 	}
 	
 	@Test
 	void testServer()
 	{
-		assertEquals(s, c.getServer());
+		assertEquals(s, c.getFrom());
 	}
 
 }

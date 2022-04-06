@@ -21,16 +21,16 @@ class RoleTest
 	@Test
 	void test()
 	{
-		assert(ad.isModifyAdmin() == true);
-		assert(ad.isModifyChannel() == true);
-		assert(ad.isModifyMember() == true);
-		assert(ad.isModifyModerator() == true);
-		assert(ad.isModifyRole() == true);
-		assert(noob.isModifyAdmin() == false);
-		assert(noob.isModifyChannel() == false);
-		assert(noob.isModifyMember() == false);
-		assert(noob.isModifyModerator() == false);
-		assert(noob.isModifyRole() == false);
+		assert(ad.getModifyAdmin() == true);
+		assert(ad.getModifyChannel() == true);
+		assert(ad.getModifyMember() == true);
+		assert(ad.getModifyModerator() == true);
+		assert(ad.getModifyRole() == true);
+		assert(noob.getModifyAdmin() == false);
+		assert(noob.getModifyChannel() == false);
+		assert(noob.getModifyMember() == false);
+		assert(noob.getModifyModerator() == false);
+		assert(noob.getModifyRole() == false);
 	}
 
 }

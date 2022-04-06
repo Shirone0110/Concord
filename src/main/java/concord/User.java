@@ -1,9 +1,14 @@
 package concord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User
+public class User implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1196493987973256632L;
 	private String profileData;
 	private String userName;
 	private String realName;
@@ -23,6 +28,11 @@ public class User
 		profilePic = "";
 		blocks = new ArrayList<User>();
 		isOnline = true;
+	}
+	
+	public User()
+	{
+		new User("default", "default", "default", 0);
 	}
 
 	public String getProfileData()
@@ -79,10 +89,20 @@ public class User
 	{
 		return userId;
 	}
+	
+	public void setUserId(int id)
+	{
+		userId = id;
+	}
 
 	public ArrayList<User> getBlocks()
 	{
 		return blocks;
+	}
+	
+	public void setBlocks(ArrayList<User> b)
+	{
+		blocks = b;
 	}
 
 	public void addBlock(User user)
@@ -95,12 +115,12 @@ public class User
 		blocks.remove(user);
 	}
 
-	public boolean getStatus()
+	public boolean isOnline()
 	{
 		return isOnline;
 	}
 
-	public void setStatus(boolean status)
+	public void setOnline(boolean status)
 	{
 		isOnline = status;
 	}

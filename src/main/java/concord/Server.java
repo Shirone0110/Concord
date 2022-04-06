@@ -8,6 +8,7 @@ public class Server
 	private String serverName;
 	private int serverId;
 	private ArrayList<Channel> channels;
+	private int channelCount;
 	private ArrayList<Message> pins;
 	private boolean isPrivate;
 	private ArrayList<User> users;
@@ -23,6 +24,7 @@ public class Server
 		isPrivate = priv;
 		serverLogo = "";
 		serverDescription = "";
+		channelCount = 0;
 		channels = new ArrayList<Channel>();
 		pins = new ArrayList<Message>();
 		users = new ArrayList<User>();
@@ -36,12 +38,21 @@ public class Server
 		users.add(admin);
 		roleMap.put(admin, roleBuilder.buildRole("Admin"));
 	}
+	
+	public Server()
+	{
+		new Server(new User(), "default", 0, false);
+	}
 
-	public void addChannel(User u, Channel channel) throws InvalidActionException
+	public void addChannel(User u, String name) throws InvalidActionException
 	{
 		Role role = roleMap.get(u);
-		if (role.isModifyChannel())
-			channels.add(channel);
+		if (role.getModifyChannel())
+		{
+			Channel c = new Channel(name, this, channelCount);
+			channelCount++;
+			channels.add(c);
+		}
 		else 
 			throw new InvalidActionException();
 	}
@@ -49,10 +60,19 @@ public class Server
 	public void deleteChannel(User u, Channel channel) throws InvalidActionException
 	{
 		Role role = roleMap.get(u);
-		if (role.isModifyChannel())
+		if (role.getModifyChannel())
 			channels.remove(channel);
 		else 
 			throw new InvalidActionException();
+	}
+	
+	public Channel getChannelById(int id)
+	{
+		for (Channel c: channels)
+		{
+			if (c.getChannelId() == id) return c;
+		}
+		return null;
 	}
 	
 	public void addPin(Message m)
@@ -68,7 +88,7 @@ public class Server
 	public void addMember(User admin, User member) throws InvalidActionException
 	{
 		Role adRole = roleMap.get(admin);
-		if (adRole.isModifyMember())
+		if (adRole.getModifyMember())
 		{
 			users.add(member);
 			roleMap.put(member, roleBuilder.buildRole("Member"));
@@ -80,7 +100,7 @@ public class Server
 	public void removeMember(User admin, User member) throws InvalidActionException
 	{
 		Role role = roleMap.get(admin);
-		if (role.isModifyMember())
+		if (role.getModifyMember())
 			users.remove(member.getUserId());
 		else 
 			throw new InvalidActionException();
@@ -89,7 +109,7 @@ public class Server
 	public void createRole(User admin, String name, String p) throws InvalidActionException
 	{
 		Role role = roleMap.get(admin);
-		if (role.isModifyRole())
+		if (role.getModifyRole())
 			roleBuilder.addRole(name, p);
 		else 
 			throw new InvalidActionException();
@@ -98,16 +118,34 @@ public class Server
 	public void changeRole(User admin, User user, Role role) throws InvalidActionException
 	{
 		Role r = roleMap.get(admin);
-		if (r.isModifyRole())
+		if (r.getModifyRole())
 			roleMap.put(user, role);
 		else 
+			throw new InvalidActionException();
+	}
+	
+	public void changeServerName(User admin, String name) throws InvalidActionException
+	{
+		Role r = roleMap.get(admin);
+		if (r.getModifyAdmin())
+			setServerName(name);
+		else 
+			throw new InvalidActionException();
+	}
+	
+	public void changeChannelName(User admin, Channel c, String name) throws InvalidActionException
+	{
+		Role r = roleMap.get(admin);
+		if (r.getModifyChannel())
+			c.setChannelName(name);
+		else
 			throw new InvalidActionException();
 	}
 	
 	public String invite(User admin, User user) throws InvalidActionException
 	{
 		Role role = roleMap.get(admin);
-		if (role.isModifyMember())
+		if (role.getModifyMember())
 			return "dummy url";
 		else 
 			throw new InvalidActionException();
@@ -118,9 +156,25 @@ public class Server
 		return channels;
 	}
 	
+	/**
+	 * @param channels the channels to set
+	 */
+	public void setChannels(ArrayList<Channel> channels)
+	{
+		this.channels = channels;
+	}
+
 	public ArrayList<User> getUsers()
 	{
 		return users;
+	}
+	
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(ArrayList<User> users)
+	{
+		this.users = users;
 	}
 
 	/**
@@ -134,7 +188,7 @@ public class Server
 	/**
 	 * @param serverName the serverName to set
 	 */
-	public void setServerName(String serverName)
+	private void setServerName(String serverName)
 	{
 		this.serverName = serverName;
 	}
@@ -146,11 +200,16 @@ public class Server
 	{
 		return serverId;
 	}
+	
+	public void setServerId(int id)
+	{
+		serverId = id;
+	}
 
 	/**
 	 * @return the isPrivate
 	 */
-	public boolean isPrivate()
+	public boolean getIsPrivate()
 	{
 		return isPrivate;
 	}
@@ -161,6 +220,70 @@ public class Server
 	public void setPrivate(boolean isPrivate)
 	{
 		this.isPrivate = isPrivate;
+	}
+
+	/**
+	 * @return the channelCount
+	 */
+	public int getChannelCount()
+	{
+		return channelCount;
+	}
+
+	/**
+	 * @param channelCount the channelCount to set
+	 */
+	public void setChannelCount(int channelCount)
+	{
+		this.channelCount = channelCount;
+	}
+	
+	/**
+	 * @return the pins
+	 */
+	public ArrayList<Message> getPins()
+	{
+		return pins;
+	}
+
+	/**
+	 * @param pins the pins to set
+	 */
+	public void setPins(ArrayList<Message> pins)
+	{
+		this.pins = pins;
+	}
+
+	/**
+	 * @return the roleBuilder
+	 */
+	public RoleBuilder getRoleBuilder()
+	{
+		return roleBuilder;
+	}
+
+	/**
+	 * @param roleBuilder the roleBuilder to set
+	 */
+	public void setRoleBuilder(RoleBuilder roleBuilder)
+	{
+		this.roleBuilder = roleBuilder;
+	}
+
+	/**
+	 * @return the roleMap
+	 */
+	public HashMap<User, Role> getRoleMap()
+	{
+		return roleMap;
+	}
+
+	/**
+	 * @param roleMap the roleMap to set
+	 */
+	public void setRoleMap(HashMap<User, Role> roleMap)
+	{
+		this.roleMap = roleMap;
 	}
 
 	/**

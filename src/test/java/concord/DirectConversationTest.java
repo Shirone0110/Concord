@@ -26,7 +26,7 @@ class DirectConversationTest
 	@Test
 	void testId()
 	{
-		assertEquals(0, d.getId());
+		assertEquals(0, d.getDirectConvoId());
 	}
 
 	@Test

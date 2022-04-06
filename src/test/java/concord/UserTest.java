@@ -78,8 +78,8 @@ class UserTest
 	@Test
 	void testOnline()
 	{
-		assert(a.getStatus() == true);
-		a.setStatus(false);
-		assert(a.getStatus() == false);
+		assert(a.isOnline() == true);
+		a.setOnline(false);
+		assert(a.isOnline() == false);
 	}
 }

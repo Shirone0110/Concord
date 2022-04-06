@@ -20,15 +20,22 @@ class ServerTest
 		s = new Server(ad, "test", 0, true);
 		noob = new User("noob", "noob", "234", 1);
 		rando = new User("rando", "rando", "345", 2);
-		c = new Channel("channel", s);
+		c = new Channel("channel", s, 0);
 	}
 
 	@Test
 	void testName()
 	{
 		assertEquals("test", s.getServerName());
-		s.setServerName("haha");
-		assertEquals("haha", s.getServerName());
+		try
+		{
+			s.changeServerName(ad, "haha");
+			assertEquals("haha", s.getServerName());
+		} catch (InvalidActionException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -40,9 +47,9 @@ class ServerTest
 	@Test
 	void testPrivate()
 	{
-		assert(s.isPrivate() == true);
+		assert(s.getIsPrivate() == true);
 		s.setPrivate(false);
-		assert(s.isPrivate() == false);
+		assert(s.getIsPrivate() == false);
 	}
 	
 	@Test
@@ -66,7 +73,7 @@ class ServerTest
 		tmpChannel.add(c);
 		try
 		{
-			s.addChannel(ad, c);
+			s.addChannel(ad, "channel");
 			assertEquals(tmpChannel, s.getChannels());
 		} 
 		catch (InvalidActionException e)

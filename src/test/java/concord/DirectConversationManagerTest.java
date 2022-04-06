@@ -20,6 +20,7 @@ class DirectConversationManagerTest
 		a = new User("Prince Bojji", "Chantakrak", "123", 0);
 		b = new User("Shirone", "Lam", "456", 1);
 		c = new User("Chaekyung", "Kiana", "789", 2);
+		
 		d.createDc(a, b);
 		d.createDc(b, c);
 		

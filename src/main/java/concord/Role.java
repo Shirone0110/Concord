@@ -27,7 +27,7 @@ public class Role
 	/**
 	 * @return the addMember
 	 */
-	public boolean isModifyMember()
+	public boolean getModifyMember()
 	{
 		return modifyMember;
 	}
@@ -43,7 +43,7 @@ public class Role
 	/**
 	 * @return the addModerator
 	 */
-	public boolean isModifyModerator()
+	public boolean getModifyModerator()
 	{
 		return modifyModerator;
 	}
@@ -59,7 +59,7 @@ public class Role
 	/**
 	 * @return the addChannel
 	 */
-	public boolean isModifyChannel()
+	public boolean getModifyChannel()
 	{
 		return modifyChannel;
 	}
@@ -75,7 +75,7 @@ public class Role
 	/**
 	 * @return the addAdmin
 	 */
-	public boolean isModifyAdmin()
+	public boolean getModifyAdmin()
 	{
 		return modifyAdmin;
 	}
@@ -88,7 +88,7 @@ public class Role
 		this.modifyAdmin = addAdmin;
 	}
 
-	public boolean isModifyRole()
+	public boolean getModifyRole()
 	{
 		return modifyRole;
 	}
@@ -101,6 +101,11 @@ public class Role
 	public String getPermission()
 	{
 		return permission;
+	}
+	
+	public void setPermission(String s)
+	{
+		permission = s;
 	}
 	
 	@Override

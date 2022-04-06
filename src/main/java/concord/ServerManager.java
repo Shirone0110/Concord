@@ -19,9 +19,40 @@ public class ServerManager
 		numberOfServer++;
 	}
 
+	/**
+	 * @return the numberOfServer
+	 */
+	public int getNumberOfServer()
+	{
+		return numberOfServer;
+	}
+
+	/**
+	 * @param numberOfServer the numberOfServer to set
+	 */
+	public void setNumberOfServer(int numberOfServer)
+	{
+		this.numberOfServer = numberOfServer;
+	}
+
 	public ArrayList<Server> getServers()
 	{
 		return servers;
+	}
+	
+	public void setServers(ArrayList<Server> s)
+	{
+		servers = s;
+	}
+	
+	public Server findServerById(int id)
+	{
+		for (Server s: servers)
+		{
+			if (s.getServerId() == id) return s;
+		}
+		
+		return null;
 	}
 
 	public void deleteServer(int id)
@@ -40,4 +71,34 @@ public class ServerManager
 		}	
 		return answer;
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ServerManager other = (ServerManager) obj;
+		if (numberOfServer != other.numberOfServer)
+			return false;
+		for (Server s: servers)
+		{
+			if (!other.contains(s))
+				return false;
+		}
+		return true;
+	}
+	
+	public boolean contains(Server server)
+	{
+		for (Server s: servers)
+		{
+			if (s.equals(server)) return true;
+		}
+		return false;
+	}
+	
 }

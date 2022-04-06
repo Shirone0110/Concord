@@ -31,7 +31,7 @@ class MessageTest
 	void testReply()
 	{
 		Message rep = new Message(u, "Reply", m);
-		assertEquals(m, rep.getReply());
+		assertEquals(m, rep.getReplyTo());
 		assertEquals(u, rep.getUser());
 	}
 	

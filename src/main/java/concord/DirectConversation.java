@@ -8,13 +8,18 @@ public class DirectConversation
 	private ArrayList <User> users;
 	private ArrayList <Message> messages;
 	private int directConvoId;
-	private final LocalDateTime defaultTime = LocalDateTime.MIN;
+	private LocalDateTime defaultTime = LocalDateTime.MIN;
 	
 	public DirectConversation(int id)
 	{
 		users = new ArrayList<User>();
 		messages = new ArrayList<Message>();
 		directConvoId = id;
+	}
+	
+	public DirectConversation()
+	{
+		new DirectConversation(0);
 	}
 	
 	public void addUser(User u)
@@ -42,14 +47,42 @@ public class DirectConversation
 		return users;
 	}
 	
+	public void setUsers(ArrayList<User> u)
+	{
+		users = u;
+	}
+	
 	public ArrayList<Message> getMessages()
 	{
 		return messages;
 	}
 	
-	public int getId()
+	public void setMessages(ArrayList<Message> m)
+	{
+		messages = m;
+	}
+	
+	public int getDirectConvoId()
 	{
 		return directConvoId;
+	}
+	
+	public void setDirectConvoId(int id)
+	{
+		directConvoId = id;
+	}
+	
+	public LocalDateTime getDefaultTime()
+	{
+		return defaultTime;
+	}
+	
+	/**
+	 * @param defaultTime the defaultTime to set
+	 */
+	public void setDefaultTime(LocalDateTime defaultTime)
+	{
+		this.defaultTime = defaultTime;
 	}
 	
 	public LocalDateTime getLastTimestamp()
@@ -64,7 +97,7 @@ public class DirectConversation
 		if (obj == this) return true;
 		if (!(obj instanceof DirectConversation)) return false;
 		DirectConversation dc = (DirectConversation) obj;
-		if (directConvoId == dc.getId()) return true;
+		if (directConvoId == dc.getDirectConvoId()) return true;
 		return false;
 	}
 }
