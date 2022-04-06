@@ -68,7 +68,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	}
 
 	@Override
-	public void changeName(int userId, int serverId, String name) 
+	public void changeServerName(int userId, int serverId, String name) 
 			throws RemoteException, InvalidActionException
 	{
 		Server s = SM.findServerById(serverId);
@@ -76,7 +76,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	}
 
 	@Override
-	public void changeName(int userId, int channelId, int serverId, String name) 
+	public void changeChannelName(int userId, int channelId, int serverId, String name) 
 			throws RemoteException, InvalidActionException
 	{
 		Server s = SM.findServerById(serverId);

@@ -70,18 +70,22 @@ class ConcordServerTest
 		assertThrows(InvalidCredentialException.class, 
 				()->{ 
 					cs.verify("c", "123");
+					cc.cs.verify("c", "123");
 				});
 		assertThrows(InvalidCredentialException.class, 
 				()->{ 
 					cs.verify("a", "456");
+					cc.cs.verify("a", "456");
 				});
 		assertThrows(InvalidCredentialException.class, 
 				()->{ 
 					cs.verify("c", "789");
+					cc.cs.verify("c", "789");
 				});
 		try
 		{
 			cs.verify("a", "123");
+			cc.cs.verify("a", "123");
 		} 
 		catch (RemoteException | InvalidCredentialException e)
 		{
@@ -94,19 +98,361 @@ class ConcordServerTest
 	void testInvite()
 	{
 		User user_3 = new User();
+		Server s = cs.concord.getS().findServerById(0);
 		try
 		{
-			cs.invite(user_1.getUserId(), user_2.getUserId(), 0);
+			s.addMember(user_1, user_2);
 			assertThrows(InvalidActionException.class, 
 					()->{ 
 						cs.invite(user_2.getUserId(), user_3.getUserId(), 0);
+						cc.cs.invite(user_2.getUserId(), user_3.getUserId(), 0);
 					});
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		try
+		{
+			cs.invite(user_1.getUserId(), user_2.getUserId(), 0);
+			cc.cs.invite(user_1.getUserId(), user_2.getUserId(), 0);
 		} 
 		catch (RemoteException | InvalidActionException e)
 		{
 			fail();
 			e.printStackTrace();
 		} 
+	}
+	
+	@Test
+	void testAccept()
+	{
+		User user_3 = new User();
+		Server s = cs.concord.getS().findServerById(0);
+		try
+		{
+			s.addMember(user_1, user_2);
+			assertThrows(InvalidActionException.class, 
+					()->{ 
+						cs.accept(user_2.getUserId(), user_3.getUserId(), 0);
+						cc.cs.accept(user_2.getUserId(), user_3.getUserId(), 0);
+					});
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			cs.accept(user_1.getUserId(), user_2.getUserId(), 0);
+			cc.cs.accept(user_1.getUserId(), user_2.getUserId(), 0);
+		} 
+		catch (RemoteException | InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		} 
+	}
+	
+	@Test
+	void testRemoveMember()
+	{
+		User user_3 = new User();
+		Server s = cs.concord.getS().findServerById(0);
+		try
+		{
+			s.addMember(user_1, user_2);
+			cs.removeMember(user_1.getUserId(), user_2.getUserId(), 0);
+		} catch (InvalidActionException | RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			s.addMember(user_1, user_2);
+			cc.cs.removeMember(user_1.getUserId(), user_2.getUserId(), 0);
+		} catch (InvalidActionException | RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			s.addMember(user_1, user_2);
+			assertThrows(InvalidActionException.class, 
+					()->{ 
+						cs.removeMember(user_2.getUserId(), user_3.getUserId(), 0);
+					});
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			s.addMember(user_1, user_2);
+			assertThrows(InvalidActionException.class, 
+					()->{ 
+						cc.cs.removeMember(user_2.getUserId(), user_3.getUserId(), 0);
+					});
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testChangeServerName() 
+	{
+		try
+		{
+			cs.changeServerName(user_1.getUserId(), 0, "servername");
+			cc.cs.changeServerName(user_1.getUserId(), 0, "servername");
+		} catch (RemoteException | InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		assertThrows(InvalidActionException.class, 
+				()->{ 
+					cs.changeServerName(user_2.getUserId(), 0, "servername");
+					cc.cs.changeServerName(user_2.getUserId(), 0, "servername");
+				});
+	}
+	
+	@Test
+	void testChangeChannelName()
+	{
+		Server s = cs.concord.getS().findServerById(0);
+		try
+		{
+			Channel c = s.addChannel(user_1, "channel");
+			cs.changeChannelName(user_1.getUserId(), c.getChannelId(), 0, "newchannel");
+			cc.cs.changeChannelName(user_1.getUserId(), c.getChannelId(), 0, "newnewchannel");
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		assertThrows(InvalidActionException.class, 
+				()->{ 
+					cs.changeChannelName(user_2.getUserId(), 0, 0, "channelname");
+					cc.cs.changeChannelName(user_2.getUserId(), 0, 0, "channelname");
+				});
+	}
+	
+	@Test
+	void testAddChannel()
+	{
+		try
+		{
+			cs.addChannel(user_1.getUserId(), 0, "channel");
+			cc.cs.addChannel(user_1.getUserId(), 0, "another channel");
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		assertThrows(InvalidActionException.class, 
+				()->{ 
+					cs.addChannel(user_2.getUserId(), 0, "channel");
+					cc.cs.addChannel(user_2.getUserId(), 0, "channel");
+				});
+	}
+	
+	@Test
+	void testDeleteChannel()
+	{
+		Server s = cs.concord.getS().findServerById(0);
+		try
+		{
+			Channel c = s.addChannel(user_1, "channel");
+			cs.deleteChannel(user_1.getUserId(), s.getServerId(), c.getChannelId());
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			Channel c = s.addChannel(user_1, "channel");
+			cc.cs.deleteChannel(user_1.getUserId(), s.getServerId(), c.getChannelId());
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		assertThrows(InvalidActionException.class, 
+				()->{ 
+					s.addMember(user_1, user_2);
+					Channel c = s.addChannel(user_1, "name");
+					cs.deleteChannel(user_2.getUserId(), s.getServerId(), c.getChannelId());
+					cc.cs.deleteChannel(user_2.getUserId(), s.getServerId(), c.getChannelId());
+				});
+	}
+	
+	@Test
+	void testPin()
+	{
+		Message m = new Message(user_1, "hello");
+		try
+		{
+			cs.addPin(0, m);
+			cs.unPin(0, m);
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		Message m2 = new Message(user_2, "hi");
+		try
+		{
+			cc.cs.addPin(0, m2);
+			cc.cs.unPin(0, m2);
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testChangeRole()
+	{
+		Server s = cs.concord.getS().findServerById(0);
+		RoleBuilder rb = s.getRoleBuilder();
+		Role mod = rb.buildRole("Moderator");
+		Role noob = new Role();
+		try
+		{
+			cs.changeRole(user_1.getUserId(), user_2.getUserId(), mod, 0);
+			cs.changeRole(user_1.getUserId(), user_2.getUserId(), noob, 0);
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		/*try
+		{
+			cc.cs.changeRole(user_1.getUserId(), user_2.getUserId(), noob, 0);
+		}
+		catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}*/
+	}
+	
+	@Test
+	void testBlock()
+	{
+		try
+		{
+			cs.addBlock(user_1.getUserId(), user_2.getUserId());
+			cs.removeBlock(user_1.getUserId(), user_2.getUserId());
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			cc.cs.addBlock(user_1.getUserId(), user_2.getUserId());
+			cc.cs.removeBlock(user_1.getUserId(), user_2.getUserId());
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testProfile()
+	{
+		// test profile data
+		try
+		{
+			cs.setProfileData(user_1.getUserId(), "new profile");
+			cc.cs.setProfileData(user_1.getUserId(), "new new profile");
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		// test profile pic
+		try
+		{
+			cs.setProfilePic(user_1.getUserId(), "new url");
+			cc.cs.setProfilePic(user_1.getUserId(), "new new url");
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testSetUsername()
+	{
+		try
+		{
+			cs.setUsername(user_1.getUserId(), "new name");
+			cc.cs.setUsername(user_1.getUserId(), "a");
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testSendMessage()
+	{
+		
 	}
 	
 	@Test

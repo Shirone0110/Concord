@@ -78,13 +78,13 @@ public class ConcordClient
 	public void changeName(int serverId, String name) 
 			throws RemoteException, InvalidActionException
 	{
-		cs.changeName(u.getUserId(), serverId, name); 
+		cs.changeServerName(u.getUserId(), serverId, name); 
 	}
 	
 	public void changeName(int channelId, int serverId, String name) 
 			throws RemoteException, InvalidActionException
 	{
-		cs.changeName(u.getUserId(), channelId, serverId, name);
+		cs.changeChannelName(u.getUserId(), channelId, serverId, name);
 	}
 	
 	public void addChannel(int serverId, String name) 

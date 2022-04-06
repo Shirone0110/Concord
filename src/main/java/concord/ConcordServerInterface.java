@@ -17,9 +17,9 @@ public interface ConcordServerInterface extends Remote
 			throws InvalidActionException, RemoteException;
 	public void removeMember(int adminId, int userId, int serverId)
 			throws RemoteException, InvalidActionException;
-	public void changeName(int userId, int serverId, String name) 
+	public void changeServerName(int userId, int serverId, String name) 
 			throws RemoteException, InvalidActionException;
-	public void changeName(int userId, int channelId, int serverId, String name) 
+	public void changeChannelName(int userId, int channelId, int serverId, String name) 
 			throws RemoteException, InvalidActionException;
 	public void addChannel(int userId, int serverId, String name) 
 			throws RemoteException, InvalidActionException;

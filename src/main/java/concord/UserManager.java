@@ -68,7 +68,7 @@ public class UserManager
 		boolean valid = false;
 		for (User u: userList)
 		{
-			if (u.getUserName() == username && u.getPassword() == password)
+			if (u.getUserName().equals(username) && u.getPassword().equals(password))
 			{
 				valid = true;
 				break;

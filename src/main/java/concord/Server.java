@@ -44,7 +44,7 @@ public class Server
 		new Server(new User(), "default", 0, false);
 	}
 
-	public void addChannel(User u, String name) throws InvalidActionException
+	public Channel addChannel(User u, String name) throws InvalidActionException
 	{
 		Role role = roleMap.get(u);
 		if (role.getModifyChannel())
@@ -52,6 +52,7 @@ public class Server
 			Channel c = new Channel(name, this, channelCount);
 			channelCount++;
 			channels.add(c);
+			return c;
 		}
 		else 
 			throw new InvalidActionException();
