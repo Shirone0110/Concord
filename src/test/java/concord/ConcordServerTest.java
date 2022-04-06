@@ -452,7 +452,35 @@ class ConcordServerTest
 	@Test
 	void testSendMessage()
 	{
+		// send message in direct conversation
+		try
+		{
+			cs.sendMessage(user_1.getUserId(), "hi", 0);
+			cc.cs.sendMessage(user_2.getUserId(), "hello", 0);
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
 		
+		// send message in server
+		try
+		{
+			Server s = cs.concord.getS().findServerById(0);
+			Channel c = s.addChannel(user_1, "general");
+			cs.sendMessage(user_1.getUserId(), "hi", 0, c.getChannelId());
+			cc.cs.sendMessage(user_2.getUserId(), "hello", 0, c.getChannelId());
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
