@@ -1,14 +1,14 @@
 package concord;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DirectConversation
 {
 	private ArrayList <User> users;
 	private ArrayList <Message> messages;
 	private int directConvoId;
-	private LocalDateTime defaultTime = LocalDateTime.MIN;
+	private Date defaultTime = new Date();
 	
 	public DirectConversation(int id)
 	{
@@ -72,7 +72,7 @@ public class DirectConversation
 		directConvoId = id;
 	}
 	
-	public LocalDateTime getDefaultTime()
+	public Date getDefaultTime()
 	{
 		return defaultTime;
 	}
@@ -80,12 +80,12 @@ public class DirectConversation
 	/**
 	 * @param defaultTime the defaultTime to set
 	 */
-	public void setDefaultTime(LocalDateTime defaultTime)
+	public void setDefaultTime(Date defaultTime)
 	{
 		this.defaultTime = defaultTime;
 	}
 	
-	public LocalDateTime getLastTimestamp()
+	public Date getLastTimestamp()
 	{
 		if (messages.size() == 0) return defaultTime;
 		return messages.get(messages.size() - 1).getTime();

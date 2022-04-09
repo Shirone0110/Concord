@@ -322,6 +322,7 @@ class ConcordServerTest
 	void testPin()
 	{
 		Message m = new Message(user_1, "hello");
+		//Message m = new Message();
 		try
 		{
 			cs.addPin(0, m);
@@ -333,6 +334,7 @@ class ConcordServerTest
 		}
 		
 		Message m2 = new Message(user_2, "hi");
+		//Message m2 = new Message();
 		try
 		{
 			cc.cs.addPin(0, m2);
