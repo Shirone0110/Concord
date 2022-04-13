@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import views.BlockController;
 import views.UserController;
 import views.UserInfoController;
 
@@ -51,8 +52,9 @@ public class UserViewTransitionModel implements UserViewTransitionModelInterface
 		try
 		{
 			VBox view = loader.load();
-			mainView.setCenter(view);
-			UserController cont = loader.getController();
+			BorderPane angie = (BorderPane) mainView.lookup("#rightSide");
+			angie.setCenter(view);
+			BlockController cont = loader.getController();
 			cont.setViewModel(this);
 		} 
 		catch (IOException e)
