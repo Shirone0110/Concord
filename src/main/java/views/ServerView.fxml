@@ -38,9 +38,10 @@
          <children>
             <ScrollPane prefHeight="397.3333333333333" prefWidth="178.66666666666666" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="201.0" prefWidth="88.0">
                      <children>
-                        <ListView prefHeight="385.0" prefWidth="179.0" AnchorPane.bottomAnchor="-185.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="0.0" />
+                        <ListView prefHeight="201.33333333333334" prefWidth="88.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label text="Username" />
                      </children>
                   </AnchorPane>
                </content>

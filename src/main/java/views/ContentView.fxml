@@ -25,7 +25,7 @@
                                     <ListView prefHeight="249.33333333333334" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                     <VBox prefHeight="249.33333333333334" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label onMouseClicked="#onClickDC" text="DirectConversation1" />
+                                          <Label id="dcChannelLabel" onMouseClicked="#onClickDC" text="DirectConversation1" />
                                        </children>
                                     </VBox>
                                  </children></AnchorPane>
