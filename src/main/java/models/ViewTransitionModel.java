@@ -2,13 +2,14 @@ package models;
 
 import java.io.IOException;
 
+import concord.ConcordClient;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import views.ContentController;
+import views.CreateAccountController;
 import views.DCController;
 import views.LoginController;
 import views.ServerController;
@@ -17,10 +18,10 @@ import views.UserController;
 public class ViewTransitionModel implements ViewTransitionModelInterface
 {
 	BorderPane mainView;
-	ConcordModel model;
+	ConcordClient model;
 	UserViewTransitionModel userModel;
 	
-	public ViewTransitionModel(BorderPane view, ConcordModel m)
+	public ViewTransitionModel(BorderPane view, ConcordClient m)
 	{
 		mainView = view;
 		model = m;
@@ -38,7 +39,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			Pane view = loader.load();
 			mainView.setCenter(view);
 			LoginController cont = loader.getController();
-			cont.setModel(this);
+			cont.setModel(this, model);
 		} 
 		catch (IOException e)
 		{
@@ -71,7 +72,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	public void showServer()
 	{
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(ContentViewTransitionModel.class
+		loader.setLocation(ViewTransitionModel.class
 				.getResource("../views/ServerView.fxml"));
 		try
 		{
@@ -129,6 +130,25 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			mainView.setCenter(view);
 			UserController cont = loader.getController();
 			cont.setViewModel(this);
+		} 
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void showCreate()
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(ViewTransitionModel.class
+				.getResource("../views/CreateAccountView.fxml"));
+		try
+		{
+			BorderPane view = loader.load();
+			mainView.setCenter(view);
+			CreateAccountController cont = loader.getController();
+			cont.setModel(this, model);
 		} 
 		catch (IOException e)
 		{

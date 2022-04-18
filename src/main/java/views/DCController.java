@@ -1,19 +1,21 @@
 package views;
 
+import concord.ConcordClient;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
-import models.ConcordModel;
 
 public class DCController
 {
-	ConcordModel model;
-	public void setModel(ConcordModel m)
+	ConcordClient model;
+	
+	public void setModel(ConcordClient m)
 	{
 		model = m;
 	}
 	
 	@FXML
-    void onClickName(MouseEvent event) {
+    void onClickName(MouseEvent event) 
+	{
 
     }
 

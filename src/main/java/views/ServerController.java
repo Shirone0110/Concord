@@ -1,19 +1,20 @@
 package views;
 
+import concord.ConcordClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import models.ConcordModel;
 
 public class ServerController
 {
-	ConcordModel model;
-	public void setModel(ConcordModel m)
+	ConcordClient model;
+	public void setModel(ConcordClient m)
 	{
 		model = m;
 	}
 	
 	@FXML
-    void onClickPins(ActionEvent event) {
+    void onClickPins(ActionEvent event) 
+	{
 
     }
 }

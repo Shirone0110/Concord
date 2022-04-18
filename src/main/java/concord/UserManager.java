@@ -62,19 +62,15 @@ public class UserManager
 		return null;
 	}
 	
-	public void verify(String username, String password) 
+	public User verify(String username, String password) 
 			throws InvalidCredentialException
 	{
-		boolean valid = false;
 		for (User u: userList)
 		{
 			if (u.getUserName().equals(username) && u.getPassword().equals(password))
-			{
-				valid = true;
-				break;
-			}
+				return u;
 		}
-		if (!valid) throw new InvalidCredentialException();
+		throw new InvalidCredentialException();
 	}
 
 	@Override

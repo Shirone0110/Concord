@@ -5,7 +5,9 @@ import java.rmi.RemoteException;
 
 public interface ConcordServerInterface extends Remote
 {
-	public void verify(String username, String password) 
+	public void createUser(String userName, String realName, String password)
+			throws RemoteException;
+	public User verify(String username, String password) 
 			throws InvalidCredentialException, RemoteException;
 	public User findUserById(int userId) 
 			throws RemoteException;
@@ -41,9 +43,9 @@ public interface ConcordServerInterface extends Remote
 			throws RemoteException;
 	public void setProfilePic(int userId, String url)
 			throws RemoteException;
-	public void sendMessage(int userId, String message, int dcId)
+	public void sendDcMessage(int userId, String message, int dcId)
 			throws RemoteException;
-	public void sendMessage(int userId, String message, int serverId, int channelId)
+	public void sendChannelMessage(int userId, String message, int serverId, int channelId)
 			throws RemoteException;
 	
 	

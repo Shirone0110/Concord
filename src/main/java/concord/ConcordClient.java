@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 
 //import concord.ConcordServerInterface;
 
-public class ConcordClient
+public class ConcordClient implements ConcordClientInterface
 {
 	ConcordServerInterface cs;
 	User u;
@@ -41,6 +41,12 @@ public class ConcordClient
 		cs = newCs;
 	}
 	
+	public void createUser(String uName, String rName, String pw) throws RemoteException
+	{
+		//cs.createUser(uName, rName, pw);
+		System.out.println(uName + " " + rName + " " + pw);
+	}
+	
 	public User findUserById(int id) throws RemoteException
 	{
 		return cs.findUserById(id);
@@ -49,7 +55,9 @@ public class ConcordClient
 	public void verify(String username, String password) 
 			throws InvalidCredentialException, RemoteException
 	{
-		cs.verify(username, password);
+		//u = cs.verify(username, password);
+		//System.out.println(u.getUserName() + " " + u.getPassword())
+
 	}
 	
 	public void notify(int userId) throws RemoteException
@@ -75,13 +83,13 @@ public class ConcordClient
 		cs.removeMember(u.getUserId(), userId, serverId);
 	}
 	
-	public void changeName(int serverId, String name) 
+	public void changeServerName(int serverId, String name) 
 			throws RemoteException, InvalidActionException
 	{
 		cs.changeServerName(u.getUserId(), serverId, name); 
 	}
 	
-	public void changeName(int channelId, int serverId, String name) 
+	public void changeChannelName(int channelId, int serverId, String name) 
 			throws RemoteException, InvalidActionException
 	{
 		cs.changeChannelName(u.getUserId(), channelId, serverId, name);
@@ -140,14 +148,14 @@ public class ConcordClient
 		cs.setProfilePic(u.getUserId(), url);
 	}
 	
-	public void sendMessage(String message, int dcId) throws RemoteException
+	public void sendDCMessage(String message, int dcId) throws RemoteException
 	{
-		cs.sendMessage(u.getUserId(), message, dcId);
+		cs.sendDcMessage(u.getUserId(), message, dcId);
 	}
 	
-	public void sendMessage(String message, int serverId, int channelId)
+	public void sendChannelMessage(String message, int serverId, int channelId)
 			throws RemoteException
 	{
-		cs.sendMessage(u.getUserId(), message, serverId, channelId);
+		cs.sendChannelMessage(u.getUserId(), message, serverId, channelId);
 	}
 }

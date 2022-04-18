@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.CreateAccountController">
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Label text="Username" />
+                  <TextField fx:id="userNameTextField" promptText="Enter username" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Label text="Real name" />
+                  <TextField fx:id="realNameTextField" promptText="Enter real name" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Label text="Password" />
+                  <TextField fx:id="passwordTextField" promptText="Enter password" />
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#onClickSubmit" text="Create Account" />
+            <Button mnemonicParsing="false" onAction="#onClickBack" text="Back" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

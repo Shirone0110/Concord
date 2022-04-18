@@ -27,11 +27,11 @@ class ConcordServerTest
 		cc = new ConcordClient();
 		//cc = (ConcordServerInterface) 
 		//	Naming.lookup("rmi://127.0.0.1/CONCORD");
-		UserManager UM = cs.concord.getU();
+		UserManager UM = cs.getConcord().getU();
 		user_1 = UM.addUser("a", "abc", "123");
 		user_2 = UM.addUser("b", "def", "456");
 		
-		DirectConversationManager DM = cs.concord.getD();
+		DirectConversationManager DM = cs.getConcord().getD();
 		DirectConversation dc = DM.createDc(user_1, user_2);
 		
 		Message m = new Message();
@@ -39,7 +39,7 @@ class ConcordServerTest
 		m.setUser(user_1);
 		dc.addMessage(m);
 		
-		ServerManager SM = cs.concord.getS();
+		ServerManager SM = cs.getConcord().getS();
 		SM.createServer(user_1, "server", false);
 	}
 	
@@ -55,7 +55,7 @@ class ConcordServerTest
 		try
 		{
 			assertEquals(user_1, cs.findUserById(user_1.getUserId()));
-			assertEquals(user_1, cc.cs.findUserById(user_1.getUserId()));
+			assertEquals(user_1, cc.findUserById(user_1.getUserId()));
 		} 
 		catch (RemoteException e)
 		{
@@ -98,7 +98,7 @@ class ConcordServerTest
 	void testInvite()
 	{
 		User user_3 = new User();
-		Server s = cs.concord.getS().findServerById(0);
+		Server s = cs.getConcord().getS().findServerById(0);
 		try
 		{
 			s.addMember(user_1, user_2);
@@ -128,7 +128,7 @@ class ConcordServerTest
 	void testAccept()
 	{
 		User user_3 = new User();
-		Server s = cs.concord.getS().findServerById(0);
+		Server s = cs.getConcord().getS().findServerById(0);
 		try
 		{
 			s.addMember(user_1, user_2);
@@ -159,7 +159,7 @@ class ConcordServerTest
 	void testRemoveMember()
 	{
 		User user_3 = new User();
-		Server s = cs.concord.getS().findServerById(0);
+		Server s = cs.getConcord().getS().findServerById(0);
 		try
 		{
 			s.addMember(user_1, user_2);
@@ -230,7 +230,7 @@ class ConcordServerTest
 	@Test
 	void testChangeChannelName()
 	{
-		Server s = cs.concord.getS().findServerById(0);
+		Server s = cs.getConcord().getS().findServerById(0);
 		try
 		{
 			Channel c = s.addChannel(user_1, "channel");
@@ -280,7 +280,7 @@ class ConcordServerTest
 	@Test
 	void testDeleteChannel()
 	{
-		Server s = cs.concord.getS().findServerById(0);
+		Server s = cs.getConcord().getS().findServerById(0);
 		try
 		{
 			Channel c = s.addChannel(user_1, "channel");
@@ -349,7 +349,7 @@ class ConcordServerTest
 	@Test
 	void testChangeRole()
 	{
-		Server s = cs.concord.getS().findServerById(0);
+		Server s = cs.getConcord().getS().findServerById(0);
 		RoleBuilder rb = s.getRoleBuilder();
 		Role mod = rb.buildRole("Moderator");
 		Role noob = new Role();
@@ -457,8 +457,8 @@ class ConcordServerTest
 		// send message in direct conversation
 		try
 		{
-			cs.sendMessage(user_1.getUserId(), "hi", 0);
-			cc.cs.sendMessage(user_2.getUserId(), "hello", 0);
+			cs.sendDcMessage(user_1.getUserId(), "hi", 0);
+			cc.cs.sendDcMessage(user_2.getUserId(), "hello", 0);
 		} 
 		catch (RemoteException e)
 		{
@@ -469,10 +469,10 @@ class ConcordServerTest
 		// send message in server
 		try
 		{
-			Server s = cs.concord.getS().findServerById(0);
+			Server s = cs.getConcord().getS().findServerById(0);
 			Channel c = s.addChannel(user_1, "general");
-			cs.sendMessage(user_1.getUserId(), "hi", 0, c.getChannelId());
-			cc.cs.sendMessage(user_2.getUserId(), "hello", 0, c.getChannelId());
+			cs.sendChannelMessage(user_1.getUserId(), "hi", 0, c.getChannelId());
+			cc.cs.sendChannelMessage(user_2.getUserId(), "hello", 0, c.getChannelId());
 		} 
 		catch (RemoteException e)
 		{
@@ -488,9 +488,9 @@ class ConcordServerTest
 	@Test
 	void testXML()
 	{
-		cs.concord.storeToDisk();
+		cs.getConcord().storeToDisk();
 		Concord diskConcord = Concord.loadFromDisk();
-		assertTrue(cs.concord.equals(diskConcord));
+		assertTrue(cs.getConcord().equals(diskConcord));
 	}
 
 }

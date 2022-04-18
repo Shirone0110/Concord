@@ -10,25 +10,31 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	 */
 	private static final long serialVersionUID = 4145358012223845871L;
 	
-	Concord concord;
+	private Concord concord;
 	UserManager UM;
 	ServerManager SM;
 	DirectConversationManager DCM;
 
-	protected ConcordServer() throws RemoteException
+	public ConcordServer() throws RemoteException
 	{
 		super();
-		concord = new Concord();
-		UM = concord.getU();
-		SM = concord.getS();
-		DCM = concord.getD();
+		setConcord(new Concord());
+		UM = getConcord().getU();
+		SM = getConcord().getS();
+		DCM = getConcord().getD();
+	}
+	
+	public void createUser(String userName, String realName, String password)
+			throws RemoteException
+	{
+		UM.addUser(userName, realName, password);
 	}
 	
 	@Override
-	public void verify(String username, String password) 
+	public User verify(String username, String password) 
 			throws InvalidCredentialException, RemoteException
 	{
-		UM.verify(username, password);
+		return UM.verify(username, password);
 	}
 
 	@Override
@@ -158,7 +164,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	}
 
 	@Override
-	public void sendMessage(int userId, String message, int dcId) throws RemoteException
+	public void sendDcMessage(int userId, String message, int dcId) throws RemoteException
 	{
 		Message m = new Message(findUserById(userId), message);
 		DirectConversation dc = DCM.findDcById(dcId);
@@ -166,13 +172,23 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	}
 
 	@Override
-	public void sendMessage(int userId, String message, int serverId, int channelId)
+	public void sendChannelMessage(int userId, String message, int serverId, int channelId)
 			throws RemoteException
 	{
 		Message m = new Message(findUserById(userId), message);
 		Server s = SM.findServerById(serverId);
 		Channel c = s.getChannelById(channelId);
 		c.addMessage(m);
+	}
+
+	public Concord getConcord()
+	{
+		return concord;
+	}
+
+	public void setConcord(Concord concord)
+	{
+		this.concord = concord;
 	}
 
 }

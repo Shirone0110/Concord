@@ -7,6 +7,7 @@ public class AppRunner
 	{
 		Main.main(args);
 	}
+	
+	// pass the stage to the controller
 
-}
-																		
+}															
