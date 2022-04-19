@@ -1,7 +1,13 @@
 package concord;
 
-public class Role
+import java.io.Serializable;
+
+public class Role implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1503871564097072036L;
 	private boolean modifyMember;
 	private boolean modifyModerator;
 	private boolean modifyChannel;

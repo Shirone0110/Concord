@@ -1,5 +1,7 @@
 package views;
 
+import java.rmi.RemoteException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import models.UserViewTransitionModel;
@@ -22,10 +24,9 @@ public class UserController
 	}
 	
     @FXML
-    void onBackButtonClick(ActionEvent event) 
+    void onBackButtonClick(ActionEvent event) throws RemoteException 
     {
     	viewModel.showContent();
-
     }
 
     @FXML

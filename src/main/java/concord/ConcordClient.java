@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 //import concord.ConcordServerInterface;
 
@@ -41,6 +42,11 @@ public class ConcordClient implements ConcordClientInterface
 		cs = newCs;
 	}
 	
+	public ArrayList<Server> getServerByUserId() throws RemoteException
+	{
+		return cs.getServerByUserId(u.getUserId());
+	}
+	
 	public void createUser(String uName, String rName, String pw) throws RemoteException
 	{
 		//cs.createUser(uName, rName, pw);
@@ -55,9 +61,8 @@ public class ConcordClient implements ConcordClientInterface
 	public void verify(String username, String password) 
 			throws InvalidCredentialException, RemoteException
 	{
-		//u = cs.verify(username, password);
-		//System.out.println(u.getUserName() + " " + u.getPassword())
-
+		u = cs.verify(username, password);
+		System.out.println(u.getUserName() + " " + u.getPassword());
 	}
 	
 	public void notify(int userId) throws RemoteException

@@ -2,6 +2,7 @@ package concord;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 public class ConcordServer extends UnicastRemoteObject implements ConcordServerInterface 
 {
@@ -28,6 +29,11 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 			throws RemoteException
 	{
 		UM.addUser(userName, realName, password);
+	}
+	
+	public ArrayList<Server> getServerByUserId(int userId) throws RemoteException
+	{
+		return SM.getUserServer(findUserById(userId));
 	}
 	
 	@Override

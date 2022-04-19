@@ -6,6 +6,7 @@ import concord.ConcordClient;
 import concord.InvalidCredentialException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import models.ViewTransitionModel;
 

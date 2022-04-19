@@ -1,9 +1,11 @@
 package concord;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public interface ConcordClientInterface
 {
+	public ArrayList<Server> getServerByUserId() throws RemoteException;
 	public void createUser(String uName, String rName, String pw) throws RemoteException;
 	public User findUserById(int id) throws RemoteException;
 	public void verify(String username, String password) throws InvalidCredentialException, RemoteException;

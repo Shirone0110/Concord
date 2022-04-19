@@ -1,9 +1,15 @@
 package models;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import concord.ConcordClient;
+import concord.Server;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -20,12 +26,18 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	BorderPane mainView;
 	ConcordClient model;
 	UserViewTransitionModel userModel;
+	ObservableList<Label> servers = FXCollections.observableArrayList();
 	
 	public ViewTransitionModel(BorderPane view, ConcordClient m)
 	{
 		mainView = view;
 		model = m;
 	    userModel = new UserViewTransitionModel(view, m);
+	}
+	
+	public ObservableList<Label> getServers()
+	{
+		return servers;
 	}
 	
 	@Override
@@ -49,8 +61,16 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	}
 
 	@Override
-	public void showContent()
+	public void showContent() throws RemoteException
 	{
+		ArrayList<Server> serverList = model.getServerByUserId();
+		for (Server s: serverList)
+		{
+			Label l = new Label();
+			l.setText(s.getServerName());
+			this.getServers().add(l);
+		}
+		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 				.getResource("../views/ContentView.fxml"));

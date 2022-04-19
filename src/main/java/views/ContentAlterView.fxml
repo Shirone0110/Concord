@@ -12,7 +12,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="74.0">
                <children>
-                  <ListView fx:id="serverIconList" prefHeight="383.3333333333333" prefWidth="74.0" AnchorPane.bottomAnchor="-17.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ListView fx:id="serverIconList" prefHeight="383.3333333333333" prefWidth="84.0" AnchorPane.bottomAnchor="-17.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
         </content>

@@ -1,10 +1,15 @@
 package concord;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class RoleBuilder
+public class RoleBuilder implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -321992487966906928L;
 	private HashMap<String, String> permission;
 	
 	public RoleBuilder()

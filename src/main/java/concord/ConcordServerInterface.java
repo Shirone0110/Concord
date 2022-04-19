@@ -2,9 +2,12 @@ package concord;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public interface ConcordServerInterface extends Remote
 {
+	public ArrayList<Server> getServerByUserId(int userId) 
+			throws RemoteException;
 	public void createUser(String userName, String realName, String password)
 			throws RemoteException;
 	public User verify(String username, String password) 

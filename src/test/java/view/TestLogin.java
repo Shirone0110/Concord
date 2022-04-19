@@ -8,7 +8,6 @@ import java.rmi.registry.Registry;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import org.testfx.assertions.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 
@@ -57,7 +56,9 @@ public class TestLogin
 		dc.addMessage(m);
 		
 		ServerManager SM = cs.getConcord().getS();
-		SM.createServer(user_1, "server", false);
+		SM.createServer(user_1, "Test1", false);
+		SM.createServer(user_1, "Test2", true);
+		SM.createServer(user_1, "Test3", false);
 		
 		loader.setLocation(ViewTransitionModel.class.getResource("../views/MainView.fxml"));
 		try
@@ -86,6 +87,20 @@ public class TestLogin
 	@Test
 	public void testLogin(FxRobot robot)
 	{
+		robot.clickOn("#userNameTextField");
+		robot.write("a");
 		
+		robot.clickOn("#passwordTextField");
+		robot.write("123");
+		
+		robot.clickOn("#loginSubmitButton");
+		try
+		{
+			Thread.sleep(10000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
