@@ -35,6 +35,8 @@ public class LoginController
 		try
 		{
 			client.verify(name, pw);
+			userNameTextField.textProperty().set("");
+			passwordTextField.textProperty().set("");
 			model.showContent();
 		} 
 		catch (RemoteException e)

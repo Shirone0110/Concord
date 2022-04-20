@@ -160,4 +160,11 @@ public class ConcordMockClient implements ConcordClientInterface
 
 	}
 
+	@Override
+	public ArrayList<DirectConversation> getDcByUserId() throws RemoteException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

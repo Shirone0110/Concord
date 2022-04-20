@@ -36,6 +36,11 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 		return SM.getUserServer(findUserById(userId));
 	}
 	
+	public ArrayList<DirectConversation> getDcByUserId(int userId) throws RemoteException
+	{
+		return DCM.getDcListByUserId(userId);
+	}
+	
 	@Override
 	public User verify(String username, String password) 
 			throws InvalidCredentialException, RemoteException

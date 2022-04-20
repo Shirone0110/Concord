@@ -42,9 +42,19 @@ public class ConcordClient implements ConcordClientInterface
 		cs = newCs;
 	}
 	
+	public User getUser()
+	{
+		return u;
+	}
+	
 	public ArrayList<Server> getServerByUserId() throws RemoteException
 	{
 		return cs.getServerByUserId(u.getUserId());
+	}
+	
+	public ArrayList<DirectConversation> getDcByUserId() throws RemoteException
+	{
+		return cs.getDcByUserId(u.getUserId());
 	}
 	
 	public void createUser(String uName, String rName, String pw) throws RemoteException

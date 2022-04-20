@@ -23,6 +23,14 @@ public class DirectConversationManager
 		return dc;
 	}
 	
+	public ArrayList<DirectConversation> getDcListByUserId(int userId)
+	{
+		ArrayList<DirectConversation> ans = new ArrayList<DirectConversation>();
+		for (DirectConversation dc: dcList)
+			if (dc.contains(userId)) ans.add(dc);
+		return ans;
+	}
+	
 	public DirectConversation findDcById(int id)
 	{
 		for (DirectConversation dc: dcList)

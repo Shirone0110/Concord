@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import concord.ConcordClient;
+import concord.DirectConversation;
+import concord.Message;
 import concord.Server;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -56,6 +58,23 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	@Override
 	public void showContent() throws RemoteException
 	{			
+		ArrayList<Server> serverList;
+		try
+		{
+			serverList = client.getServerByUserId();
+			for (Server s: serverList)
+			{
+				System.out.println(s.getServerName());
+				Label l = new Label();
+				l.setText(s.getServerName());
+				//model.getServers().add(s);
+				concordModel.getServers().add(l);
+			}
+		} catch (RemoteException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 				.getResource("../views/ContentAlterView.fxml"));
@@ -98,6 +117,29 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	@Override
 	public void showDc()
 	{
+		ArrayList<DirectConversation> dcList;
+		try
+		{
+			dcList = client.getDcByUserId();
+			for (DirectConversation d: dcList)
+			{
+				Label l = new Label();
+				l.setText(d.getName(client.getUser().getUserId()));
+				System.out.println(l.getText());
+				concordModel.getDcs().add(l);
+				for (Message m: d.getMessages())
+				{
+					l = new Label();
+					l.setText(m.getContent());
+					concordModel.getMessages().add(l);
+				}
+			}
+		} catch (RemoteException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		FXMLLoader loader = new FXMLLoader();
 		//loader.setLocation(ViewTransitionModel.class
 		//		.getResource("../views/DirectConversationView.fxml"));
@@ -112,7 +154,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			BorderPane content = (BorderPane) mainView.lookup("#contentPane");
 			content.setCenter(view);
 			DCController cont = loader.getController();
-			cont.setModel(concordModel);
+			cont.setModel(concordModel, client);
 		} 
 		catch (IOException e)
 		{

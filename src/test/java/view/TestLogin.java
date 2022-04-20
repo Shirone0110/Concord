@@ -1,5 +1,8 @@
 package view;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,10 +26,12 @@ import concord.User;
 import concord.UserManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.ConcordModel;
 import models.ViewTransitionModel;
+import views.DCController;
 import views.MainController;
 
 @ExtendWith(ApplicationExtension.class)
@@ -45,7 +50,7 @@ public class TestLogin
 		registry = LocateRegistry.createRegistry(2099);
 		registry.rebind("CONCORD", cs);
 		cc = new ConcordClient();
-		FXMLLoader loader = new FXMLLoader();
+		model = new ConcordModel();
 		
 		UserManager UM = cs.getConcord().getU();
 		user_1 = UM.addUser("a", "abc", "123");
@@ -64,15 +69,10 @@ public class TestLogin
 		SM.createServer(user_1, "Test1", false);
 		SM.createServer(user_1, "Test2", true);
 		SM.createServer(user_1, "Test3", false);
+		SM.createServer(user_2, "Test4", false);
+		SM.createServer(user_2, "Test5", false);
 		
-		model = new ConcordModel();
-		
-		ArrayList<Server> serverList = SM.getUserServer(user_1);
-		for (Server s: serverList)
-		{
-			model.getServers().add(s);
-		}
-		
+		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class.getResource("../views/MainView.fxml"));
 		try
 		{
@@ -98,7 +98,7 @@ public class TestLogin
 	}
 	
 	@Test
-	public void testLogin(FxRobot robot)
+	public void testLogin(FxRobot robot) throws RemoteException
 	{
 		robot.clickOn("#userNameTextField");
 		robot.write("a");
@@ -109,11 +109,97 @@ public class TestLogin
 		robot.clickOn("#loginSubmitButton");
 		try
 		{
-			Thread.sleep(10000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
+		testServer(user_1, 3);
+		
+		testDc(user_1);
+		
+		testMessage(user_1);
+		
+		testUserName(user_1);
+		
+		robot.clickOn("#buttonLogout");
+		
+		robot.clickOn("#userNameTextField");
+		robot.write("b");
+		
+		robot.clickOn("#passwordTextField");
+		robot.write("456");
+		
+		robot.clickOn("#loginSubmitButton");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		testServer(user_2, 2);
+		
+		testDc(user_2);
+		
+		testMessage(user_2);
+		
+		//testUserName(user_2);
+		
+		robot.clickOn("#buttonLogout");
+	}
+	
+	void testServer(User user, int amt) throws RemoteException
+	{
+		assertEquals(amt, model.getServers().size());
+		for (Server s: cs.getServerByUserId(user.getUserId()))
+		{
+			//System.out.print(s.getServerName() + " ");
+			boolean exist = false;
+			for (Label l: model.getServers())
+			{
+				//System.out.println(l.getText());
+				if (l.getText().equals(s.getServerName())) exist = true;
+			}
+			assertTrue(exist);
+		}
+	}
+	
+	void testDc(User user)
+	{
+		for (DirectConversation d: cs.getConcord().getD().getDcListByUserId(user.getUserId()))
+		{
+			boolean exist = false;
+			for (Label l: model.getDcs())
+				if (l.getText().equals(d.getName(user.getUserId()))) exist = true;
+			assertTrue(exist);
+		}
+	}
+	
+	void testMessage(User user)
+	{
+		for (DirectConversation d: cs.getConcord().getD().getDcListByUserId(user.getUserId()))
+		{
+			for (Message m: d.getMessages())
+			{
+				boolean exist = false;
+				for (Label l: model.getMessages())
+					if (l.getText().equals(m.getContent())) exist = true;
+				assertTrue(exist);
+			}
+		}
+	}
+	
+	void testUserName(User user)
+	{
+		/*FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(ViewTransitionModel.class
+			  .getResource("../views/DcAlterView.fxml"));
+		DCController cont = loader.getController();		
+		assertEquals(user.getUserName(), cont.getUserNameLabelText());*/
 	}
 }

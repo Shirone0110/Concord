@@ -17,13 +17,14 @@ public class ContentController
 	ConcordModel concordModel;
 	
     @FXML
-    private ListView<Server> serverListView;
+    //private ListView<Server> serverListView;
+    private ListView<Label> serverListView;
 	
 	public void setModel(ViewTransitionModelInterface m, ConcordModel cModel)
 	{
 		model = m;
 		concordModel = cModel;
-		serverListView.setEditable(true);
+		/*serverListView.setEditable(true);
 		
 		serverListView.setCellFactory(new Callback<ListView<Server>, ListCell<Server>>()
 				{
@@ -34,9 +35,16 @@ public class ContentController
 					}
 				});
 		
-		
+		*/
 		serverListView.setItems(concordModel.getServers());
 	}
+	
+    @FXML
+    void onClickLogOut(ActionEvent event) 
+    {
+    	concordModel.reset();
+    	model.showLogin();
+    }
 	
 	/*@FXML
     void onClickSettings(ActionEvent event) 
