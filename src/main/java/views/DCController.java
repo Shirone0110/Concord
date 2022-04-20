@@ -37,9 +37,9 @@ public class DCController
 		//dcList.setCellFactory(null);
 	}
 	
-	public String getUserNameLabelText()
+	public Label getUserNameLabel()
 	{
-		return userNameTextField.getText();
+		return userNameTextField;
 	}
 	
 	@FXML

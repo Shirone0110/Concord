@@ -135,7 +135,7 @@ public class TestLogin
 		robot.clickOn("#loginSubmitButton");
 		try
 		{
-			Thread.sleep(1000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
@@ -196,10 +196,18 @@ public class TestLogin
 	
 	void testUserName(User user)
 	{
-		/*FXMLLoader loader = new FXMLLoader();
+		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 			  .getResource("../views/DcAlterView.fxml"));
-		DCController cont = loader.getController();		
-		assertEquals(user.getUserName(), cont.getUserNameLabelText());*/
+		try
+		{
+			BorderPane view = loader.load();
+			DCController cont = loader.getController();	
+			assertEquals(user.getUserName(), cont.getUserNameLabel().getText());
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
