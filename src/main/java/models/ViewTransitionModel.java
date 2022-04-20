@@ -6,14 +6,11 @@ import java.util.ArrayList;
 
 import concord.ConcordClient;
 import concord.Server;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import views.ContentController;
 import views.CreateAccountController;
 import views.DCController;
@@ -24,20 +21,16 @@ import views.UserController;
 public class ViewTransitionModel implements ViewTransitionModelInterface
 {
 	BorderPane mainView;
-	ConcordClient model;
+	ConcordModel concordModel;
+	ConcordClient client;
 	UserViewTransitionModel userModel;
-	ObservableList<Label> servers = FXCollections.observableArrayList();
 	
-	public ViewTransitionModel(BorderPane view, ConcordClient m)
+	public ViewTransitionModel(BorderPane view, ConcordClient c, ConcordModel cModel)
 	{
 		mainView = view;
-		model = m;
-	    userModel = new UserViewTransitionModel(view, m);
-	}
-	
-	public ObservableList<Label> getServers()
-	{
-		return servers;
+		concordModel = cModel;
+		client = c;
+	    userModel = new UserViewTransitionModel(view);
 	}
 	
 	@Override
@@ -51,7 +44,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			Pane view = loader.load();
 			mainView.setCenter(view);
 			LoginController cont = loader.getController();
-			cont.setModel(this, model);
+			cont.setModel(this, client);
 		} 
 		catch (IOException e)
 		{
@@ -62,24 +55,17 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 
 	@Override
 	public void showContent() throws RemoteException
-	{
-		ArrayList<Server> serverList = model.getServerByUserId();
-		for (Server s: serverList)
-		{
-			Label l = new Label();
-			l.setText(s.getServerName());
-			this.getServers().add(l);
-		}
-		
+	{			
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
-				.getResource("../views/ContentView.fxml"));
+				.getResource("../views/ContentAlterView.fxml"));
 		try
 		{
 			BorderPane view = loader.load();
 			mainView.setCenter(view);
 			ContentController cont = loader.getController();
-			cont.setModel(this);
+			cont.setModel(this, concordModel);
+			showDc();
 		} 
 		catch (IOException e)
 		{
@@ -100,7 +86,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			BorderPane joe = (BorderPane) mainView.lookup("#rightSide");
 			joe.setCenter(view);
 			ServerController cont = loader.getController();
-			cont.setModel(model);
+			cont.setModel(client);
 		} 
 		catch (IOException e)
 		{
@@ -113,15 +99,20 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	public void showDc()
 	{
 		FXMLLoader loader = new FXMLLoader();
+		//loader.setLocation(ViewTransitionModel.class
+		//		.getResource("../views/DirectConversationView.fxml"));
 		loader.setLocation(ViewTransitionModel.class
-				.getResource("../views/DirectConversationView.fxml"));
+			  .getResource("../views/DcAlterView.fxml"));
 		try
 		{
-			VBox view = loader.load();
-			BorderPane joe = (BorderPane) mainView.lookup("#rightSide");
-			joe.setCenter(view);
+			//VBox view = loader.load();
+			//BorderPane joe = (BorderPane) mainView.lookup("#rightSide");
+			//joe.setCenter(view);
+			BorderPane view = loader.load();
+			BorderPane content = (BorderPane) mainView.lookup("#contentPane");
+			content.setCenter(view);
 			DCController cont = loader.getController();
-			cont.setModel(model);
+			cont.setModel(concordModel);
 		} 
 		catch (IOException e)
 		{
@@ -168,7 +159,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			BorderPane view = loader.load();
 			mainView.setCenter(view);
 			CreateAccountController cont = loader.getController();
-			cont.setModel(this, model);
+			cont.setModel(this, client);
 		} 
 		catch (IOException e)
 		{

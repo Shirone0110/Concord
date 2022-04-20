@@ -2,7 +2,6 @@ package models;
 
 import java.io.IOException;
 
-import concord.ConcordClient;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -13,12 +12,10 @@ public class UserViewTransitionModel implements UserViewTransitionModelInterface
 {
 	//replaced SplitPane
 	BorderPane mainView;
-	ConcordClient model;
 	
-	public UserViewTransitionModel(BorderPane view, ConcordClient m)
+	public UserViewTransitionModel(BorderPane view)
 	{
 		mainView = view;
-		model = m;
 	}
 
 	@Override
