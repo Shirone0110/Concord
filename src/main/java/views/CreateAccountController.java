@@ -3,10 +3,12 @@ package views;
 import java.rmi.RemoteException;
 
 import concord.ConcordClient;
+import concord.ConcordClientInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import models.ViewTransitionModel;
+import models.ViewTransitionModelInterface;
 
 public class CreateAccountController 
 {
@@ -21,6 +23,12 @@ public class CreateAccountController
 
     @FXML
     private TextField userNameTextField;
+    
+	public void setModel(ViewTransitionModel m, ConcordClient model2)
+	{
+		model = m;
+		client = model2;
+	}
 	
     @FXML
     void onClickSubmit(ActionEvent event) throws RemoteException 
@@ -45,11 +53,5 @@ public class CreateAccountController
     {
     	model.showLogin();
     }
-
-	public void setModel(ViewTransitionModel m, ConcordClient model2)
-	{
-		model = m;
-		client = model2;
-	}
 
 }

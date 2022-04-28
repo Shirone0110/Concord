@@ -28,6 +28,8 @@ public interface ConcordClientInterface extends Remote
 	public void setProfileData(String profile) throws RemoteException;
 	public void setUsername(String username) throws RemoteException;
 	public void setProfilePic(String url) throws RemoteException;
+	public void setRealname(String realname) throws RemoteException;
+	public void setPassword(String pw) throws RemoteException;
 	public void sendDCMessage(String message, int dcId) throws RemoteException;
 	public void sendChannelMessage(String message, int serverId, int channelId) throws RemoteException;
 }

@@ -174,6 +174,16 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		cs.setProfilePic(u.getUserId(), url);
 	}
 	
+	public void setPassword(String pw) throws RemoteException
+	{
+		cs.setPassword(u.getUserId(), pw);
+	}
+	
+	public void setRealname(String rname) throws RemoteException
+	{
+		cs.setRealname(u.getUserId(), rname);
+	}
+	
 	public void sendDCMessage(String message, int dcId) throws RemoteException
 	{
 		cs.sendDcMessage(u.getUserId(), message, dcId);

@@ -1,7 +1,6 @@
 package views;
 
 import java.rmi.RemoteException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import models.UserViewTransitionModel;

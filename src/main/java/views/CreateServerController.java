@@ -3,6 +3,7 @@ package views;
 import java.rmi.RemoteException;
 
 import concord.ConcordClient;
+import concord.ConcordClientInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;

@@ -215,6 +215,22 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 		u.setProfilePic(url);
 		notifyObservers();
 	}
+	
+	@Override 
+	public void setPassword(int userId, String pw) throws RemoteException
+	{
+		User u = findUserById(userId);
+		u.setPassword(pw);
+		notifyObservers();
+	}
+	
+	@Override 
+	public void setRealname(int userId, String rn) throws RemoteException
+	{
+		User u = findUserById(userId);
+		u.setRealName(rn);
+		notifyObservers();
+	}
 
 	@Override
 	public void sendDcMessage(int userId, String message, int dcId) throws RemoteException

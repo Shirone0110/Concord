@@ -10,6 +10,8 @@ import concord.DirectConversation;
 import concord.Message;
 import concord.Server;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
@@ -33,7 +35,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		mainView = view;
 		concordModel = cModel;
 		client = c;
-	    userModel = new UserViewTransitionModel(view);
+	    userModel = new UserViewTransitionModel(view, client);
 	}
 	
 	@Override
@@ -51,7 +53,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
+			showError();
 			e.printStackTrace();
 		}	
 	}
@@ -59,14 +61,15 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	@Override
 	public void showContent()
 	{			
-		concordModel.getServers().clear();
 		try
 		{
-			for (Server s: client.getServerByUserId())
-				concordModel.getServers().add(s);
+			concordModel.setServers(client.getServerByUserId());
+			//for (Server s: client.getServerByUserId())
+			//	concordModel.getServers().add(s);
 		} 
 		catch (RemoteException e1)
 		{
+			showError();
 			e1.printStackTrace();
 		}
 		FXMLLoader loader = new FXMLLoader();
@@ -82,7 +85,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
+			showError();
 			e.printStackTrace();
 		}
 	}
@@ -90,17 +93,9 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	@Override
 	public void showServer(Server s)
 	{
-		concordModel.getChannels().clear();
-		for (Channel c: s.getChannels())
-		{
-			System.out.println(c);
-			concordModel.getChannels().add(c);
-		}
-		concordModel.getMessages().clear();
-		for (Message m: s.getChannels().get(0).getMessages())
-		{
-			concordModel.getMessages().add(m);
-		}
+		concordModel.setChannels(s.getChannels());
+		concordModel.setMessages(s.getChannels().get(0).getMessages());
+		concordModel.setUsers(s.getUsers());
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 				.getResource("../views/ServerAlterView.fxml"));
@@ -114,7 +109,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
+			showError();
 			e.printStackTrace();
 		}		
 	}
@@ -122,21 +117,18 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	@Override
 	public void showDc()
 	{
-		concordModel.getDcs().clear();
 		try
 		{
-			for (DirectConversation d: client.getDcByUserId())
-				concordModel.getDcs().add(d);
+			concordModel.setDcs(client.getDcByUserId());
 		} catch (RemoteException e1)
 		{
-			// TODO Auto-generated catch block
+			showError();
 			e1.printStackTrace();
 		}
 		concordModel.getMessages().clear();
 		if (concordModel.getDcs().size() != 0)
 		{
-			for (Message m: concordModel.getDcs().get(0).getMessages())
-				concordModel.getMessages().add(m);
+			concordModel.setMessages(concordModel.getDcs().get(0).getMessages());
 		}
 		
 		FXMLLoader loader = new FXMLLoader();
@@ -152,7 +144,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
+			showError();
 			e.printStackTrace();
 		}		
 	}
@@ -180,11 +172,12 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
+			showError();
 			e.printStackTrace();
 		}
 	}
 
+	@Override
 	public void showCreate()
 	{
 		FXMLLoader loader = new FXMLLoader();
@@ -199,9 +192,31 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
+			showError();
 			e.printStackTrace();
 		}
 	}
+	
+	@Override 
+	public void showError()
+	{
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setHeaderText(null);
+		alert.setContentText("Oops! There was an error.");
 
+		alert.showAndWait();
+	}
+
+	
+	@Override 
+	public void showWarning(String text)
+	{
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Warning");
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+
+		alert.showAndWait();
+	}
 }

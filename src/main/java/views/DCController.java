@@ -1,6 +1,9 @@
 package views;
 
+import java.rmi.RemoteException;
+
 import concord.ConcordClient;
+import concord.ConcordClientInterface;
 import concord.DirectConversation;
 import concord.Message;
 import javafx.event.ActionEvent;
@@ -11,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import models.ConcordModel;
 import models.ViewTransitionModel;
+import models.ViewTransitionModelInterface;
 
 public class DCController
 {
@@ -39,7 +43,6 @@ public class DCController
 		dcListView.setItems(concordModel.getDcs());
 		dcMessageListView.setItems(concordModel.getMessages());
 		userNameTextField.setText(client.getUser().getUserName());
-		//dcList.setCellFactory(null);
 	}
 	
 	public Label getUserNameLabel()
