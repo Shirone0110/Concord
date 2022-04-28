@@ -24,13 +24,29 @@ public class ServerCell extends ListCell<Server>
 		{
 			node = loader.load();
 			cont = loader.getController();
-			cont.setModel(this);
+			//cont.setModel(this);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		this.setGraphic(node);
-		this.textProperty().set("");
+	}
+	
+	@Override
+	protected void updateItem(Server s, boolean empty)
+	{
+		super.updateItem(s, empty);//really important! always keep!
+		
+		//System.out.println(s);
+		//System.out.println(empty);
+		if(empty)		
+		{
+			this.setGraphic(null);		
+		}
+		else
+		{
+			cont.setModel(this);
+			this.setGraphic(node);
+		}
 	}
 }

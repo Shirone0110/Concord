@@ -1,41 +1,65 @@
 package concord;
 
+import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 public class ConcordServer extends UnicastRemoteObject implements ConcordServerInterface 
 {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 4145358012223845871L;
 	
 	private Concord concord;
 	UserManager UM;
 	ServerManager SM;
 	DirectConversationManager DCM;
+	ArrayList<ConcordClientInterface> observers = new ArrayList<ConcordClientInterface>();
 
 	public ConcordServer() throws RemoteException
 	{
 		super();
-		setConcord(new Concord());
-		UM = getConcord().getU();
-		SM = getConcord().getS();
-		DCM = getConcord().getD();
+		concord = Concord.loadFromDisk();
+		UM = concord.getU();
+		SM = concord.getS();
+		DCM = concord.getD();
 	}
 	
+	@Override 
+	public void addObserver(ConcordClientInterface c) throws RemoteException
+	{
+		observers.add(c);
+	}
+	
+	@Override 
+	public void removeObserver(ConcordClientInterface c) throws RemoteException
+	{
+		observers.remove(c);
+	}
+	
+	public void notifyObservers() throws RemoteException
+	{
+		for (ConcordClientInterface c: observers)
+		{
+			c.notifyChanged();
+		}
+	}
+	
+	@Override
 	public void createUser(String userName, String realName, String password)
 			throws RemoteException
 	{
 		UM.addUser(userName, realName, password);
+		notifyObservers();
 	}
 	
+	@Override
 	public ArrayList<Server> getServerByUserId(int userId) throws RemoteException
 	{
 		return SM.getUserServer(findUserById(userId));
 	}
 	
+	@Override
 	public ArrayList<DirectConversation> getDcByUserId(int userId) throws RemoteException
 	{
 		return DCM.getDcListByUserId(userId);
@@ -55,17 +79,12 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	}
 
 	@Override
-	public void notify(int userId) throws RemoteException
-	{
-		// contact the other client 
-	}
-
-	@Override
 	public void invite(int adminId, int userId, int serverId) 
 			throws InvalidActionException, RemoteException
 	{
 		Server s = SM.findServerById(serverId);
 		s.invite(findUserById(adminId), findUserById(userId));
+		notifyObservers();
 	}
 
 	@Override
@@ -74,6 +93,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		Server s = SM.findServerById(serverId);
 		s.addMember(findUserById(adminId), findUserById(userId));
+		notifyObservers();
 	}
 
 	@Override
@@ -82,6 +102,16 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		Server s = SM.findServerById(serverId);
 		s.removeMember(findUserById(adminId), findUserById(userId));
+		notifyObservers();
+	}
+	
+	@Override
+	public void createServer(int adminId, String svName, boolean priv) 
+			throws RemoteException
+	{
+		SM.createServer(findUserById(adminId), svName, priv);
+		System.out.println("created server");
+		notifyObservers();
 	}
 
 	@Override
@@ -90,6 +120,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		Server s = SM.findServerById(serverId);
 		s.changeServerName(findUserById(userId), name);
+		notifyObservers();
 	}
 
 	@Override
@@ -99,6 +130,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 		Server s = SM.findServerById(serverId);
 		Channel c = s.getChannelById(channelId);
 		s.changeChannelName(findUserById(userId), c, name);
+		notifyObservers();
 	}
 
 	@Override
@@ -107,6 +139,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		Server s = SM.findServerById(serverId);
 		s.addChannel(findUserById(userId), name);
+		notifyObservers();
 	}
 
 	@Override
@@ -115,6 +148,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		Server s = SM.findServerById(serverId);
 		s.deleteChannel(findUserById(userId), s.getChannelById(channelId));
+		notifyObservers();
 	}
 
 	@Override
@@ -122,6 +156,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		Server s = SM.findServerById(serverId);
 		s.addPin(m);
+		notifyObservers();
 	}
 
 	@Override
@@ -129,6 +164,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		Server s = SM.findServerById(serverId);
 		s.removePin(m);
+		notifyObservers();
 	}
 
 	@Override
@@ -137,6 +173,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		Server s = SM.findServerById(serverId);
 		s.changeRole(findUserById(adminId), findUserById(userId), r);
+		notifyObservers();
 	}
 
 	@Override
@@ -144,6 +181,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		User u = findUserById(blockerId);
 		u.addBlock(findUserById(userId));
+		notifyObservers();
 	}
 
 	@Override
@@ -151,6 +189,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		User u = findUserById(blockerId);
 		u.removeBlock(findUserById(userId));
+		notifyObservers();
 	}
 
 	@Override
@@ -158,6 +197,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		User u = findUserById(userId);
 		u.setProfileData(profile);
+		notifyObservers();
 	}
 
 	@Override
@@ -165,6 +205,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		User u = findUserById(userId);
 		u.setUserName(username);
+	//	notifyClient();
 	}
 
 	@Override
@@ -172,6 +213,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		User u = findUserById(userId);
 		u.setProfilePic(url);
+		notifyObservers();
 	}
 
 	@Override
@@ -180,6 +222,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 		Message m = new Message(findUserById(userId), message);
 		DirectConversation dc = DCM.findDcById(dcId);
 		dc.addMessage(m);
+		notifyObservers();
 	}
 
 	@Override
@@ -190,6 +233,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 		Server s = SM.findServerById(serverId);
 		Channel c = s.getChannelById(channelId);
 		c.addMessage(m);
+		notifyObservers();
 	}
 
 	public Concord getConcord()
@@ -201,5 +245,4 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		this.concord = concord;
 	}
-
 }

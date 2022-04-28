@@ -2,6 +2,7 @@ package concord;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.FileNotFoundException;
 //import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -489,7 +490,8 @@ class ConcordServerTest
 	void testXML()
 	{
 		cs.getConcord().storeToDisk();
-		Concord diskConcord = Concord.loadFromDisk();
+		Concord diskConcord;
+		diskConcord = Concord.loadFromDisk();
 		assertTrue(cs.getConcord().equals(diskConcord));
 	}
 

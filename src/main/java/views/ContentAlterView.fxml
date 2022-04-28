@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
@@ -7,20 +8,24 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ContentController">
+<BorderPane id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ContentController">
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="350.0" prefWidth="100.0">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="370.0" prefWidth="100.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="100.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="370.0" prefWidth="100.0">
                      <children>
-                        <ListView fx:id="serverListView" prefHeight="400.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ListView id="svListView" fx:id="serverListView" onMouseClicked="#serverListViewClicked" prefHeight="340.0" prefWidth="100.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button layoutX="4.0" layoutY="342.0" mnemonicParsing="false" onAction="#onClickNewServer" text="New Server" />
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <Button id="buttonLogout" mnemonicParsing="false" onAction="#onClickLogOut" text="Logout" />
+            <Button id="buttonLogout" mnemonicParsing="false" onAction="#onClickLogOut" text="Logout">
+               <VBox.margin>
+                  <Insets left="20.0" top="2.0" />
+               </VBox.margin></Button>
          </children>
       </VBox>
    </left>

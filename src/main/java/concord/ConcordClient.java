@@ -1,20 +1,25 @@
 package concord;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 //import concord.ConcordServerInterface;
 
-public class ConcordClient implements ConcordClientInterface
+public class ConcordClient extends UnicastRemoteObject implements ConcordClientInterface, Serializable
 {
+	
+	private static final long serialVersionUID = 7190830633178659712L;
 	ConcordServerInterface cs;
 	User u;
 	
-	public ConcordClient()
+	public ConcordClient() throws RemoteException
 	{
+		super();
 		try
 		{
 			cs = (ConcordServerInterface) 
@@ -37,7 +42,7 @@ public class ConcordClient implements ConcordClientInterface
 		}
 	}
 	
-	public ConcordClient(ConcordServerInterface newCs)
+	public ConcordClient(ConcordServerInterface newCs) throws RemoteException
 	{
 		cs = newCs;
 	}
@@ -45,6 +50,11 @@ public class ConcordClient implements ConcordClientInterface
 	public User getUser()
 	{
 		return u;
+	}
+	
+	public void notifyChanged() throws RemoteException
+	{
+		System.out.println("something changed");
 	}
 	
 	public ArrayList<Server> getServerByUserId() throws RemoteException
@@ -59,7 +69,7 @@ public class ConcordClient implements ConcordClientInterface
 	
 	public void createUser(String uName, String rName, String pw) throws RemoteException
 	{
-		//cs.createUser(uName, rName, pw);
+		cs.createUser(uName, rName, pw);
 		System.out.println(uName + " " + rName + " " + pw);
 	}
 	
@@ -73,11 +83,6 @@ public class ConcordClient implements ConcordClientInterface
 	{
 		u = cs.verify(username, password);
 		System.out.println(u.getUserName() + " " + u.getPassword());
-	}
-	
-	public void notify(int userId) throws RemoteException
-	{
-		cs.notify(userId);
 	}
 	
 	public void invite(int userId, int serverId) 
@@ -96,6 +101,12 @@ public class ConcordClient implements ConcordClientInterface
 			throws RemoteException, InvalidActionException
 	{
 		cs.removeMember(u.getUserId(), userId, serverId);
+	}
+	
+	public void createServer(int userId, String svName, boolean priv) 
+			throws RemoteException
+	{
+		cs.createServer(userId, svName, priv);
 	}
 	
 	public void changeServerName(int serverId, String name) 

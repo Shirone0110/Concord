@@ -4,9 +4,11 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 public class Concord
@@ -50,6 +52,16 @@ public class Concord
 		d = new DirectConversationManager();
 		s = new ServerManager();
 		u = new UserManager();
+		File xml = new File("Concord.xml");
+		try
+		{
+			xml.createNewFile();
+		} 
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void storeToDisk()
@@ -62,23 +74,22 @@ public class Concord
 		}
 		catch (FileNotFoundException e)
 		{
-			System.out.println("ERROR");
+			System.out.println("File not Found");
 		}
 		encoder.writeObject(this);
 		encoder.close();
 	}
 	
-	public static Concord loadFromDisk()
+	public static Concord loadFromDisk() 
 	{
 		XMLDecoder decoder = null;
 		try
 		{
 			decoder = new XMLDecoder(new BufferedInputStream(
 					  new FileInputStream("Concord.xml")));
-		}
-		catch (FileNotFoundException e)
+		} catch (FileNotFoundException e)
 		{
-			System.out.println("ERROR");
+			return new Concord();
 		}
 		Concord c = (Concord)decoder.readObject();
 		return c;

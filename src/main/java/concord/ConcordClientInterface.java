@@ -1,16 +1,18 @@
 package concord;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface ConcordClientInterface
+public interface ConcordClientInterface extends Remote
 {
+	public void notifyChanged() throws RemoteException;
 	public ArrayList<Server> getServerByUserId() throws RemoteException;
 	public ArrayList<DirectConversation> getDcByUserId() throws RemoteException;
 	public void createUser(String uName, String rName, String pw) throws RemoteException;
 	public User findUserById(int id) throws RemoteException;
+	public void createServer(int id, String name, boolean priv) throws RemoteException;
 	public void verify(String username, String password) throws InvalidCredentialException, RemoteException;
-	public void notify(int userId) throws RemoteException;
 	public void invite(int userId, int serverId) throws InvalidActionException, RemoteException;
 	public void accept(int userId, int serverId) throws RemoteException, InvalidActionException;
 	public void removeMember(int userId, int serverId) throws RemoteException, InvalidActionException;

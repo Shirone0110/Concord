@@ -1,5 +1,7 @@
 package views;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import models.ViewTransitionModelInterface;
 
@@ -13,8 +15,8 @@ public class MainController
 	}
 	
 	@FXML
-	void nothing()
+	public void exitApplication(ActionEvent event) 
 	{
-		
+	   Platform.exit();
 	}
 }	

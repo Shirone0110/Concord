@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.UserController">
+<SplitPane dividerPositions="0.2224080267558529" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.UserController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onUserInfoClick" text="User Info" />
-                  <Button mnemonicParsing="false" onAction="#onBlockListClick" text="BlockList" />
-                  <Button mnemonicParsing="false" onAction="#onBackButtonClick" text="Back" />
+                  <Button id="btnUserInfo" mnemonicParsing="false" onAction="#onUserInfoClick" text="User Info" />
+                  <Button id="btnBlockList" mnemonicParsing="false" onAction="#onBlockListClick" text="BlockList" />
+                  <Button id="btnBack" mnemonicParsing="false" onAction="#onBackButtonClick" text="Back" />
                </children>
             </VBox>
          </children></AnchorPane>

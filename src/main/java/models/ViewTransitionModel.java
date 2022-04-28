@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import concord.Channel;
 import concord.ConcordClient;
 import concord.DirectConversation;
 import concord.Message;
@@ -56,23 +57,16 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	}
 
 	@Override
-	public void showContent() throws RemoteException
+	public void showContent()
 	{			
-		ArrayList<Server> serverList;
+		concordModel.getServers().clear();
 		try
 		{
-			serverList = client.getServerByUserId();
-			for (Server s: serverList)
-			{
-				System.out.println(s.getServerName());
-				Label l = new Label();
-				l.setText(s.getServerName());
-				//model.getServers().add(s);
-				concordModel.getServers().add(l);
-			}
-		} catch (RemoteException e1)
+			for (Server s: client.getServerByUserId())
+				concordModel.getServers().add(s);
+		} 
+		catch (RemoteException e1)
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		FXMLLoader loader = new FXMLLoader();
@@ -83,7 +77,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			BorderPane view = loader.load();
 			mainView.setCenter(view);
 			ContentController cont = loader.getController();
-			cont.setModel(this, concordModel);
+			cont.setModel(this, concordModel, client);
 			showDc();
 		} 
 		catch (IOException e)
@@ -94,18 +88,29 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	}
 	
 	@Override
-	public void showServer()
+	public void showServer(Server s)
 	{
+		concordModel.getChannels().clear();
+		for (Channel c: s.getChannels())
+		{
+			System.out.println(c);
+			concordModel.getChannels().add(c);
+		}
+		concordModel.getMessages().clear();
+		for (Message m: s.getChannels().get(0).getMessages())
+		{
+			concordModel.getMessages().add(m);
+		}
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
-				.getResource("../views/ServerView.fxml"));
+				.getResource("../views/ServerAlterView.fxml"));
 		try
 		{
-			SplitPane view = loader.load();
-			BorderPane joe = (BorderPane) mainView.lookup("#rightSide");
-			joe.setCenter(view);
+			BorderPane view = loader.load();
+			BorderPane content = (BorderPane) mainView.lookup("#contentPane");
+			content.setCenter(view);
 			ServerController cont = loader.getController();
-			cont.setModel(client);
+			cont.setModel(this, concordModel, client);
 		} 
 		catch (IOException e)
 		{
@@ -117,44 +122,33 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	@Override
 	public void showDc()
 	{
-		ArrayList<DirectConversation> dcList;
+		concordModel.getDcs().clear();
 		try
 		{
-			dcList = client.getDcByUserId();
-			for (DirectConversation d: dcList)
-			{
-				Label l = new Label();
-				l.setText(d.getName(client.getUser().getUserId()));
-				System.out.println(l.getText());
-				concordModel.getDcs().add(l);
-				for (Message m: d.getMessages())
-				{
-					l = new Label();
-					l.setText(m.getContent());
-					concordModel.getMessages().add(l);
-				}
-			}
+			for (DirectConversation d: client.getDcByUserId())
+				concordModel.getDcs().add(d);
 		} catch (RemoteException e1)
 		{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		concordModel.getMessages().clear();
+		if (concordModel.getDcs().size() != 0)
+		{
+			for (Message m: concordModel.getDcs().get(0).getMessages())
+				concordModel.getMessages().add(m);
+		}
 		
 		FXMLLoader loader = new FXMLLoader();
-		//loader.setLocation(ViewTransitionModel.class
-		//		.getResource("../views/DirectConversationView.fxml"));
 		loader.setLocation(ViewTransitionModel.class
 			  .getResource("../views/DcAlterView.fxml"));
 		try
 		{
-			//VBox view = loader.load();
-			//BorderPane joe = (BorderPane) mainView.lookup("#rightSide");
-			//joe.setCenter(view);
 			BorderPane view = loader.load();
 			BorderPane content = (BorderPane) mainView.lookup("#contentPane");
 			content.setCenter(view);
 			DCController cont = loader.getController();
-			cont.setModel(concordModel, client);
+			cont.setModel(this, concordModel, client);
 		} 
 		catch (IOException e)
 		{

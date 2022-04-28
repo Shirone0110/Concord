@@ -2,24 +2,28 @@ package views;
 
 import concord.ConcordClient;
 import concord.DirectConversation;
+import concord.Message;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import models.ConcordModel;
+import models.ViewTransitionModel;
 
 public class DCController
 {
-	ConcordModel model;
+	ConcordModel concordModel;
 	ConcordClient client;
+	ViewTransitionModel model;
 	
     @FXML
-    //private ListView<DirectConversation> dcList;
-    private ListView<Label> dcListView;
+    private ListView<DirectConversation> dcListView;
+    //private ListView<Label> dcListView;
 
     @FXML
-    private ListView<Label> dcMessageListView;
+    private ListView<Message> dcMessageListView;
 
     @FXML
     private TextField dcMessageTextField;
@@ -27,12 +31,13 @@ public class DCController
     @FXML
     private Label userNameTextField;
 	
-	public void setModel(ConcordModel m, ConcordClient c)
+	public void setModel(ViewTransitionModel model, ConcordModel m, ConcordClient c)
 	{
-		model = m;
+		this.model = model;
+		concordModel = m;
 		client = c;
-		dcListView.setItems(model.getDcs());
-		dcMessageListView.setItems(model.getMessages());
+		dcListView.setItems(concordModel.getDcs());
+		dcMessageListView.setItems(concordModel.getMessages());
 		userNameTextField.setText(client.getUser().getUserName());
 		//dcList.setCellFactory(null);
 	}
@@ -42,10 +47,15 @@ public class DCController
 		return userNameTextField;
 	}
 	
-	@FXML
-    void onClickName(MouseEvent event) 
-	{
-
+    @FXML
+    void onClickSettings(ActionEvent event) 
+    {
+    	model.showUser();
     }
-
+    
+    @FXML
+    void onDcListViewClicked(MouseEvent event) 
+    {
+    	
+    }
 }

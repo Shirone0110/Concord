@@ -48,7 +48,7 @@ class ServerTest
 	void testPrivate()
 	{
 		assert(s.getIsPrivate() == true);
-		s.setPrivate(false);
+		s.setIsPrivate(false);
 		assert(s.getIsPrivate() == false);
 	}
 	

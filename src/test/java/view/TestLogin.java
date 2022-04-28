@@ -14,6 +14,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
+import org.testfx.assertions.api.Assertions;
 
 import concord.ConcordClient;
 import concord.ConcordServer;
@@ -25,8 +26,10 @@ import concord.ServerManager;
 import concord.User;
 import concord.UserManager;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.ConcordModel;
@@ -122,17 +125,52 @@ public class TestLogin
 		
 		testMessage(user_1);
 		
-		testUserName(user_1);
+		Assertions.assertThat(robot.lookup("#usernameLabel")
+				.queryAs(Label.class)).hasText(user_1.getUserName());
+		//assertEquals(user_1.getUserName(), l.getText());
+		//testUserName(user_1);
 		
-		robot.clickOn("#buttonLogout");
+		/*@SuppressWarnings("unchecked")
+		ListView<Server> lv = (ListView<Server>) robot.lookup("#svListView")
+				.queryAll().iterator().next();
 		
-		robot.clickOn("#userNameTextField");
-		robot.write("b");
+		lv.getSelectionModel().clearAndSelect(0);*/
 		
-		robot.clickOn("#passwordTextField");
-		robot.write("456");
+		robot.clickOn(robot.lookup("#svListView").nth(0).queryAs(Node.class));
 		
-		robot.clickOn("#loginSubmitButton");
+		try
+		{
+			Thread.sleep(2000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#btnSettings");
+		robot.clickOn("#btnUserInfo");
+		
+		try
+		{
+			Thread.sleep(2000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#btnBlockList");
+		
+		try
+		{
+			Thread.sleep(5000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		robot.clickOn("#btnBack");
+		
 		try
 		{
 			Thread.sleep(10000);
@@ -142,13 +180,31 @@ public class TestLogin
 			e.printStackTrace();
 		}
 		
+		robot.clickOn("#buttonLogout");
+		
+		
+		robot.clickOn("#userNameTextField");
+		robot.write("b");
+		
+		robot.clickOn("#passwordTextField");
+		robot.write("456");
+		
+		robot.clickOn("#loginSubmitButton");
+
 		testServer(user_2, 2);
 		
 		testDc(user_2);
 		
 		testMessage(user_2);
 		
+		Assertions.assertThat(robot.lookup("#usernameLabel")
+				.queryAs(Label.class)).hasText(user_2.getUserName());
 		//testUserName(user_2);
+		
+		robot.clickOn("#btnSettings");
+		robot.clickOn("#btnUserInfo");
+		robot.clickOn("#btnBlockList");
+		robot.clickOn("#btnBack");
 		
 		robot.clickOn("#buttonLogout");
 	}
@@ -160,10 +216,10 @@ public class TestLogin
 		{
 			//System.out.print(s.getServerName() + " ");
 			boolean exist = false;
-			for (Label l: model.getServers())
+			for (Server iconS: model.getServers())
 			{
 				//System.out.println(l.getText());
-				if (l.getText().equals(s.getServerName())) exist = true;
+				if (iconS.getServerName().equals(s.getServerName())) exist = true;
 			}
 			assertTrue(exist);
 		}
@@ -174,8 +230,8 @@ public class TestLogin
 		for (DirectConversation d: cs.getConcord().getD().getDcListByUserId(user.getUserId()))
 		{
 			boolean exist = false;
-			for (Label l: model.getDcs())
-				if (l.getText().equals(d.getName(user.getUserId()))) exist = true;
+			for (DirectConversation curD: model.getDcs())
+				if (curD.getName(user.getUserId()).equals(d.getName(user.getUserId()))) exist = true;
 			assertTrue(exist);
 		}
 	}
@@ -187,8 +243,8 @@ public class TestLogin
 			for (Message m: d.getMessages())
 			{
 				boolean exist = false;
-				for (Label l: model.getMessages())
-					if (l.getText().equals(m.getContent())) exist = true;
+				for (Message curM: model.getMessages())
+					if (curM.getContent().equals(m.getContent())) exist = true;
 				assertTrue(exist);
 			}
 		}
@@ -196,18 +252,19 @@ public class TestLogin
 	
 	void testUserName(User user)
 	{
-		FXMLLoader loader = new FXMLLoader();
+		/*FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 			  .getResource("../views/DcAlterView.fxml"));
 		try
 		{
 			BorderPane view = loader.load();
 			DCController cont = loader.getController();	
+			cont.setModel(model, cc);
 			assertEquals(user.getUserName(), cont.getUserNameLabel().getText());
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

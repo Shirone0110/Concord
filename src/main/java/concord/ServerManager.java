@@ -51,13 +51,19 @@ public class ServerManager
 		{
 			if (s.getServerId() == id) return s;
 		}
-		
 		return null;
 	}
 
-	public void deleteServer(int id)
+	public void deleteServer(int serverId)
 	{
-		servers.remove(id);
+		for (Server s: servers)
+		{
+			if (s.getServerId() == serverId)
+			{
+				servers.remove(s);
+				return;
+			}
+		}
 	}
 	
 	public ArrayList<Server> getUserServer(User u)

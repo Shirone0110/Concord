@@ -14,14 +14,14 @@ public class ServerCellController
 	
 	public void setModel(ServerCell model)
 	{
-		System.out.println(model);
+		//System.out.println(model);
 		this.model = model;
 		Server s = model.getItem();
 		if (s != null)
 		{
-			System.out.println("a" + s.getServerName());
-			//serverNameLabel.textProperty().set(s.getServerName());
-			serverNameLabel.textProperty().bindBidirectional(new SimpleStringProperty(model.getItem().getServerName()));
+			System.out.println("a " + s.getServerName());
+			serverNameLabel.textProperty().set(s.getServerName());
+			//serverNameLabel.textProperty().bindBidirectional(new SimpleStringProperty(model.getItem().getServerName()));
 		}
 	}
 }

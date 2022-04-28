@@ -6,9 +6,6 @@ import java.util.HashMap;
 
 public class Server implements Serializable
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2051177441727882118L;
 	private String serverName;
 	private int serverId;
@@ -24,6 +21,7 @@ public class Server implements Serializable
 	
 	public Server(User admin, String name, int id, boolean priv)
 	{
+		//System.out.println("server name: " + name);
 		serverName = name;
 		serverId = id;
 		isPrivate = priv;
@@ -42,6 +40,15 @@ public class Server implements Serializable
 		
 		users.add(admin);
 		roleMap.put(admin, roleBuilder.buildRole("Admin"));
+		try
+		{
+			addChannel(admin, "general");
+		} 
+		catch (InvalidActionException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public Server()
@@ -194,11 +201,11 @@ public class Server implements Serializable
 	/**
 	 * @param serverName the serverName to set
 	 */
-	private void setServerName(String serverName)
+	public void setServerName(String serverName)
 	{
 		this.serverName = serverName;
 	}
-	
+
 	/**
 	 * @return the serverId
 	 */
@@ -206,10 +213,13 @@ public class Server implements Serializable
 	{
 		return serverId;
 	}
-	
-	public void setServerId(int id)
+
+	/**
+	 * @param serverId the serverId to set
+	 */
+	public void setServerId(int serverId)
 	{
-		serverId = id;
+		this.serverId = serverId;
 	}
 
 	/**
@@ -223,7 +233,7 @@ public class Server implements Serializable
 	/**
 	 * @param isPrivate the isPrivate to set
 	 */
-	public void setPrivate(boolean isPrivate)
+	public void setIsPrivate(boolean isPrivate)
 	{
 		this.isPrivate = isPrivate;
 	}

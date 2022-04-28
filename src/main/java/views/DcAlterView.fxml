@@ -10,41 +10,46 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.DCController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.DCController">
    <left>
       <VBox prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="399.0" prefWidth="156.0">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="370.0" prefWidth="150.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="150.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="370.0" prefWidth="150.0">
                      <children>
-                        <ListView fx:id="dcListView" prefHeight="350.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ListView fx:id="dcListView" onMouseClicked="#onDcListViewClicked" prefHeight="350.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="userNameTextField" text="Username" />
-                  <Button mnemonicParsing="false" text="Settings" />
+                  <Label id="usernameLabel" fx:id="userNameTextField" text="Username" />
+                  <Button id="btnSettings" mnemonicParsing="false" onAction="#onClickSettings" text="Settings" />
                </children>
             </HBox>
          </children>
       </VBox>
    </left>
    <center>
-      <VBox prefHeight="400.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="400.0" prefWidth="550.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="350.0" prefWidth="350.0">
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Label text="Other username" />
+               </children>
+            </HBox>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="350.0" prefWidth="550.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="350.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="330.0" prefWidth="550.0">
                      <children>
-                        <ListView fx:id="dcMessageListView" prefHeight="345.3333333333333" prefWidth="402.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ListView fx:id="dcMessageListView" prefHeight="330.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <TextField fx:id="dcMessageTextField" prefHeight="50.0" prefWidth="350.0" />
+            <TextField fx:id="dcMessageTextField" prefHeight="50.0" prefWidth="550.0" />
          </children>
       </VBox>
    </center>

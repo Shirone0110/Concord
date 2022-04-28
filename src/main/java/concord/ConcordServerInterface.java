@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 public interface ConcordServerInterface extends Remote
 {
+	public void addObserver(ConcordClientInterface c) 
+			throws RemoteException;
+	public void removeObserver(ConcordClientInterface c)
+			throws RemoteException;
 	public ArrayList<Server> getServerByUserId(int userId) 
 			throws RemoteException;
 	public ArrayList<DirectConversation> getDcByUserId(int userId) 
@@ -16,7 +20,7 @@ public interface ConcordServerInterface extends Remote
 			throws InvalidCredentialException, RemoteException;
 	public User findUserById(int userId) 
 			throws RemoteException;
-	public void notify(int userId) 
+	public void createServer(int adminId, String svName, boolean priv)
 			throws RemoteException;
 	public void invite(int adminId, int userId, int serverId) 
 			throws InvalidActionException, RemoteException;
