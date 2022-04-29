@@ -57,7 +57,12 @@
    <right>
       <VBox prefHeight="400.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="usersListView" prefHeight="400.0" prefWidth="200.0" />
+            <ListView fx:id="usersListView" prefHeight="370.0" prefWidth="200.0" />
+            <Button mnemonicParsing="false" onAction="#onAddUserClick" text="Add User">
+               <VBox.margin>
+                  <Insets left="18.0" top="2.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
    </right>

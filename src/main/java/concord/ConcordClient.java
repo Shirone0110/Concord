@@ -268,7 +268,7 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		cs.setRealname(u.getUserId(), rname);
 	}
 	
-	public void sendDCMessage(String message, int dcId) throws RemoteException
+	public void sendDcMessage(String message, int dcId) throws RemoteException
 	{
 		cs.sendDcMessage(u.getUserId(), message, dcId);
 		curDc = cs.getDcById(dcId);

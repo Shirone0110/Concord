@@ -28,6 +28,7 @@ public class CreateDcController
 		for (Integer id: client.getAllUser())
 		{
 			int userId = id.intValue();
+			if (userId == client.getUser().getUserId()) continue;
 			User u = client.findUserById(userId);
 			MenuItem item = new MenuItem(u.getUserName());
 			item.setOnAction(new EventHandler<ActionEvent>() {
@@ -40,7 +41,6 @@ public class CreateDcController
 			userDropDown.getItems().add(item);
 		}
 	}
-	
 
     @FXML
     void onCancelClick(ActionEvent event) 

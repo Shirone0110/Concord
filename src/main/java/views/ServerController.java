@@ -128,4 +128,10 @@ public class ServerController
 			e.printStackTrace();
 		}
     }
+    
+    @FXML
+    void onAddUserClick(ActionEvent event) 
+    {
+    	
+    }
 }

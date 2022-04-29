@@ -13,14 +13,14 @@
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <ListView id="svListView" fx:id="serverListView" onMouseClicked="#serverListViewClicked" prefHeight="340.0" prefWidth="100.0" />
-            <Button mnemonicParsing="false" onAction="#onClickNewServer" text="New Server">
+            <Button id="newServerButton" mnemonicParsing="false" onAction="#onClickNewServer" text="New Server">
                <VBox.margin>
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
             </Button>
             <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
-                  <SplitMenuButton fx:id="menuSplitButton" mnemonicParsing="false" text="Menu" />
+                  <SplitMenuButton id="splitMenuButton" fx:id="menuSplitButton" mnemonicParsing="false" text="Menu" />
                </children>
             </HBox>
          </children>

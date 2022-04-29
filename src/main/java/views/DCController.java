@@ -28,6 +28,7 @@ public class DCController
 	ConcordModel concordModel;
 	ConcordClient client;
 	ViewTransitionModel model;
+	int dcId;
 	
     @FXML
     private ListView<DirectConversation> dcListView;
@@ -66,7 +67,10 @@ public class DCController
     @FXML
     void onDcListViewClicked(MouseEvent event) 
     {
-    	
+    	DirectConversation d = dcListView.getSelectionModel().getSelectedItem();
+    	concordModel.setMessages(d.getMessages());
+    	dcMessageListView.setItems(concordModel.getMessages());
+    	dcId = d.getDirectConvoId();
     }
     
     @FXML
@@ -86,6 +90,21 @@ public class DCController
 			stage.setScene(s);
 			stage.showAndWait();
 		} catch (IOException e)
+		{
+			model.showError();
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
+    void onEnterPressed(ActionEvent event) 
+    {
+    	String message = dcMessageTextField.getText();
+    	try
+		{
+    		dcMessageTextField.setText("");
+			client.sendDcMessage(message, dcId);
+		} catch (RemoteException e)
 		{
 			model.showError();
 			e.printStackTrace();

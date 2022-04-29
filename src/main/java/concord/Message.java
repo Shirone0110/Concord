@@ -94,4 +94,10 @@ public class Message implements Serializable
 			&& time == m.getTime()) return true;
 		return false;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return content;
+	}
 }

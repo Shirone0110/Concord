@@ -30,6 +30,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.ConcordModel;
@@ -110,20 +111,9 @@ public class TestLogin
 		robot.write("123");
 		
 		robot.clickOn("#loginSubmitButton");
-		try
-		{
-			Thread.sleep(1000);
-		} catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
 		testServer(user_1, 3);
 		
 		testDc(user_1);
-		
-		testMessage(user_1);
 		
 		Assertions.assertThat(robot.lookup("#usernameLabel")
 				.queryAs(Label.class)).hasText(user_1.getUserName());
@@ -136,31 +126,22 @@ public class TestLogin
 		
 		lv.getSelectionModel().clearAndSelect(0);*/
 		
+		robot.clickOn(robot.lookup("#dcListView").nth(0).queryAs(Node.class));
+		robot.clickOn("#dcMessageTextBox");
+		robot.write("hi");
+		robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
+		
+		testMessage(user_1, 0);
+		
 		robot.clickOn(robot.lookup("#svListView").nth(0).queryAs(Node.class));
-		
-		try
-		{
-			Thread.sleep(2000);
-		} catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		robot.clickOn("#btnSettings");
 		robot.clickOn("#btnUserInfo");
 		
-		try
-		{
-			Thread.sleep(2000);
-		} catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		robot.clickOn("#btnBlockList");
 		
+		robot.clickOn("#btnBack");
+		
+		robot.clickOn("#splitMenuButton");
 		try
 		{
 			Thread.sleep(5000);
@@ -169,21 +150,9 @@ public class TestLogin
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		robot.clickOn("#btnBack");
-		
-		try
-		{
-			Thread.sleep(10000);
-		} catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		robot.clickOn("#buttonLogout");
 		
 		
-		robot.clickOn("#userNameTextField");
+		/*robot.clickOn("#userNameTextField");
 		robot.write("b");
 		
 		robot.clickOn("#passwordTextField");
@@ -206,7 +175,7 @@ public class TestLogin
 		robot.clickOn("#btnBlockList");
 		robot.clickOn("#btnBack");
 		
-		robot.clickOn("#buttonLogout");
+		robot.clickOn("#buttonLogout");*/
 	}
 	
 	void testServer(User user, int amt) throws RemoteException
@@ -236,17 +205,15 @@ public class TestLogin
 		}
 	}
 	
-	void testMessage(User user)
+	void testMessage(User user, int Id)
 	{
-		for (DirectConversation d: cs.getConcord().getD().getDcListByUserId(user.getUserId()))
+		DirectConversation d = model.getDcs().get(Id);
+		for (Message m: d.getMessages())
 		{
-			for (Message m: d.getMessages())
-			{
-				boolean exist = false;
-				for (Message curM: model.getMessages())
-					if (curM.getContent().equals(m.getContent())) exist = true;
-				assertTrue(exist);
-			}
+			boolean exist = false;
+			for (Message curM: model.getMessages())
+				if (curM.getContent().equals(m.getContent())) exist = true;
+			assertTrue(exist);
 		}
 	}
 	

@@ -122,4 +122,12 @@ public class DirectConversation implements Serializable
 		if (directConvoId == dc.getDirectConvoId()) return true;
 		return false;
 	}
+	
+	@Override
+	public String toString()
+	{
+		User u1 = users.get(0);
+		User u2 = users.get(1);
+		return u1.toString() + ", " + u2.toString();
+	}
 }

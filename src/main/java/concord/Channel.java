@@ -90,5 +90,9 @@ public class Channel implements Serializable
 		return channelId == other.channelId;
 	}
 	
-	
+	@Override 
+	public String toString()
+	{
+		return channelName;
+	}
 }
