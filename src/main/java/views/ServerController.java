@@ -120,6 +120,7 @@ public class ServerController
     	String message = messageTextField.getText();
     	try
 		{
+    		messageTextField.setText("");
 			client.sendChannelMessage(message, serverId, channelId);
 		} catch (RemoteException e)
 		{

@@ -20,7 +20,7 @@ public interface ConcordServerInterface extends Remote
 			throws InvalidCredentialException, RemoteException;
 	public User findUserById(int userId) 
 			throws RemoteException;
-	public void createServer(int adminId, String svName, boolean priv)
+	public Server createServer(int adminId, String svName, boolean priv)
 			throws RemoteException;
 	public void invite(int adminId, int userId, int serverId) 
 			throws InvalidActionException, RemoteException;
@@ -60,6 +60,14 @@ public interface ConcordServerInterface extends Remote
 			throws RemoteException;
 	public void sendChannelMessage(int userId, String message, int serverId, int channelId)
 			throws RemoteException;
-	
-	
+	public Server getServerById(int serverId) 
+			throws RemoteException;
+	public DirectConversation getDcById(int dcId) 
+			throws RemoteException;
+	public Channel getChannelById(int serverId, int channelId) 
+			throws RemoteException;
+	public ArrayList<Integer> getAllUser() 
+			throws RemoteException;
+	public DirectConversation createDc(int firstId, int secondId) 
+			throws RemoteException;
 }

@@ -46,7 +46,9 @@ public class CreateServerController
     @FXML
     void onClickCreate(ActionEvent event) throws RemoteException 
     {
-    	client.createServer(client.getUser().getUserId(), newNameTextField.getText(), radbtnYes.isSelected());
+    	String name = newNameTextField.getText();
+    	boolean priv = radbtnYes.isSelected();
     	stage.close();
+    	client.createServer(client.getUser().getUserId(), name, priv);
     }
 }

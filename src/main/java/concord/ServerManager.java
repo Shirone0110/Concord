@@ -13,10 +13,12 @@ public class ServerManager
 		numberOfServer = 0;
 	}
 	
-	public void createServer(User creator, String name, boolean priv)
+	public Server createServer(User creator, String name, boolean priv)
 	{
-		servers.add(new Server(creator, name, numberOfServer, priv));
+		Server s = new Server(creator, name, numberOfServer, priv);
+		servers.add(s);
 		numberOfServer++;
+		return s;
 	}
 
 	/**

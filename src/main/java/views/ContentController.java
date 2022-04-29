@@ -123,11 +123,4 @@ public class ContentController
 			e.printStackTrace();
 		}
     }
-
-    @FXML
-    void onClickMenu(ActionEvent event) 
-    {	
-	
-    }
-    
 }

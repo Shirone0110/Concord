@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -21,12 +20,7 @@
             </Button>
             <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
-                  <SplitMenuButton fx:id="menuSplitButton" mnemonicParsing="false" onAction="#onClickMenu" text="Menu">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                  </SplitMenuButton>
+                  <SplitMenuButton fx:id="menuSplitButton" mnemonicParsing="false" text="Menu" />
                </children>
             </HBox>
          </children>

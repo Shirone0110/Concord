@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -14,19 +13,22 @@
    <left>
       <VBox prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="370.0" prefWidth="150.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="370.0" prefWidth="150.0">
-                     <children>
-                        <ListView fx:id="dcListView" onMouseClicked="#onDcListViewClicked" prefHeight="350.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
+            <ListView fx:id="dcListView" onMouseClicked="#onDcListViewClicked" prefHeight="350.0" prefWidth="150.0" />
+            <Button mnemonicParsing="false" onAction="#onNewDcClick" text="New Direct Conversation">
+               <VBox.margin>
+                  <Insets left="1.0" />
+               </VBox.margin>
+            </Button>
             <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
-                  <Label id="usernameLabel" fx:id="userNameTextField" text="Username" />
-                  <Button id="btnSettings" mnemonicParsing="false" onAction="#onClickSettings" text="Settings" />
+                  <Label id="usernameLabel" fx:id="userNameTextField" text="Username">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" top="5.0" />
+                     </HBox.margin></Label>
+                  <Button id="btnSettings" mnemonicParsing="false" onAction="#onClickSettings" text="Settings">
+                     <HBox.margin>
+                        <Insets top="1.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
          </children>
@@ -37,18 +39,13 @@
          <children>
             <HBox prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Label text="Other username" />
+                  <Label text="Other username">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin></Label>
                </children>
             </HBox>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="350.0" prefWidth="550.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="330.0" prefWidth="550.0">
-                     <children>
-                        <ListView fx:id="dcMessageListView" prefHeight="330.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
+            <ListView fx:id="dcMessageListView" prefHeight="350.0" prefWidth="550.0" />
             <TextField fx:id="dcMessageTextField" prefHeight="50.0" prefWidth="550.0" />
          </children>
       </VBox>

@@ -40,6 +40,7 @@ public class Main extends Application
 		ViewTransitionModel vm = new ViewTransitionModel(view, client, model);
 		vm.showLogin();
 		cont.setModel(vm);
+		client.setModel(model);
 		
 		this.stage = stage;
 		Scene s = new Scene(view);
