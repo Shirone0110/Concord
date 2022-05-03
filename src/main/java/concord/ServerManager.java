@@ -56,13 +56,16 @@ public class ServerManager
 		return null;
 	}
 
-	public void deleteServer(int serverId)
+	public void deleteServer(User admin, int serverId) throws InvalidActionException
 	{
 		for (Server s: servers)
 		{
 			if (s.getServerId() == serverId)
 			{
-				servers.remove(s);
+				Role role = s.getRoleMap().get(admin);
+				if (role.getModifyAdmin())
+					servers.remove(s);
+				else throw new InvalidActionException();
 				return;
 			}
 		}

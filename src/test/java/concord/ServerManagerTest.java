@@ -24,7 +24,7 @@ class ServerManagerTest
 	}
 
 	@Test
-	void testCreateDelete()
+	void testCreateDelete() throws InvalidActionException
 	{
 		ArrayList<Server> tmp = new ArrayList<Server>();
 		tmp.add(new Server(admin, "test", 0, false));
@@ -32,7 +32,7 @@ class ServerManagerTest
 		assertEquals(tmp, s.getServers());
 		
 		tmp.remove(0);
-		s.deleteServer(0);
+		s.deleteServer(admin, 0);
 		assertEquals(tmp, s.getServers());
 		
 		tmp.add(new Server(admin, "third", 2, true));

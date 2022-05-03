@@ -54,6 +54,7 @@ public class TestLogin
 		registry = LocateRegistry.createRegistry(2099);
 		registry.rebind("CONCORD", cs);
 		cc = new ConcordClient();
+		cs.addObserver(cc);
 		model = new ConcordModel();
 		
 		UserManager UM = cs.getConcord().getU();
@@ -85,6 +86,7 @@ public class TestLogin
 			ViewTransitionModel vm = new ViewTransitionModel(view, cc, model);
 			cont.setModel(vm);
 			vm.showLogin();
+			cc.setModel(model);
 			
 			Scene s = new Scene(view);
 			stage.setScene(s);
@@ -120,28 +122,16 @@ public class TestLogin
 		//assertEquals(user_1.getUserName(), l.getText());
 		//testUserName(user_1);
 		
-		/*@SuppressWarnings("unchecked")
-		ListView<Server> lv = (ListView<Server>) robot.lookup("#svListView")
+		@SuppressWarnings("unchecked")
+		ListView<DirectConversation> lv = (ListView<DirectConversation>) robot.lookup("#dcListView")
 				.queryAll().iterator().next();
 		
-		lv.getSelectionModel().clearAndSelect(0);*/
+		lv.getSelectionModel().clearAndSelect(0);
 		
-		robot.clickOn(robot.lookup("#dcListView").nth(0).queryAs(Node.class));
+		//robot.clickOn(robot.lookup("#dcListView").nth(0).queryAs(Node.class));
 		robot.clickOn("#dcMessageTextBox");
 		robot.write("hi");
 		robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
-		
-		testMessage(user_1, 0);
-		
-		robot.clickOn(robot.lookup("#svListView").nth(0).queryAs(Node.class));
-		robot.clickOn("#btnSettings");
-		robot.clickOn("#btnUserInfo");
-		
-		robot.clickOn("#btnBlockList");
-		
-		robot.clickOn("#btnBack");
-		
-		robot.clickOn("#splitMenuButton");
 		try
 		{
 			Thread.sleep(5000);
@@ -151,6 +141,17 @@ public class TestLogin
 			e.printStackTrace();
 		}
 		
+		testMessage(user_1, 0);
+		
+		//robot.clickOn(robot.lookup("#svListView").nth(0).queryAs(Node.class));
+		robot.clickOn("#btnSettings");
+		robot.clickOn("#btnUserInfo");
+		
+		robot.clickOn("#btnBlockList");
+		
+		robot.clickOn("#btnBack");
+		
+		robot.clickOn("#splitMenuButton");		
 		
 		/*robot.clickOn("#userNameTextField");
 		robot.write("b");

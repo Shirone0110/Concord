@@ -28,7 +28,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <MenuButton fx:id="userDropDown" mnemonicParsing="false" text="Choose User">
+                  <MenuButton id="btnChooseUser" fx:id="userDropDown" mnemonicParsing="false" text="Choose User">
                      <HBox.margin>
                         <Insets left="20.0" top="5.0" />
                      </HBox.margin>
@@ -41,7 +41,7 @@
    <bottom>
       <HBox prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onCreateClick" text="Create">
+            <Button id="btnCreateDc" mnemonicParsing="false" onAction="#onCreateClick" text="Create">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>

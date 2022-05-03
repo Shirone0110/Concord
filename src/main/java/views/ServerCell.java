@@ -39,7 +39,7 @@ public class ServerCell extends ListCell<Server>
 		
 		//System.out.println(s);
 		//System.out.println(empty);
-		if(empty)		
+		if(empty || s == null)		
 		{
 			this.setGraphic(null);		
 		}

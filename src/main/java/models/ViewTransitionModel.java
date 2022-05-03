@@ -207,7 +207,6 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 
 		alert.showAndWait();
 	}
-
 	
 	@Override 
 	public void showWarning(String text)

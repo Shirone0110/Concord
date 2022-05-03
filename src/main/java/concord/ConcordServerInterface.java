@@ -70,4 +70,6 @@ public interface ConcordServerInterface extends Remote
 			throws RemoteException;
 	public DirectConversation createDc(int firstId, int secondId) 
 			throws RemoteException;
+	public void deleteServer(int adminId, int serverId)
+			throws RemoteException, InvalidActionException;
 }

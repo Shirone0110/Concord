@@ -6,6 +6,7 @@ import concord.ConcordClient;
 import concord.ConcordClientInterface;
 import concord.Main;
 import concord.Server;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.input.MouseButton;
@@ -36,7 +38,15 @@ public class ContentController
     //private ListView<Label> serverListView;
     
     @FXML
-    private SplitMenuButton menuSplitButton;
+    private MenuButton menuBtn;
+    
+    private void onSelectedItem()
+    {
+    	Server s = serverListView.getSelectionModel().getSelectedItem();
+    	System.out.println("selected server");
+    	if (s != null)
+    		model.showServer(s);
+    }
 	
 	public void setModel(ViewTransitionModel m, ConcordModel cModel, ConcordClient c)
 	{
@@ -61,33 +71,39 @@ public class ContentController
 		}
 		serverListView.setItems(concordModel.getServers());
 		
-		menuSplitButton.getItems().clear();
+		serverListView.getSelectionModel().selectedItemProperty().addListener((e)->{onSelectedItem();});
+		
+		menuBtn.getItems().clear();
 		
 		MenuItem home = new MenuItem("Home");
+		home.setId("btnHome");
 		home.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override 
 		    public void handle(ActionEvent e) 
 		    {
 		    	System.out.println("home");
-				model.showDc();
+		    	model.showDc();
 		    }
 		});
 		
 		MenuItem logout = new MenuItem("Log out");
+		logout.setId("btnLogout");
 		logout.setOnAction( new EventHandler<ActionEvent>() {
 		    @Override 
 		    public void handle(ActionEvent e) 
 		    {
 				System.out.println("logout");
-		    	model.showLogin();
+				Platform.runLater(()->{
+					model.showLogin();
+				});
 		    }
 		});
 		
-		menuSplitButton.getItems().addAll(home, logout);
+		menuBtn.getItems().addAll(home, logout);
 	}
     
     @FXML
-    void serverListViewClicked(MouseEvent event) 
+    void serverListViewClicked(MouseEvent event)
     {
     	MouseButton button = event.getButton();
         if (button == MouseButton.PRIMARY)
@@ -102,7 +118,7 @@ public class ContentController
     }
     
     @FXML
-    void onClickNewServer(ActionEvent event) 
+    void onClickManageServer(ActionEvent event) 
     {
     	Stage stage = new Stage();
     	stage.initModality(Modality.APPLICATION_MODAL);
@@ -113,7 +129,7 @@ public class ContentController
 		{
 			view = loader.load();
 			CreateServerController cont = loader.getController();
-			cont.setModel(stage, client);
+			cont.setModel(stage, client, concordModel);
 			Scene s = new Scene(view);
 			stage.setScene(s);
 			stage.showAndWait();

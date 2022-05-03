@@ -2,12 +2,14 @@ package views;
 
 import java.rmi.RemoteException;
 
+import concord.Channel;
 import concord.ConcordClient;
 import concord.InvalidActionException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import models.ConcordModel;
 import models.ViewTransitionModel;
 import models.ViewTransitionModelInterface;
 
@@ -17,11 +19,11 @@ public class CreateChannelController
 	Stage stage;
 	ConcordClient client;
 	private int serverId;
-	ViewTransitionModel model;
+	ConcordModel model;
 	
-	public void setModel(ViewTransitionModel vm, Stage s, ConcordClient c, int serverId)
+	public void setModel(ConcordModel m, Stage s, ConcordClient c, int serverId)
 	{
-		model = vm;
+		model = m;
 		stage = s;
 		client = c;
 		this.serverId = serverId;
@@ -29,6 +31,9 @@ public class CreateChannelController
 	
     @FXML
     private TextField nameTextField;
+    
+    @FXML
+    private TextField deleteNameTextField;
 
     @FXML
     void onClickCancel(ActionEvent event) 
@@ -37,20 +42,21 @@ public class CreateChannelController
     }
 
     @FXML
-    void onClickCreate(ActionEvent event) 
+    void onClickSubmit(ActionEvent event) throws RemoteException, InvalidActionException 
     {
-    	try
-		{
+    	String addName = nameTextField.getText();
+    	String delName = deleteNameTextField.getText();
+    	if (addName != "")
 			client.addChannel(serverId, nameTextField.getText());
-		} catch (RemoteException e)
-		{
-			model.showError();
-			e.printStackTrace();
-		} catch (InvalidActionException e)
-		{
-			model.showWarning("You do not have the permission to create channel");
-			e.printStackTrace();
-		}
+    	
+    	if (delName != "")
+    	{
+    		for (Channel c: model.getChannels())
+    		{
+    			if (c.getChannelName().equals(delName))
+    				client.deleteChannel(serverId, c.getChannelId());
+    		}
+    	}
     	stage.close();
     }
 

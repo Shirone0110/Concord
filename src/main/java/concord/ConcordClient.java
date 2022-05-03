@@ -186,6 +186,12 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		curServer = cs.createServer(userId, svName, priv);
 	}
 	
+	public void deleteServer(int serverId)
+			throws RemoteException, InvalidActionException
+	{
+		cs.deleteServer(u.getUserId(), serverId);
+	}
+	
 	public void changeServerName(int serverId, String name) 
 			throws RemoteException, InvalidActionException
 	{

@@ -155,6 +155,13 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 		return s;
 	}
 
+	@Override 
+	public void deleteServer(int adminId, int serverId)
+			throws RemoteException, InvalidActionException
+	{
+		SM.deleteServer(findUserById(adminId), serverId);
+	}
+	
 	@Override
 	public void changeServerName(int userId, int serverId, String name) 
 			throws RemoteException, InvalidActionException

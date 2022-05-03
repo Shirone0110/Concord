@@ -3,6 +3,7 @@ package views;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+import concord.Channel;
 import concord.ConcordClient;
 import concord.ConcordClientInterface;
 import concord.DirectConversation;
@@ -42,6 +43,22 @@ public class DCController
     
     @FXML
     private Label userNameTextField;
+
+    @FXML
+    private Label otherUserLabel;
+    
+    private void onSelectedDc()
+    {
+    	DirectConversation d = dcListView.getSelectionModel().getSelectedItem();
+    	if (d != null)
+    	{
+    		System.out.println("selected dc");
+    		concordModel.setMessages(d.getMessages());
+        	dcMessageListView.setItems(concordModel.getMessages());
+        	dcId = d.getDirectConvoId();
+        	otherUserLabel.setText(d.toString());
+    	}
+    }
 	
 	public void setModel(ViewTransitionModel model, ConcordModel m, ConcordClient c)
 	{
@@ -49,7 +66,7 @@ public class DCController
 		concordModel = m;
 		client = c;
 		dcListView.setItems(concordModel.getDcs());
-		dcMessageListView.setItems(concordModel.getMessages());
+		dcListView.getSelectionModel().selectedItemProperty().addListener((e)->{onSelectedDc();});
 		userNameTextField.setText(client.getUser().getUserName());
 	}
 	
@@ -71,6 +88,7 @@ public class DCController
     	concordModel.setMessages(d.getMessages());
     	dcMessageListView.setItems(concordModel.getMessages());
     	dcId = d.getDirectConvoId();
+    	otherUserLabel.setText(d.toString());
     }
     
     @FXML

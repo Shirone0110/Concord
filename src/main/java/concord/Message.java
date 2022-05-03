@@ -98,6 +98,6 @@ public class Message implements Serializable
 	@Override
 	public String toString()
 	{
-		return content;
+		return user.getUserName() + ": " + content;
 	}
 }

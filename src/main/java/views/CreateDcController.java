@@ -31,11 +31,13 @@ public class CreateDcController
 			if (userId == client.getUser().getUserId()) continue;
 			User u = client.findUserById(userId);
 			MenuItem item = new MenuItem(u.getUserName());
+			item.setId(u.getUserName());
 			item.setOnAction(new EventHandler<ActionEvent>() {
 			    @Override 
 			    public void handle(ActionEvent e) 
 			    {
 			    	target = u;
+			    	userDropDown.setText(u.getUserName());
 			    }
 			});
 			userDropDown.getItems().add(item);

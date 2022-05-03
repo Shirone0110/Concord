@@ -22,7 +22,7 @@
                      <HBox.margin>
                         <Insets right="200.0" top="20.0" />
                      </HBox.margin></Button>
-                  <Button mnemonicParsing="false" onAction="#onClickCreate" text="Create new Account">
+                  <Button id="btnNewAcc" mnemonicParsing="false" onAction="#onClickCreate" text="Create new Account">
                      <HBox.margin>
                         <Insets left="20.0" top="20.0" />
                      </HBox.margin></Button>

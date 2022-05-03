@@ -14,7 +14,7 @@
       <VBox prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
             <ListView id="dcListView" fx:id="dcListView" onMouseClicked="#onDcListViewClicked" prefHeight="350.0" prefWidth="150.0" />
-            <Button mnemonicParsing="false" onAction="#onNewDcClick" text="New Direct Conversation">
+            <Button id="btnNewDc" mnemonicParsing="false" onAction="#onNewDcClick" text="New Direct Conversation">
                <VBox.margin>
                   <Insets left="1.0" />
                </VBox.margin>
@@ -39,7 +39,7 @@
          <children>
             <HBox prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Label text="Other username">
+                  <Label fx:id="otherUserLabel" text="Other username">
                      <HBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </HBox.margin></Label>

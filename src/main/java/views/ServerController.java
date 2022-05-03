@@ -8,6 +8,7 @@ import concord.ConcordClient;
 import concord.ConcordClientInterface;
 import concord.Main;
 import concord.Message;
+import concord.Server;
 import concord.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +50,20 @@ public class ServerController
 
     @FXML
     private ListView<User> usersListView;
+    
+    private void onSelectedChannel()
+    {
+    	Channel c = channelListView.getSelectionModel().getSelectedItem();
+    	if (c != null)
+    	{
+    		System.out.println("selected channel");
+    		channelNameLabel.setText(c.getChannelName());
+    		concordModel.setMessages(c.getMessages());
+    		messageListView.setItems(concordModel.getMessages());
+    		channelId = c.getChannelId();
+    		serverId = c.getFrom().getServerId();
+    	}
+    }
 	
 	public void setModel(ViewTransitionModel vModel, ConcordModel m, ConcordClient c)
 	{
@@ -59,12 +74,16 @@ public class ServerController
 		
 		// set views
 		userNameLabel.setText(client.getUser().getUserName());
+		
 		channelListView.setItems(concordModel.getChannels());
+		channelListView.getSelectionModel().selectedItemProperty().addListener((e)->{onSelectedChannel();});
+		
 		messageListView.setItems(concordModel.getMessages());
 		usersListView.setItems(concordModel.getUsers());
 		
 		// set ids for later use
 		Channel chan = channelListView.getItems().get(0);
+		channelNameLabel.setText(chan.getChannelName());
 		channelId = chan.getChannelId();
 		serverId = chan.getFrom().getServerId();
 	}
@@ -85,6 +104,7 @@ public class ServerController
     void channelListViewClicked(MouseEvent event) 
     {
     	Channel c = channelListView.getSelectionModel().getSelectedItem();
+    	channelNameLabel.setText(c.getChannelName());
     	concordModel.setMessages(c.getMessages());
 		messageListView.setItems(concordModel.getMessages());
 		channelId = c.getChannelId();
@@ -92,7 +112,7 @@ public class ServerController
     }
     
     @FXML
-    void onClickNewChannel(ActionEvent event) 
+    void onClickManageChannel(ActionEvent event) 
     {
     	Stage stage = new Stage();
     	stage.initModality(Modality.APPLICATION_MODAL);
@@ -103,7 +123,7 @@ public class ServerController
 		{
 			view = loader.load();
 			CreateChannelController cont = loader.getController();
-			cont.setModel(model, stage, client, serverId);
+			cont.setModel(concordModel, stage, client, serverId);
 			Scene s = new Scene(view);
 			stage.setScene(s);
 			stage.showAndWait();
@@ -130,7 +150,7 @@ public class ServerController
     }
     
     @FXML
-    void onAddUserClick(ActionEvent event) 
+    void onManageUserClick(ActionEvent event) 
     {
     	
     }
