@@ -73,7 +73,7 @@
                         <Insets left="10.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField id="newChannelName" fx:id="deleteNameTextField" promptText="Enter Name ...">
+                  <TextField id="delChannelName" fx:id="deleteNameTextField" promptText="Enter Name ...">
                      <HBox.margin>
                         <Insets left="5.0" top="7.0" />
                      </HBox.margin>

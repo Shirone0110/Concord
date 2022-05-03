@@ -45,7 +45,7 @@
                      </HBox.margin></Label>
                </children>
             </HBox>
-            <ListView fx:id="dcMessageListView" prefHeight="350.0" prefWidth="550.0" />
+            <ListView id="msgListView" fx:id="dcMessageListView" prefHeight="350.0" prefWidth="550.0" />
             <TextField id="dcMessageTextBox" fx:id="dcMessageTextField" onAction="#onEnterPressed" prefHeight="50.0" prefWidth="550.0" />
          </children>
       </VBox>

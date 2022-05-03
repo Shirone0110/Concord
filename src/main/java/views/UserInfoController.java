@@ -34,6 +34,12 @@ public class UserInfoController
 	{
 		model = m;
 		client = c;
+		User u = client.getUser();
+		userNameTextField.setText(u.getUserName());
+		realNameTextField.setText(u.getRealName());
+		passwordTextField.setText(u.getPassword());
+		pfDataTextField.setText(u.getProfileData());
+		pfpTextField.setText(u.getProfilePic());
 	}
 	
 

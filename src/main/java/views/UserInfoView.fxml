@@ -24,7 +24,7 @@
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin></Label>
-            <TextField fx:id="userNameTextField" prefWidth="300.0" promptText="Enter Username">
+            <TextField id="usernameTextField" fx:id="userNameTextField" prefWidth="300.0" promptText="Enter Username">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin></TextField>
@@ -39,7 +39,7 @@
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin></Label>
-            <TextField fx:id="realNameTextField" prefWidth="300.0" promptText="Enter Real Name">
+            <TextField id="realnameTextField" fx:id="realNameTextField" prefWidth="300.0" promptText="Enter Real Name">
                <HBox.margin>
                   <Insets left="18.0" />
                </HBox.margin></TextField>
@@ -54,7 +54,7 @@
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin></Label>
-            <TextField fx:id="passwordTextField" prefWidth="300.0" promptText="Enter Password">
+            <TextField id="passwordTextField" fx:id="passwordTextField" prefWidth="300.0" promptText="Enter Password">
                <HBox.margin>
                   <Insets left="23.0" />
                </HBox.margin></TextField>
@@ -90,7 +90,7 @@
             <Insets left="20.0" top="5.0" />
          </VBox.margin>
       </HBox>
-      <Button mnemonicParsing="false" onAction="#onUserInfoSaveButtonClick" text="Save">
+      <Button id="btnSave" mnemonicParsing="false" onAction="#onUserInfoSaveButtonClick" text="Save">
          <VBox.margin>
             <Insets left="20.0" top="20.0" />
          </VBox.margin></Button>

@@ -20,6 +20,7 @@ public class UserViewTransitionModel implements UserViewTransitionModelInterface
 	public UserViewTransitionModel(BorderPane view, ConcordClient c)
 	{
 		mainView = view;
+		client = c;
 	}
 
 	@Override

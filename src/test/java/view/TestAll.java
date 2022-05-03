@@ -28,6 +28,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -271,6 +272,20 @@ public class TestAll
 			assertEquals("lam: new channel hey", msgList.getItems().get(0).toString());
 		});
 		
+		robot.clickOn("#btnSettings");
+		robot.clickOn("#btnUserInfo");
+		
+		TextField username = (TextField) robot.lookup("#usernameTextField").queryAll().iterator().next();
+		assertEquals("lam", username.getText());
+		
+		TextField realname = (TextField) robot.lookup("#realnameTextField").queryAll().iterator().next();
+		assertEquals("lam", realname.getText());
+		
+		TextField password = (TextField) robot.lookup("#passwordTextField").queryAll().iterator().next();
+		assertEquals("abc", password.getText());
+		
+		robot.clickOn("#btnBack");
+		
 		robot.clickOn("#btnMenu");
 		
 		try
@@ -335,6 +350,9 @@ public class TestAll
 			ListView<DirectConversation> dcList = (ListView<DirectConversation>) robot.lookup("#dcListView")
 					.queryAll().iterator().next();
 			
+			assertEquals(1, dcList.getItems().size());
+			assertEquals("lam, bojii", dcList.getItems().get(0).toString());
+			
 			dcList.scrollTo(0);
 			dcList.getSelectionModel().clearAndSelect(0);
 			System.out.println(dcList.getSelectionModel().getSelectedIndex());
@@ -353,15 +371,115 @@ public class TestAll
 		robot.write("hi");
 		robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
 		
+		Platform.runLater(()->{
+			ListView<Message> msgList = (ListView<Message>) robot.lookup("#msgListView")
+					.queryAll().iterator().next();
+			
+			assertEquals(1, msgList.getItems().size());
+			try
+			{
+				for (Message m: cs.getChannelById(0, 0).getMessages())
+				{
+					boolean exist = false;
+					for (Message mess: msgList.getItems())
+					{
+						if (m.toString().equals(mess.toString())) exist = true;
+					}
+					assertTrue(exist);
+				}
+			} catch (RemoteException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			assertEquals("lam: hi", msgList.getItems().get(0).toString());
+		});
+		
+		Platform.runLater(()->{
+			ListView<Server> svList = (ListView<Server>) robot.lookup("#svListView")
+					.queryAll().iterator().next();
+
+			svList.scrollTo(0);	
+			svList.getSelectionModel().clearAndSelect(0);
+		});
+		
 		try
 		{
-			Thread.sleep(5000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		robot.clickOn("#btnManageChannel");
 		
+		robot.clickOn("#delChannelName");
+		robot.write("Chan 1");
+		
+		robot.clickOn("#btnCreateChannel");
+		Platform.runLater(()->{			
+			ListView<Channel> cnList = (ListView<Channel>) robot.lookup("#cnListView")
+					.queryAll().iterator().next();
+			
+			assertEquals(1, cnList.getItems().size());
+			assertEquals("general", cnList.getItems().get(0).getChannelName());
+		});
+		
+		robot.clickOn("#btnMenu");
+		
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#btnLogout");
+		robot.clickOn("#userNameTextField");
+		robot.write("bojii");
+		
+		robot.clickOn("#passwordTextField");
+		robot.write("123");
+		
+		robot.clickOn("#loginSubmitButton");
+		
+		Platform.runLater(()->{
+			ListView<DirectConversation> dcList = (ListView<DirectConversation>) robot.lookup("#dcListView")
+					.queryAll().iterator().next();
+
+			assertEquals(1, dcList.getItems().size());
+			assertEquals("lam, bojii", dcList.getItems().get(0).toString());
+			
+			dcList.scrollTo(0);	
+			dcList.getSelectionModel().clearAndSelect(0);
+		});
+		
+		robot.clickOn("#dcMessageTextBox");
+		robot.write("hello");
+		robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
+		
+		Platform.runLater(()->{
+			ListView<Message> msgList = (ListView<Message>) robot.lookup("#msgListView")
+					.queryAll().iterator().next();
+			
+			assertEquals(2, msgList.getItems().size());
+			assertEquals("lam: hi", msgList.getItems().get(0).toString());
+			assertEquals("bojii: hello", msgList.getItems().get(1).toString());
+		});
+		
+		robot.clickOn("#btnSettings");
+		robot.clickOn("#btnUserInfo");
+		
+		username = (TextField) robot.lookup("#usernameTextField").queryAll().iterator().next();
+		assertEquals("bojii", username.getText());
+		
+		realname = (TextField) robot.lookup("#realnameTextField").queryAll().iterator().next();
+		assertEquals("chantakrak", realname.getText());
+		
+		password = (TextField) robot.lookup("#passwordTextField").queryAll().iterator().next();
+		assertEquals("123", password.getText());
 	}
 }
