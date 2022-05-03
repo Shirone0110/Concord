@@ -52,7 +52,7 @@ public class UserInfoController
     	String pfp = pfpTextField.getText();
     	String pfdata = pfDataTextField.getText();
     	
-    	if (uName == "" || rName == "" || pw == "" || pfp == "" || pfdata == "")
+    	if (uName == "" || rName == "" || pw == "")
     	{
     		model.showWarning("Please enter all information");
     	}
@@ -60,6 +60,7 @@ public class UserInfoController
     	{
     		try
 			{
+    			System.out.println(pfp);
 				client.setUsername(uName);
 				client.setProfilePic(pfp);
 	    		client.setProfileData(pfdata);

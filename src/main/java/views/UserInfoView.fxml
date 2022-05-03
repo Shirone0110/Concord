@@ -69,7 +69,7 @@
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin></Label>
-            <TextField fx:id="pfpTextField" prefWidth="300.0" promptText="Enter URL" />
+            <TextField id="pfpTextField" fx:id="pfpTextField" prefWidth="300.0" promptText="Enter URL" />
          </children>
          <VBox.margin>
             <Insets left="20.0" top="5.0" />

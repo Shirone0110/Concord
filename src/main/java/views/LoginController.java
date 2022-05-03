@@ -30,7 +30,7 @@ public class LoginController
 	}
 	
 	@FXML
-	void onClickSubmit(ActionEvent event) 
+	void onClickSubmit(ActionEvent event) throws InvalidCredentialException 
 	{
 		String name = userNameTextField.textProperty().get();
 		String pw = passwordTextField.textProperty().get();
@@ -46,11 +46,6 @@ public class LoginController
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		catch (InvalidCredentialException e)
-		{
-			
-			e.printStackTrace();
-		}
     }
 	
 	@FXML

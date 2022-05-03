@@ -1,6 +1,7 @@
 package view;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import concord.ConcordClient;
 import concord.ConcordServer;
 import concord.DirectConversation;
 import concord.DirectConversationManager;
+import concord.InvalidCredentialException;
 import concord.Message;
 import concord.Server;
 import concord.ServerManager;
@@ -160,6 +162,11 @@ public class TestAll
 			cnList.scrollTo(0);
 			cnList.getSelectionModel().clearAndSelect(0);
 			System.out.println(cnList.getSelectionModel().getSelectedIndex());
+			
+			ListView<User> userList = (ListView<User>) robot.lookup("#userListView")
+					.queryAll().iterator().next();
+			assertEquals(1, userList.getItems().size());
+			assertEquals("lam", userList.getItems().get(0).getUserName());
 		});
 		
 		try
@@ -438,12 +445,12 @@ public class TestAll
 		}
 		
 		robot.clickOn("#btnLogout");
+		
 		robot.clickOn("#userNameTextField");
 		robot.write("bojii");
 		
 		robot.clickOn("#passwordTextField");
 		robot.write("123");
-		
 		robot.clickOn("#loginSubmitButton");
 		
 		Platform.runLater(()->{

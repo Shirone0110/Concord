@@ -152,6 +152,23 @@ public class ServerController
     @FXML
     void onManageUserClick(ActionEvent event) 
     {
-    	
+    	Stage stage = new Stage();
+    	stage.initModality(Modality.APPLICATION_MODAL);
+    	FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("../views/ManageUserView.fxml"));
+		BorderPane view;
+		try
+		{
+			view = loader.load();
+			ManageUserController cont = loader.getController();
+			cont.setModel(concordModel, stage, client, serverId);
+			Scene s = new Scene(view);
+			stage.setScene(s);
+			stage.showAndWait();
+		} catch (IOException e)
+		{
+			model.showError();
+			e.printStackTrace();
+		}
     }
 }
