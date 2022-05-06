@@ -9,6 +9,7 @@ import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.jupiter.api.BeforeAll;
@@ -59,6 +60,74 @@ class ConcordServerTest
 	void tearDown() throws Exception
 	{
 		registry.unbind("CONCORD");
+	}
+	
+	@Test
+	void testGetServerByUserId()
+	{
+		try
+		{
+			ArrayList<Server> test = cs.getServerByUserId(user_1.getUserId());
+			assertEquals(1, test.size());
+			assertEquals("server", test.get(0).getServerName());
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			cc.setUser(user_1);
+			ArrayList<Server> test = cc.getServerByUserId();
+			assertEquals(1, test.size());
+			assertEquals("server", test.get(0).getServerName());
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testGetDcByUserId()
+	{
+		try
+		{
+			ArrayList<DirectConversation> test = cs.getDcByUserId(0);
+			assertEquals(1, test.size());
+			boolean exist_1 = false, exist_2 = false;
+			for (User u: test.get(0).getUsers())
+			{
+				if (u.equals(user_1)) exist_1 = true;
+				if (u.equals(user_2)) exist_2 = true;
+			}
+			assertTrue(exist_1);
+			assertTrue(exist_2);
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			cc.setUser(user_2);
+			ArrayList<DirectConversation> test = cc.getDcByUserId();
+			assertEquals(1, test.size());
+			boolean exist_1 = false, exist_2 = false;
+			for (User u: test.get(0).getUsers())
+			{
+				if (u.equals(user_1)) exist_1 = true;
+				if (u.equals(user_2)) exist_2 = true;
+			}
+			assertTrue(exist_1);
+			assertTrue(exist_2);
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
 	}
 
 	@Test
