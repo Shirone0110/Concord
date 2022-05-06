@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.rmi.AccessException;
 //import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -21,13 +22,20 @@ class ConcordServerTest
 	static User user_1, user_2;
 
 	@BeforeAll
-	static void setUpBeforeClass() throws Exception
+	static void setUpBeforeClass() throws RemoteException 
 	{
 		File file = new File("Concord.xml");
 		file.delete();
 		cs = new ConcordServer();
 		registry = LocateRegistry.createRegistry(2099);
-		registry.rebind("CONCORD", cs);
+		try
+		{
+			registry.rebind("CONCORD", cs);
+		} catch (AccessException e)
+		{
+			fail();
+			e.printStackTrace();
+		} 
 		cc = new ConcordClient();
 		//cc = (ConcordServerInterface) 
 		//	Naming.lookup("rmi://127.0.0.1/CONCORD");
