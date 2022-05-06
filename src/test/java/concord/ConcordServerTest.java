@@ -2,6 +2,7 @@ package concord;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 //import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -22,6 +23,8 @@ class ConcordServerTest
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception
 	{
+		File file = new File("Concord.xml");
+		file.delete();
 		cs = new ConcordServer();
 		registry = LocateRegistry.createRegistry(2099);
 		registry.rebind("CONCORD", cs);
@@ -71,22 +74,22 @@ class ConcordServerTest
 		assertThrows(InvalidCredentialException.class, 
 				()->{ 
 					cs.verify("c", "123");
-					cc.cs.verify("c", "123");
+					cc.verify("c", "123");
 				});
 		assertThrows(InvalidCredentialException.class, 
 				()->{ 
 					cs.verify("a", "456");
-					cc.cs.verify("a", "456");
+					cc.verify("a", "456");
 				});
 		assertThrows(InvalidCredentialException.class, 
 				()->{ 
 					cs.verify("c", "789");
-					cc.cs.verify("c", "789");
+					cc.verify("c", "789");
 				});
 		try
 		{
 			cs.verify("a", "123");
-			cc.cs.verify("a", "123");
+			cc.verify("a", "123");
 		} 
 		catch (RemoteException | InvalidCredentialException e)
 		{
@@ -106,7 +109,8 @@ class ConcordServerTest
 			assertThrows(InvalidActionException.class, 
 					()->{ 
 						cs.invite(user_2.getUserId(), user_3.getUserId(), 0);
-						cc.cs.invite(user_2.getUserId(), user_3.getUserId(), 0);
+						cc.setUser(user_2);
+						cc.invite(user_3.getUserId(), 0);
 					});
 		} catch (InvalidActionException e)
 		{
@@ -116,7 +120,8 @@ class ConcordServerTest
 		try
 		{
 			cs.invite(user_1.getUserId(), user_2.getUserId(), 0);
-			cc.cs.invite(user_1.getUserId(), user_2.getUserId(), 0);
+			cc.setUser(user_1);
+			cc.invite(user_2.getUserId(), 0);
 		} 
 		catch (RemoteException | InvalidActionException e)
 		{
@@ -136,7 +141,8 @@ class ConcordServerTest
 			assertThrows(InvalidActionException.class, 
 					()->{ 
 						cs.accept(user_2.getUserId(), user_3.getUserId(), 0);
-						cc.cs.accept(user_2.getUserId(), user_3.getUserId(), 0);
+						cc.setUser(user_2);
+						cc.accept(user_3.getUserId(), 0);
 					});
 		} catch (InvalidActionException e)
 		{
@@ -147,7 +153,8 @@ class ConcordServerTest
 		try
 		{
 			cs.accept(user_1.getUserId(), user_2.getUserId(), 0);
-			cc.cs.accept(user_1.getUserId(), user_2.getUserId(), 0);
+			cc.setUser(user_1);
+			cc.accept(user_2.getUserId(), 0);
 		} 
 		catch (RemoteException | InvalidActionException e)
 		{
@@ -174,7 +181,8 @@ class ConcordServerTest
 		try
 		{
 			s.addMember(user_1, user_2);
-			cc.cs.removeMember(user_1.getUserId(), user_2.getUserId(), 0);
+			cc.setUser(user_1);
+			cc.removeMember(user_2.getUserId(), 0);
 		} catch (InvalidActionException | RemoteException e)
 		{
 			fail();
@@ -199,7 +207,8 @@ class ConcordServerTest
 			s.addMember(user_1, user_2);
 			assertThrows(InvalidActionException.class, 
 					()->{ 
-						cc.cs.removeMember(user_2.getUserId(), user_3.getUserId(), 0);
+						cc.setUser(user_2);
+						cc.removeMember(user_3.getUserId(), 0);
 					});
 		} catch (InvalidActionException e)
 		{
@@ -214,7 +223,8 @@ class ConcordServerTest
 		try
 		{
 			cs.changeServerName(user_1.getUserId(), 0, "servername");
-			cc.cs.changeServerName(user_1.getUserId(), 0, "servername");
+			cc.setUser(user_1);
+			cc.changeServerName(0, "servername");
 		} catch (RemoteException | InvalidActionException e)
 		{
 			fail();
@@ -224,7 +234,8 @@ class ConcordServerTest
 		assertThrows(InvalidActionException.class, 
 				()->{ 
 					cs.changeServerName(user_2.getUserId(), 0, "servername");
-					cc.cs.changeServerName(user_2.getUserId(), 0, "servername");
+					cc.setUser(user_2);
+					cc.changeServerName(0, "servername");
 				});
 	}
 	
@@ -236,7 +247,8 @@ class ConcordServerTest
 		{
 			Channel c = s.addChannel(user_1, "channel");
 			cs.changeChannelName(user_1.getUserId(), c.getChannelId(), 0, "newchannel");
-			cc.cs.changeChannelName(user_1.getUserId(), c.getChannelId(), 0, "newnewchannel");
+			cc.setUser(user_1);
+			cc.changeChannelName(c.getChannelId(), 0, "newnewchannel");
 		} catch (InvalidActionException e)
 		{
 			fail();
@@ -250,7 +262,8 @@ class ConcordServerTest
 		assertThrows(InvalidActionException.class, 
 				()->{ 
 					cs.changeChannelName(user_2.getUserId(), 0, 0, "channelname");
-					cc.cs.changeChannelName(user_2.getUserId(), 0, 0, "channelname");
+					cc.setUser(user_2);
+					cc.changeChannelName( 0, 0, "channelname");
 				});
 	}
 	
@@ -260,7 +273,8 @@ class ConcordServerTest
 		try
 		{
 			cs.addChannel(user_1.getUserId(), 0, "channel");
-			cc.cs.addChannel(user_1.getUserId(), 0, "another channel");
+			cc.setUser(user_1);
+			cc.addChannel(0, "another channel");
 		} catch (InvalidActionException e)
 		{
 			fail();
@@ -274,7 +288,8 @@ class ConcordServerTest
 		assertThrows(InvalidActionException.class, 
 				()->{ 
 					cs.addChannel(user_2.getUserId(), 0, "channel");
-					cc.cs.addChannel(user_2.getUserId(), 0, "channel");
+					cc.setUser(user_2);
+					cc.addChannel(0, "channel");
 				});
 	}
 	
@@ -299,7 +314,8 @@ class ConcordServerTest
 		try
 		{
 			Channel c = s.addChannel(user_1, "channel");
-			cc.cs.deleteChannel(user_1.getUserId(), s.getServerId(), c.getChannelId());
+			cc.setUser(user_1);
+			cc.deleteChannel(s.getServerId(), c.getChannelId());
 		} catch (InvalidActionException e)
 		{
 			fail();
@@ -315,7 +331,8 @@ class ConcordServerTest
 					s.addMember(user_1, user_2);
 					Channel c = s.addChannel(user_1, "name");
 					cs.deleteChannel(user_2.getUserId(), s.getServerId(), c.getChannelId());
-					cc.cs.deleteChannel(user_2.getUserId(), s.getServerId(), c.getChannelId());
+					cc.setUser(user_2);
+					cc.deleteChannel(s.getServerId(), c.getChannelId());
 				});
 	}
 	
@@ -338,8 +355,8 @@ class ConcordServerTest
 		//Message m2 = new Message();
 		try
 		{
-			cc.cs.addPin(0, m2);
-			cc.cs.unPin(0, m2);
+			cs.addPin(0, m2);
+			cc.unPin(0, m2);
 		} catch (RemoteException e)
 		{
 			fail();
@@ -368,9 +385,11 @@ class ConcordServerTest
 			e.printStackTrace();
 		}
 		
-		/*try
+		try
 		{
-			cc.cs.changeRole(user_1.getUserId(), user_2.getUserId(), noob, 0);
+			cc.setUser(user_1);
+			cc.changeRole(user_2.getUserId(), mod, 0);
+			cc.changeRole(user_2.getUserId(), noob, 0);
 		}
 		catch (InvalidActionException e)
 		{
@@ -380,7 +399,14 @@ class ConcordServerTest
 		{
 			fail();
 			e.printStackTrace();
-		}*/
+		}
+		
+		assertThrows(InvalidActionException.class, 
+				()->{ 
+					cs.changeRole(user_2.getUserId(), user_1.getUserId(), noob, 0);
+					cc.setUser(user_2);
+					cc.changeRole(user_1.getUserId(), noob, 0);
+				});
 	}
 	
 	@Test
@@ -399,8 +425,9 @@ class ConcordServerTest
 		
 		try
 		{
-			cc.cs.addBlock(user_1.getUserId(), user_2.getUserId());
-			cc.cs.removeBlock(user_1.getUserId(), user_2.getUserId());
+			cc.setUser(user_1);
+			cc.addBlock(user_2.getUserId());
+			cc.removeBlock(user_2.getUserId());
 		} 
 		catch (RemoteException e)
 		{
@@ -412,11 +439,12 @@ class ConcordServerTest
 	@Test
 	void testProfile()
 	{
+		cc.setUser(user_1);
 		// test profile data
 		try
 		{
 			cs.setProfileData(user_1.getUserId(), "new profile");
-			cc.cs.setProfileData(user_1.getUserId(), "new new profile");
+			cc.setProfileData("new new profile");
 		} 
 		catch (RemoteException e)
 		{
@@ -428,7 +456,7 @@ class ConcordServerTest
 		try
 		{
 			cs.setProfilePic(user_1.getUserId(), "new url");
-			cc.cs.setProfilePic(user_1.getUserId(), "new new url");
+			cc.setProfilePic("new new url");
 		} 
 		catch (RemoteException e)
 		{
@@ -440,10 +468,11 @@ class ConcordServerTest
 	@Test
 	void testSetUsername()
 	{
+		cc.setUser(user_1);
 		try
 		{
 			cs.setUsername(user_1.getUserId(), "new name");
-			cc.cs.setUsername(user_1.getUserId(), "a");
+			cc.setUsername("a");
 		} 
 		catch (RemoteException e)
 		{
@@ -459,7 +488,8 @@ class ConcordServerTest
 		try
 		{
 			cs.sendDcMessage(user_1.getUserId(), "hi", 0);
-			cc.cs.sendDcMessage(user_2.getUserId(), "hello", 0);
+			cc.setUser(user_2);
+			cc.sendDcMessage("hello", 0);
 		} 
 		catch (RemoteException e)
 		{
@@ -473,7 +503,8 @@ class ConcordServerTest
 			Server s = cs.getConcord().getS().findServerById(0);
 			Channel c = s.addChannel(user_1, "general");
 			cs.sendChannelMessage(user_1.getUserId(), "hi", 0, c.getChannelId());
-			cc.cs.sendChannelMessage(user_2.getUserId(), "hello", 0, c.getChannelId());
+			cc.setUser(user_2);
+			cc.sendChannelMessage("hello", 0, c.getChannelId());
 		} 
 		catch (RemoteException e)
 		{

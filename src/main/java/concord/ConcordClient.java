@@ -60,6 +60,11 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		model = m;
 	}
 	
+	public void setUser(User a)
+	{
+		u = a;
+	}
+	
 	public User getUser()
 	{
 		return u;
