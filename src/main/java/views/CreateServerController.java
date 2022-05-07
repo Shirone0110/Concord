@@ -60,7 +60,7 @@ public class CreateServerController
     	String nameDel = deleteServerTextField.getText();
     	stage.close();
     	if (nameCreate != "")
-    		client.createServer(client.getUser().getUserId(), nameCreate, priv);
+    		client.createServer(nameCreate, priv);
     	if (nameDel != "")
     	{
     		for (Server s: model.getServers())

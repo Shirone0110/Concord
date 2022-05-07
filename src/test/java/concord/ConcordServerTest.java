@@ -129,6 +129,63 @@ class ConcordServerTest
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	void testCreateUserAndServer()
+	{
+		try
+		{
+			assertEquals(2, cs.getAllUser().size());
+			cs.createUser("def", "ghi", "jkl");
+			assertEquals(3, cs.getAllUser().size());
+			assertEquals("def", cs.findUserById(2).getUserName());
+			assertEquals("ghi", cs.findUserById(2).getRealName());
+			assertEquals("jkl", cs.findUserById(2).getPassword());
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			Server s = cs.createServer(2, "server 2", false);
+			assertEquals(1, cs.getServerByUserId(2).size());
+			assertEquals(s, cs.getServerByUserId(2).get(0));
+		} catch (RemoteException e1)
+		{
+			fail();
+			e1.printStackTrace();
+		}
+		
+		try
+		{
+			assertEquals(3, cc.getAllUser().size());
+			cc.createUser("mno", "pqr", "stu");
+			assertEquals(4, cc.getAllUser().size());
+			assertEquals("mno", cc.findUserById(3).getUserName());
+			assertEquals("pqr", cc.findUserById(3).getRealName());
+			assertEquals("stu", cc.findUserById(3).getPassword());
+		} 
+		catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			cc.setUser(cc.findUserById(3));
+			cc.createServer("server 3", false);
+			assertEquals(1, cs.getServerByUserId(3).size());
+			assertEquals("server 3", cs.getServerByUserId(3).get(0).getServerName());
+		} catch (RemoteException e1)
+		{
+			fail();
+			e1.printStackTrace();
+		}
+	}
 
 	@Test
 	void testFindUserById()

@@ -7,7 +7,7 @@
      <object class="concord.DirectConversation">
       <void property="defaultTime">
        <object class="java.util.Date">
-        <long>1651852521830</long>
+        <long>1651957557549</long>
        </object>
       </void>
       <void property="messages">
@@ -140,7 +140,7 @@
           </void>
           <void property="time">
            <object class="java.util.Date">
-            <long>1651852521871</long>
+            <long>1651957557622</long>
            </object>
           </void>
           <void property="user">
@@ -171,6 +171,10 @@
       <void property="roleMap">
        <object class="java.util.HashMap">
         <void method="put">
+         <object idref="User1"/>
+         <object class="concord.Role"/>
+        </void>
+        <void method="put">
          <object idref="User0"/>
          <object class="concord.Role">
           <void property="modifyAdmin">
@@ -192,10 +196,6 @@
            <string>11111</string>
           </void>
          </object>
-        </void>
-        <void method="put">
-         <object idref="User1"/>
-         <object class="concord.Role"/>
         </void>
        </object>
       </void>

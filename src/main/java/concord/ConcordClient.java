@@ -186,10 +186,10 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		curServer = cs.getServerById(serverId);
 	}
 	
-	public void createServer(int userId, String svName, boolean priv) 
+	public void createServer(String svName, boolean priv) 
 			throws RemoteException
 	{
-		curServer = cs.createServer(userId, svName, priv);
+		curServer = cs.createServer(u.getUserId(), svName, priv);
 	}
 	
 	public void deleteServer(int serverId)
