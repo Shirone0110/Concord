@@ -131,11 +131,11 @@ class ConcordServerTest
 	}
 	
 	/*
-	 * Test delete server because race condition will make it unstable to test in
-	 * a separate test
+	 * Test create/delete server and dc because
+	 * it is unstable to have a separate testing due to race condition
 	 */
 	@Test
-	void testCreateUserAndServer()
+	void testCreateUserServerDc()
 	{
 		try
 		{
@@ -230,6 +230,31 @@ class ConcordServerTest
 			fail();
 			e.printStackTrace();
 		} 
+		
+		try
+		{
+			DirectConversation d = cs.createDc(2, 3);
+			assertEquals(1, cs.getDcByUserId(2).size());
+			assertEquals(1, cs.getDcByUserId(3).size());
+			assertEquals(d, cs.getDcById(d.getDirectConvoId()));
+		} catch (RemoteException e)
+		{
+			fail();
+			e.printStackTrace();
+		}
+
+		try
+		{
+			cc.setUser(cc.findUserById(3));
+			cc.createDc(3, 2);
+			assertEquals(2, cc.getDcByUserId().size());
+			cc.setUser(cc.findUserById(2));
+			assertEquals(2, cc.getDcByUserId().size());
+		} catch (RemoteException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
