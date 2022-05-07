@@ -130,6 +130,10 @@ class ConcordServerTest
 		}
 	}
 	
+	/*
+	 * Test delete server because race condition will make it unstable to test in
+	 * a separate test
+	 */
 	@Test
 	void testCreateUserAndServer()
 	{
@@ -153,6 +157,39 @@ class ConcordServerTest
 			Server s = cs.createServer(2, "server 2", false);
 			assertEquals(1, cs.getServerByUserId(2).size());
 			assertEquals(s, cs.getServerByUserId(2).get(0));
+			
+			// test get server by Id
+			assertEquals(s, cs.getServerById(s.getServerId()));
+			
+			// test delete Server
+			try
+			{
+				s.addMember(cs.findUserById(2), user_1);
+			} catch (InvalidActionException e1)
+			{
+				fail();
+				e1.printStackTrace();
+			}
+			assertThrows(InvalidActionException.class, 
+					()->{ 
+						cs.deleteServer(user_1.getUserId(), s.getServerId());
+					});
+	
+			assertThrows(InvalidActionException.class,
+					()->{
+						cc.setUser(user_1);
+						cc.deleteServer(s.getServerId());
+					});
+			
+			try
+			{
+				cs.deleteServer(2, s.getServerId());
+				assertEquals(0, cs.getServerByUserId(2).size());
+			} catch (InvalidActionException e)
+			{
+				fail();
+				e.printStackTrace();
+			}
 		} catch (RemoteException e1)
 		{
 			fail();
@@ -178,13 +215,21 @@ class ConcordServerTest
 		{
 			cc.setUser(cc.findUserById(3));
 			cc.createServer("server 3", false);
-			assertEquals(1, cs.getServerByUserId(3).size());
-			assertEquals("server 3", cs.getServerByUserId(3).get(0).getServerName());
+			assertEquals(1, cc.getServerByUserId().size());
+			
+			Server s = cc.getServerByUserId().get(0);
+			assertEquals("server 3", s.getServerName());
+			
+			cc.deleteServer(s.getServerId());
 		} catch (RemoteException e1)
 		{
 			fail();
 			e1.printStackTrace();
-		}
+		} catch (InvalidActionException e)
+		{
+			fail();
+			e.printStackTrace();
+		} 
 	}
 
 	@Test
