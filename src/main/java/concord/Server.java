@@ -2,6 +2,7 @@ package concord;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Server implements Serializable
@@ -17,7 +18,7 @@ public class Server implements Serializable
 	private String serverLogo;
 	private String serverDescription;
 	private RoleBuilder roleBuilder;
-	private HashMap<User, Role> roleMap;
+	private HashMap<User, RoleComponent> roleMap;
 	
 	public Server(User admin, String name, int id, boolean priv)
 	{
@@ -32,14 +33,10 @@ public class Server implements Serializable
 		pins = new ArrayList<Message>();
 		users = new ArrayList<User>();
 		roleBuilder = new RoleBuilder();
-		roleMap = new HashMap<User, Role>();
-		
-		roleBuilder.addRole("Admin", "11111");
-		roleBuilder.addRole("Moderator", "10101");
-		roleBuilder.addRole("Member", "00000");
+		roleMap = new HashMap<User, RoleComponent>();
 		
 		users.add(admin);
-		roleMap.put(admin, roleBuilder.buildRole("Admin"));
+		roleMap.put(admin, roleBuilder.makeAdmin());
 		try
 		{
 			addChannel(admin, "general");
@@ -55,13 +52,40 @@ public class Server implements Serializable
 	{
 		new Server(new User(), "default", 0, false);
 	}
+	
+	public boolean checkViewChannel(User u, Channel c) 
+	{
+		/*
+		 * If general permission = true -> check child
+		 * else -> false
+		 */
+		RoleComponent role = roleMap.get(u);
+		if (!role.getBasicPermission("view channel")) return false;
+		return role.getChannelPermission(c.getChannelName()).getViewChannel().getAllowed();
+	}
+	
+	public boolean checkSendMessage(User u, Channel c)
+	{
+		/*
+		 * If general permission = true -> check child
+		 * else -> false
+		 */
+		RoleComponent role = roleMap.get(u);
+		if (!role.getBasicPermission("send message")) return false;
+		return role.getChannelPermission(c.getChannelName()).getSendMessage().getAllowed();
+	}
 
 	public Channel addChannel(User u, String name) throws InvalidActionException
 	{
-		Role role = roleMap.get(u);
-		if (role.getModifyChannel())
+		RoleComponent role = roleMap.get(u);
+		if (role.getBasicPermission("modify channel"))
 		{
 			Channel c = new Channel(name, this, channelCount);
+			for (RoleComponent r: roleBuilder.getRoles())
+			{
+				Role cur = (Role) r;
+				cur.addChannel(name);
+			}
 			channelCount++;
 			channels.add(c);
 			return c;
@@ -72,8 +96,8 @@ public class Server implements Serializable
 	
 	public void deleteChannel(User u, Channel channel) throws InvalidActionException
 	{
-		Role role = roleMap.get(u);
-		if (role.getModifyChannel())
+		RoleComponent role = roleMap.get(u);
+		if (role.getBasicPermission("modify channel"))
 			channels.remove(channel);
 		else 
 			throw new InvalidActionException();
@@ -98,40 +122,38 @@ public class Server implements Serializable
 		pins.remove(m);
 	}
 	
-	public void addMember(User admin, User member) throws InvalidActionException
+	public void addMember(User member) 
 	{
-		Role adRole = roleMap.get(admin);
-		if (adRole.getModifyMember())
+		for (User u: users)
 		{
-			users.add(member);
-			roleMap.put(member, roleBuilder.buildRole("Member"));
+			if (u.equals(member)) return;
 		}
-		else 
-			throw new InvalidActionException();
+		users.add(member);
+		roleMap.put(member, roleBuilder.makeMember());
 	}
 	
 	public void removeMember(User admin, User member) throws InvalidActionException
 	{
-		Role role = roleMap.get(admin);
-		if (role.getModifyMember())
+		RoleComponent adRole = roleMap.get(admin);
+		if (adRole.getBasicPermission("remove member"))
 			users.remove(member.getUserId());
 		else 
 			throw new InvalidActionException();
 	}
 	
-	public void createRole(User admin, String name, String p) throws InvalidActionException
+	public RoleComponent createRole(User admin, String name, ArrayList<Boolean> p) throws InvalidActionException
 	{
-		Role role = roleMap.get(admin);
-		if (role.getModifyRole())
-			roleBuilder.addRole(name, p);
+		RoleComponent adRole = roleMap.get(admin);
+		if (adRole.getBasicPermission("modify role"))
+			return roleBuilder.makeRole(name, p);
 		else 
 			throw new InvalidActionException();
 	}
 	
-	public void changeRole(User admin, User user, Role role) throws InvalidActionException
+	public void changeRole(User admin, User user, RoleComponent role) throws InvalidActionException
 	{
-		Role r = roleMap.get(admin);
-		if (r.getModifyRole())
+		RoleComponent adRole = roleMap.get(admin);
+		if (adRole.getBasicPermission("modify role"))
 			roleMap.put(user, role);
 		else 
 			throw new InvalidActionException();
@@ -139,8 +161,8 @@ public class Server implements Serializable
 	
 	public void changeServerName(User admin, String name) throws InvalidActionException
 	{
-		Role r = roleMap.get(admin);
-		if (r.getModifyAdmin())
+		RoleComponent adRole = roleMap.get(admin);
+		if (adRole.getBasicPermission("modify admin"))
 			setServerName(name);
 		else 
 			throw new InvalidActionException();
@@ -148,19 +170,17 @@ public class Server implements Serializable
 	
 	public void changeChannelName(User admin, Channel c, String name) throws InvalidActionException
 	{
-		Role r = roleMap.get(admin);
-		if (r.getModifyChannel())
+		RoleComponent adRole = roleMap.get(admin);
+		if (adRole.getBasicPermission("modify channel"))
 			c.setChannelName(name);
 		else
 			throw new InvalidActionException();
 	}
 	
-	public String invite(User admin, User user) throws InvalidActionException
+	public void invite(User admin, User user) throws InvalidActionException
 	{
-		Role role = roleMap.get(admin);
-		if (role.getModifyMember())
-			return "dummy url";
-		else 
+		RoleComponent adRole = roleMap.get(admin);
+		if (!adRole.getBasicPermission("add member"))
 			throw new InvalidActionException();
 	}
 	
@@ -289,7 +309,7 @@ public class Server implements Serializable
 	/**
 	 * @return the roleMap
 	 */
-	public HashMap<User, Role> getRoleMap()
+	public HashMap<User, RoleComponent> getRoleMap()
 	{
 		return roleMap;
 	}
@@ -297,7 +317,7 @@ public class Server implements Serializable
 	/**
 	 * @param roleMap the roleMap to set
 	 */
-	public void setRoleMap(HashMap<User, Role> roleMap)
+	public void setRoleMap(HashMap<User, RoleComponent> roleMap)
 	{
 		this.roleMap = roleMap;
 	}

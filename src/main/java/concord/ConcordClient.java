@@ -100,6 +100,7 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 			case 2:
 				Platform.runLater(()->{
 					model.setChannels(curServer.getChannels());
+					model.setUsers(curServer.getUsers());
 				});
 				break;
 			case 3:
@@ -148,6 +149,11 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		return cs.getDcByUserId(u.getUserId());
 	}
 	
+	public ArrayList<Channel> getChannelByUserId(int serverId) throws RemoteException
+	{
+		return cs.getChannelByUserId(u.getUserId(), serverId);
+	}
+	
 	public void createUser(String uName, String rName, String pw) throws RemoteException
 	{
 		cs.createUser(uName, rName, pw);
@@ -172,10 +178,10 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		cs.invite(u.getUserId(), userId, serverId);
 	}
 	
-	public void accept(int userId, int serverId) 
-			throws RemoteException, InvalidActionException
+	public void accept(int serverId) 
+			throws RemoteException
 	{
-		cs.accept(u.getUserId(), userId, serverId);
+		cs.accept(u.getUserId(), serverId);
 		curServer = cs.getServerById(serverId);
 	}
 	
@@ -226,6 +232,12 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		curServer = cs.getServerById(serverId);
 	}
 	
+	public boolean checkBasicPermission(int serverId, String name) 
+			throws RemoteException
+	{
+		return cs.checkBasicPermission(u.getUserId(), serverId, name);
+	}
+	
 	public void addPin(int serverId, Message m) throws RemoteException
 	{
 		cs.addPin(serverId, m);
@@ -238,7 +250,7 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		curServer = cs.getServerById(serverId);
 	}
 	
-	public void changeRole(int userId, Role r, int serverId) 
+	public void changeRole(int userId, RoleComponent r, int serverId) 
 			throws InvalidActionException, RemoteException
 	{
 		cs.changeRole(u.getUserId(), userId, r, serverId);

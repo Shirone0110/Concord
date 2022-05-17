@@ -114,4 +114,17 @@ public class DirectConversationManager
 		}
 		return false;
 	}
+
+	public DirectConversation findDcByBothUser(User admin, User noob)
+	{
+		for (DirectConversation dc: getDcListByUserId(admin.getUserId()))
+		{
+			if (dc.getUsers().size() != 2) continue;
+			User u = dc.getUsers().get(0);
+			User v = dc.getUsers().get(1);
+			if (u.equals(noob) || v.equals(noob))
+				return dc;
+		}
+		return createDc(admin, noob);
+	}
 }

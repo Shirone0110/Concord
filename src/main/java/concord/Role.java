@@ -1,126 +1,116 @@
 package concord;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Role implements Serializable
+public class Role extends RoleComponent implements Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1503871564097072036L;
-	private boolean modifyMember;
-	private boolean modifyModerator;
-	private boolean modifyChannel;
-	private boolean modifyAdmin; 
-	private boolean modifyRole;
-	private String permission;
+
+	private static final long serialVersionUID = -7426799483229481124L;
+	private String name;
+	private ArrayList<RoleComponent> basic;
+	private ArrayList<RoleComponent> channelRoles;
 	
-	public Role(String p)
+	public Role() {}
+	
+	public Role(String name, ArrayList<RoleComponent> basic)
 	{
-		modifyMember = p.charAt(0) == '1' ? true : false;
-		modifyModerator = p.charAt(1) == '1' ? true : false;
-		modifyChannel = p.charAt(2) == '1' ? true : false;
-		modifyAdmin = p.charAt(3) == '1' ? true : false;
-		modifyRole = p.charAt(4) == '1' ? true : false;
-		permission = p;
+		this.name = name;
+		this.basic = basic;
+		channelRoles = new ArrayList<RoleComponent>();
 	}
 	
-	public Role()
+	public void addChannel(String name)
 	{
-		this("00000");
-	}
-
-	/**
-	 * @return the addMember
-	 */
-	public boolean getModifyMember()
-	{
-		return modifyMember;
-	}
-
-	/**
-	 * @param addMember the addMember to set
-	 */
-	public void setModifyMember(boolean addMember)
-	{
-		this.modifyMember = addMember;
+		channelRoles.add(new ChannelRole(name));
 	}
 	
-	/**
-	 * @return the addModerator
-	 */
-	public boolean getModifyModerator()
+	public void removeChannel(String name)
 	{
-		return modifyModerator;
-	}
-
-	/**
-	 * @param addModerator the addModerator to set
-	 */
-	public void setModifyModerator(boolean addModerator)
-	{
-		this.modifyModerator = addModerator;
-	}
-
-	/**
-	 * @return the addChannel
-	 */
-	public boolean getModifyChannel()
-	{
-		return modifyChannel;
-	}
-
-	/**
-	 * @param addChannel the addChannel to set
-	 */
-	public void setModifyChannel(boolean addChannel)
-	{
-		this.modifyChannel = addChannel;
-	}
-
-	/**
-	 * @return the addAdmin
-	 */
-	public boolean getModifyAdmin()
-	{
-		return modifyAdmin;
-	}
-
-	/**
-	 * @param addAdmin the addAdmin to set
-	 */
-	public void setModifyAdmin(boolean addAdmin)
-	{
-		this.modifyAdmin = addAdmin;
-	}
-
-	public boolean getModifyRole()
-	{
-		return modifyRole;
-	}
-
-	public void setModifyRole(boolean changeRole)
-	{
-		this.modifyRole = changeRole;
+		for (RoleComponent role: channelRoles)
+		{
+			if (role.getName().equals(name))
+			{
+				channelRoles.remove(role);
+				return;
+			}
+		}
 	}
 	
-	public String getPermission()
+	public ArrayList<RoleComponent> getBasic()
 	{
-		return permission;
+		return basic;
+	}
+
+	public void setBasic(ArrayList<RoleComponent> roleList)
+	{
+		this.basic = roleList;
 	}
 	
-	public void setPermission(String s)
+	public String getName()
 	{
-		permission = s;
+		return name;
 	}
 	
-	@Override
-	public boolean equals(Object obj)
+	public void setName(String name)
 	{
-		if (obj == this) return true;
-		if (!(obj instanceof Role)) return false;
-		Role r = (Role) obj;
-		if (permission == r.getPermission()) return true;
+		this.name = name;
+	}
+	
+	public void addBasic(RoleComponent r)
+	{
+		basic.add(r);
+	}
+	
+	public void removeBasic(RoleComponent r)
+	{
+		basic.remove(r);
+	}
+	
+	public RoleComponent getChild(int index)
+	{
+		return basic.get(index);
+	}
+
+	public ArrayList<RoleComponent> getChannelRoles()
+	{
+		return channelRoles;
+	}
+
+	public void setChannelRoles(ArrayList<RoleComponent> channelRoles)
+	{
+		this.channelRoles = channelRoles;
+	}
+	
+	public boolean getBasicPermission(String name)
+	{
+		for (RoleComponent r: basic)
+		{
+			if (r.getName().equals(name))
+				return r.getAllowed();
+		}
 		return false;
+	}
+
+	public void setBasicPermission(String name, boolean p)
+	{
+		for (RoleComponent r: basic)
+		{
+			if (r.getName().equals(name))
+			{
+				r.setAllowed(p);
+				return;
+			}
+		}
+	}
+	
+	public RoleComponent getChannelPermission(String name)
+	{
+		for (RoleComponent r: channelRoles)
+		{
+			if (r.getName().equals(name))
+				return r;
+		}
+		return null;
 	}
 }

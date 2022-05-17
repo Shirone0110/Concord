@@ -7,6 +7,7 @@ import concord.Channel;
 import concord.ConcordClient;
 import concord.ConcordClientInterface;
 import concord.DirectConversation;
+import concord.Invitation;
 import concord.Main;
 import concord.Message;
 import javafx.event.ActionEvent;
@@ -59,6 +60,27 @@ public class DCController
         	otherUserLabel.setText(d.toString());
     	}
     }
+    
+    private void onSelectedMessage()
+    {
+    	Message m = dcMessageListView.getSelectionModel().getSelectedItem();
+    	if (m == null) return;
+    	String compare = "Hi " + client.getUser().getUserName() + "! Click on this message to join my server!";
+    	System.out.println(m.getContent());
+    	System.out.println(compare);
+    	if (m.getContent().equals(compare))
+    	{
+    		Invitation invi = (Invitation) m;
+    		if (invi.getOther().equals(client.getUser()))
+				try
+				{
+					client.accept(invi.getServer().getServerId());
+				} catch (RemoteException e)
+				{
+					model.showError();
+				}
+    	}
+    }
 	
 	public void setModel(ViewTransitionModel model, ConcordModel m, ConcordClient c)
 	{
@@ -67,6 +89,7 @@ public class DCController
 		client = c;
 		dcListView.setItems(concordModel.getDcs());
 		dcListView.getSelectionModel().selectedItemProperty().addListener((e)->{onSelectedDc();});
+		dcMessageListView.getSelectionModel().selectedItemProperty().addListener((e)->{onSelectedMessage();});
 		userNameTextField.setText(client.getUser().getUserName());
 	}
 	

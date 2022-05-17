@@ -3,6 +3,7 @@ package views;
 import java.rmi.RemoteException;
 
 import concord.ConcordClient;
+import concord.InvalidActionException;
 import concord.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -87,12 +88,32 @@ public class ManageUserController
     }
 
     @FXML
-    void onClickSubmit(ActionEvent event) 
+    void onClickSubmit(ActionEvent event) throws RemoteException
     {
     	if (addTarget != null)
     	{
-    		
+    		try
+			{
+				client.invite(addTarget.getUserId(), serverId);	
+			} catch (InvalidActionException e)
+			{
+				e.printStackTrace();
+			}
     	}
+    	
+    	if (delTarget != null)
+    	{
+    		try
+			{
+				client.removeMember(delTarget.getUserId(), serverId);
+			}
+    		catch (InvalidActionException e)
+			{
+				
+				e.printStackTrace();
+			}
+    	}
+    	stage.close();
     }
 
 }

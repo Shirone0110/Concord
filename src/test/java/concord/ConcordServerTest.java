@@ -63,6 +63,27 @@ class ConcordServerTest
 	}
 	
 	@Test
+	void preventRaceCondition()
+	{
+		testGetServerByUserId();
+		testGetDcByUserId();
+		testCreateUserServerDc();
+		testFindUserById();
+		testVerify();
+		testInvite();
+		testRemoveMember();
+		testChangeServerName();
+		testChangeChannelName();
+		testAddChannel();
+		testDeleteChannel();
+		testPin();
+		testChangeRole();
+		testProfile();
+		testSetUsername();
+		testSendMessage();
+		testXML();
+	}
+	
 	void testGetServerByUserId()
 	{
 		try
@@ -89,7 +110,6 @@ class ConcordServerTest
 		}
 	}
 	
-	@Test
 	void testGetDcByUserId()
 	{
 		try
@@ -134,7 +154,6 @@ class ConcordServerTest
 	 * Test create/delete server and dc because
 	 * it is unstable to have a separate testing due to race condition
 	 */
-	@Test
 	void testCreateUserServerDc()
 	{
 		try
@@ -161,15 +180,7 @@ class ConcordServerTest
 			// test get server by Id
 			assertEquals(s, cs.getServerById(s.getServerId()));
 			
-			// test delete Server
-			try
-			{
-				s.addMember(cs.findUserById(2), user_1);
-			} catch (InvalidActionException e1)
-			{
-				fail();
-				e1.printStackTrace();
-			}
+			s.addMember(user_1);
 			assertThrows(InvalidActionException.class, 
 					()->{ 
 						cs.deleteServer(user_1.getUserId(), s.getServerId());
@@ -257,7 +268,6 @@ class ConcordServerTest
 		}
 	}
 
-	@Test
 	void testFindUserById()
 	{
 		try
@@ -271,8 +281,7 @@ class ConcordServerTest
 			fail();
 		}
 	}
-	
-	@Test
+
 	void testVerify()
 	{
 		assertThrows(InvalidCredentialException.class, 
@@ -301,26 +310,18 @@ class ConcordServerTest
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
+
 	void testInvite()
 	{
 		User user_3 = new User();
 		Server s = cs.getConcord().getS().findServerById(0);
-		try
-		{
-			s.addMember(user_1, user_2);
-			assertThrows(InvalidActionException.class, 
-					()->{ 
-						cs.invite(user_2.getUserId(), user_3.getUserId(), 0);
-						cc.setUser(user_2);
-						cc.invite(user_3.getUserId(), 0);
-					});
-		} catch (InvalidActionException e)
-		{
-			fail();
-			e.printStackTrace();
-		}
+		s.addMember(user_2);
+		assertThrows(InvalidActionException.class, 
+				()->{ 
+					cs.invite(user_2.getUserId(), user_3.getUserId(), 0);
+					cc.setUser(user_2);
+					cc.invite(user_3.getUserId(), 0);
+				});
 		try
 		{
 			cs.invite(user_1.getUserId(), user_2.getUserId(), 0);
@@ -333,48 +334,14 @@ class ConcordServerTest
 			e.printStackTrace();
 		} 
 	}
-	
-	@Test
-	void testAccept()
-	{
-		User user_3 = new User();
-		Server s = cs.getConcord().getS().findServerById(0);
-		try
-		{
-			s.addMember(user_1, user_2);
-			assertThrows(InvalidActionException.class, 
-					()->{ 
-						cs.accept(user_2.getUserId(), user_3.getUserId(), 0);
-						cc.setUser(user_2);
-						cc.accept(user_3.getUserId(), 0);
-					});
-		} catch (InvalidActionException e)
-		{
-			fail();
-			e.printStackTrace();
-		}
-		
-		try
-		{
-			cs.accept(user_1.getUserId(), user_2.getUserId(), 0);
-			cc.setUser(user_1);
-			cc.accept(user_2.getUserId(), 0);
-		} 
-		catch (RemoteException | InvalidActionException e)
-		{
-			fail();
-			e.printStackTrace();
-		} 
-	}
-	
-	@Test
+
 	void testRemoveMember()
 	{
 		User user_3 = new User();
 		Server s = cs.getConcord().getS().findServerById(0);
 		try
 		{
-			s.addMember(user_1, user_2);
+			s.addMember(user_2);
 			cs.removeMember(user_1.getUserId(), user_2.getUserId(), 0);
 		} catch (InvalidActionException | RemoteException e)
 		{
@@ -384,7 +351,7 @@ class ConcordServerTest
 		
 		try
 		{
-			s.addMember(user_1, user_2);
+			s.addMember(user_2);
 			cc.setUser(user_1);
 			cc.removeMember(user_2.getUserId(), 0);
 		} catch (InvalidActionException | RemoteException e)
@@ -393,35 +360,20 @@ class ConcordServerTest
 			e.printStackTrace();
 		}
 		
-		try
-		{
-			s.addMember(user_1, user_2);
-			assertThrows(InvalidActionException.class, 
-					()->{ 
-						cs.removeMember(user_2.getUserId(), user_3.getUserId(), 0);
-					});
-		} catch (InvalidActionException e)
-		{
-			fail();
-			e.printStackTrace();
-		}
+		s.addMember(user_2);
+		assertThrows(InvalidActionException.class, 
+				()->{ 
+					cs.removeMember(user_2.getUserId(), user_3.getUserId(), 0);
+				});
 		
-		try
-		{
-			s.addMember(user_1, user_2);
-			assertThrows(InvalidActionException.class, 
-					()->{ 
-						cc.setUser(user_2);
-						cc.removeMember(user_3.getUserId(), 0);
-					});
-		} catch (InvalidActionException e)
-		{
-			fail();
-			e.printStackTrace();
-		}
+		s.addMember(user_2);
+		assertThrows(InvalidActionException.class, 
+				()->{ 
+					cc.setUser(user_2);
+					cc.removeMember(user_3.getUserId(), 0);
+				});
 	}
-	
-	@Test
+
 	void testChangeServerName() 
 	{
 		try
@@ -442,8 +394,7 @@ class ConcordServerTest
 					cc.changeServerName(0, "servername");
 				});
 	}
-	
-	@Test
+
 	void testChangeChannelName()
 	{
 		Server s = cs.getConcord().getS().findServerById(0);
@@ -471,7 +422,6 @@ class ConcordServerTest
 				});
 	}
 	
-	@Test
 	void testAddChannel()
 	{
 		try
@@ -497,7 +447,6 @@ class ConcordServerTest
 				});
 	}
 	
-	@Test
 	void testDeleteChannel()
 	{
 		Server s = cs.getConcord().getS().findServerById(0);
@@ -532,7 +481,7 @@ class ConcordServerTest
 		
 		assertThrows(InvalidActionException.class, 
 				()->{ 
-					s.addMember(user_1, user_2);
+					s.addMember(user_2);
 					Channel c = s.addChannel(user_1, "name");
 					cs.deleteChannel(user_2.getUserId(), s.getServerId(), c.getChannelId());
 					cc.setUser(user_2);
@@ -540,7 +489,6 @@ class ConcordServerTest
 				});
 	}
 	
-	@Test
 	void testPin()
 	{
 		Message m = new Message(user_1, "hello");
@@ -568,13 +516,12 @@ class ConcordServerTest
 		}
 	}
 	
-	@Test
 	void testChangeRole()
 	{
 		Server s = cs.getConcord().getS().findServerById(0);
 		RoleBuilder rb = s.getRoleBuilder();
-		Role mod = rb.buildRole("Moderator");
-		Role noob = new Role();
+		RoleComponent mod = rb.makeModerator();
+		RoleComponent noob = rb.makeMember();
 		try
 		{
 			cs.changeRole(user_1.getUserId(), user_2.getUserId(), mod, 0);
@@ -613,7 +560,6 @@ class ConcordServerTest
 				});
 	}
 	
-	@Test
 	void testBlock()
 	{
 		try
@@ -639,8 +585,7 @@ class ConcordServerTest
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
+
 	void testProfile()
 	{
 		cc.setUser(user_1);
@@ -668,8 +613,7 @@ class ConcordServerTest
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
+
 	void testSetUsername()
 	{
 		cc.setUser(user_1);
@@ -684,8 +628,7 @@ class ConcordServerTest
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
+
 	void testSendMessage()
 	{
 		// send message in direct conversation
@@ -720,8 +663,7 @@ class ConcordServerTest
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
+
 	void testXML()
 	{
 		cs.getConcord().storeToDisk();

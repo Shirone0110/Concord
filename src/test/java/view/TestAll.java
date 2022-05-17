@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -49,6 +50,8 @@ public class TestAll
 	@Start	//Before
 	private void start(Stage stage) throws RemoteException
 	{
+		File file = new File("Concord.xml");
+		file.delete();
 		cs = new ConcordServer();
 		registry = LocateRegistry.createRegistry(2099);
 		registry.rebind("CONCORD", cs);
@@ -124,11 +127,21 @@ public class TestAll
 		
 		robot.clickOn("#btnCreateServer");
 		
+		try
+		{
+			Thread.sleep(5000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Platform.runLater(()->{
 			ListView<Server> svList = (ListView<Server>) robot.lookup("#svListView")
 					.queryAll().iterator().next();
 			
 			assertEquals(1, svList.getItems().size());
+			System.out.println();
 			try
 			{
 				for (Server s: cs.getServerByUserId(0))

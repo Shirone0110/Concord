@@ -20,7 +20,7 @@ class ServerTest
 		s = new Server(ad, "test", 0, true);
 		noob = new User("noob", "noob", "234", 1);
 		rando = new User("rando", "rando", "345", 2);
-		c = new Channel("channel", s, 0);
+		c = new Channel("channel", s, 1);
 	}
 
 	@Test
@@ -70,6 +70,7 @@ class ServerTest
 	void testChannel()
 	{
 		ArrayList<Channel> tmpChannel = new ArrayList<Channel>();
+		tmpChannel.add(new Channel("general", s, 0));
 		tmpChannel.add(c);
 		try
 		{
@@ -82,7 +83,7 @@ class ServerTest
 			fail("threw exception when adding channel");
 		}
 		
-		tmpChannel.remove(0);
+		tmpChannel.remove(1);
 		try
 		{
 			s.deleteChannel(ad, c);
@@ -104,15 +105,15 @@ class ServerTest
 		
 		try
 		{
-			s.addMember(ad, noob);
-			tmpUser.add(noob);
-			assertEquals(tmpUser, s.getUsers());
+			s.invite(ad, noob);
 		} 
 		catch (InvalidActionException e)
 		{
 			e.printStackTrace();
 			fail("threw exception when adding user");
 		}
+		
+		s.addMember(noob);
 		
 		try
 		{
@@ -128,7 +129,7 @@ class ServerTest
 		
 		assertThrows(InvalidActionException.class, 
 				()->{ 
-					s.addMember(noob, rando);
+					s.invite(noob, rando);
 				});
 		
 		assertThrows(InvalidActionException.class, 
@@ -140,10 +141,12 @@ class ServerTest
 	@Test
 	void testRole()
 	{
+		ArrayList<Boolean> tmp = new ArrayList<Boolean>();
+		for (int i = 0; i < 9; i++) tmp.add(false);
 		try
 		{
-			s.createRole(ad, "noob", "00000");
-			s.changeRole(ad, noob, new Role());
+			RoleComponent r = s.createRole(ad, "noob", tmp);
+			s.changeRole(ad, noob, r);
 		} 
 		catch (InvalidActionException e)
 		{
@@ -153,7 +156,7 @@ class ServerTest
 		
 		assertThrows(InvalidActionException.class, 
 				()->{ 
-					s.createRole(noob, "rando", "00001");
+					s.createRole(noob, "rando", tmp);
 				});
 		
 		assertThrows(InvalidActionException.class, 
@@ -167,14 +170,15 @@ class ServerTest
 	{
 		try
 		{
-			assertEquals("dummy url", s.invite(ad, noob));
-			s.addMember(ad, noob);
+			s.invite(ad, noob);
 		} 
 		catch (InvalidActionException e)
 		{
 			e.printStackTrace();
 			fail("threw error on invite");
 		}
+		
+		s.addMember(noob);
 		
 		assertThrows(InvalidActionException.class, 
 				()->{ 

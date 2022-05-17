@@ -114,23 +114,37 @@ public class ServerController
     @FXML
     void onClickManageChannel(ActionEvent event) 
     {
-    	Stage stage = new Stage();
-    	stage.initModality(Modality.APPLICATION_MODAL);
-    	FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("../views/CreateChannelView.fxml"));
-		BorderPane view;
-		try
+    	try
 		{
-			view = loader.load();
-			CreateChannelController cont = loader.getController();
-			cont.setModel(concordModel, stage, client, serverId);
-			Scene s = new Scene(view);
-			stage.setScene(s);
-			stage.showAndWait();
-		} catch (IOException e)
+			if (!client.checkBasicPermission(serverId, "modify channel"))
+			{
+				model.showWarning("You do not have the permission to modify channels");
+			}
+			else
+			{
+				Stage stage = new Stage();
+		    	stage.initModality(Modality.APPLICATION_MODAL);
+		    	FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("../views/CreateChannelView.fxml"));
+				BorderPane view;
+				try
+				{
+					view = loader.load();
+					CreateChannelController cont = loader.getController();
+					cont.setModel(concordModel, stage, client, serverId);
+					Scene s = new Scene(view);
+					stage.setScene(s);
+					stage.showAndWait();
+				} catch (IOException e)
+				{
+					model.showError();
+					//e.printStackTrace();
+				}
+			}
+		} 
+    	catch (RemoteException e1)
 		{
 			model.showError();
-			e.printStackTrace();
 		}
     }
     
@@ -152,23 +166,36 @@ public class ServerController
     @FXML
     void onManageUserClick(ActionEvent event) 
     {
-    	Stage stage = new Stage();
-    	stage.initModality(Modality.APPLICATION_MODAL);
-    	FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("../views/ManageUserView.fxml"));
-		BorderPane view;
-		try
+    	try
 		{
-			view = loader.load();
-			ManageUserController cont = loader.getController();
-			cont.setModel(concordModel, stage, client, serverId);
-			Scene s = new Scene(view);
-			stage.setScene(s);
-			stage.showAndWait();
-		} catch (IOException e)
+			if (!client.checkBasicPermission(serverId, "add member") 
+			 && !client.checkBasicPermission(serverId, "remove member")) 
+			{
+				model.showWarning("You do not have the permission to manage members");
+			}
+			else
+			{
+				Stage stage = new Stage();
+		    	stage.initModality(Modality.APPLICATION_MODAL);
+		    	FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("../views/ManageUserView.fxml"));
+				BorderPane view;
+				try
+				{
+					view = loader.load();
+					ManageUserController cont = loader.getController();
+					cont.setModel(concordModel, stage, client, serverId);
+					Scene s = new Scene(view);
+					stage.setScene(s);
+					stage.showAndWait();
+				} catch (IOException e)
+				{
+					model.showError();
+				}
+			}
+		} catch (RemoteException e1)
 		{
 			model.showError();
-			e.printStackTrace();
 		}
     }
 }

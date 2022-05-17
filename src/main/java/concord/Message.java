@@ -9,11 +9,11 @@ public class Message implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 7763743107695651068L;
-	private User user;
-	private String content;
+	protected User user;
+	protected String content;
 	//private String time;
-	private Date time;
-	private Message replyTo;
+	protected Date time;
+	protected Message replyTo;
 	
 	public Message(User u, String text)
 	{

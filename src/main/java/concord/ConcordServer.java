@@ -106,6 +106,13 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	}
 	
 	@Override
+	public ArrayList<Channel> getChannelByUserId(int userId, int serverId) throws RemoteException
+	{
+		Server s = SM.findServerById(serverId);
+		
+	}
+	
+	@Override
 	public User verify(String username, String password) 
 			throws InvalidCredentialException, RemoteException
 	{
@@ -117,23 +124,37 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		return UM.findUserById(userId);
 	}
+	
+	@Override
+	public boolean checkBasicPermission(int userId, int serverId, String name) 
+			throws RemoteException
+	{
+		Server s = SM.findServerById(serverId);
+		User u = findUserById(userId);
+		RoleComponent r = s.getRoleMap().get(u);
+		return r.getBasicPermission(name);
+	}
 
 	@Override
 	public void invite(int adminId, int userId, int serverId) 
 			throws InvalidActionException, RemoteException
 	{
 		Server s = SM.findServerById(serverId);
-		s.invite(findUserById(adminId), findUserById(userId));
+		User ad = findUserById(adminId);
+		User u = findUserById(userId);
+		s.invite(ad, u);
+		DirectConversation d = DCM.findDcByBothUser(ad, u);
+		d.addMessage(new Invitation(ad, u, s));
 		notifyObservers(3);
 	}
 
 	@Override
-	public void accept(int adminId, int userId, int serverId) 
-			throws RemoteException, InvalidActionException
+	public void accept(int userId, int serverId) 
+			throws RemoteException
 	{
 		Server s = SM.findServerById(serverId);
-		s.addMember(findUserById(adminId), findUserById(userId));
-		notifyObservers(2);
+		s.addMember(findUserById(userId));
+		notifyObservers(1);
 	}
 
 	@Override
@@ -216,7 +237,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	}
 
 	@Override
-	public void changeRole(int adminId, int userId, Role r, int serverId) 
+	public void changeRole(int adminId, int userId, RoleComponent r, int serverId) 
 			throws InvalidActionException, RemoteException
 	{
 		Server s = SM.findServerById(serverId);

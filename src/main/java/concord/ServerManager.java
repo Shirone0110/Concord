@@ -62,8 +62,8 @@ public class ServerManager
 		{
 			if (s.getServerId() == serverId)
 			{
-				Role role = s.getRoleMap().get(admin);
-				if (role.getModifyAdmin())
+				RoleComponent role = s.getRoleMap().get(admin);
+				if (role.getBasicPermission("modify admin"))
 					servers.remove(s);
 				else throw new InvalidActionException();
 				return;

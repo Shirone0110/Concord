@@ -1,67 +1,86 @@
 package concord;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class RoleBuilder implements Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -321992487966906928L;
-	private HashMap<String, String> permission;
+	
+	private static final long serialVersionUID = -5506648028671478543L;
+	private ArrayList<String> basicNames;
+	private ArrayList<RoleComponent> roles;
 	
 	public RoleBuilder()
 	{
-		permission = new HashMap<String, String>();
+		basicNames = new ArrayList<String>();
+		// never delete these 2
+		basicNames.add("view channel");
+		basicNames.add("send message");
+		
+		// might be deleted
+		basicNames.add("add member");
+		basicNames.add("remove member");
+		basicNames.add("modify admin");
+		basicNames.add("modify moderator");
+		basicNames.add("modify channel");
+		basicNames.add("modify role");
+		basicNames.add("modify message");
+		
+		roles = new ArrayList<RoleComponent>();
+		
+		roles.add(makeAdmin());
+		roles.add(makeModerator());
+		roles.add(makeMember());
 	}
 	
-	public void addRole(String name, String p)
+	public RoleComponent makeRole(String name, ArrayList<Boolean> permissions)
 	{
-		if (!permission.containsKey(name))
-			permission.put(name, p);
-		else buildRole(name);
+		ArrayList<RoleComponent> basic = new ArrayList<RoleComponent>();
+		for (int i = 0; i < basicNames.size(); i++)
+		{
+			basic.add(new Permission(basicNames.get(i), permissions.get(i)));
+		}
+		RoleComponent r = new Role(name, basic);
+		roles.add(r);
+		return r;
 	}
 	
-	public Role buildRole(String name)
+	public RoleComponent makeAdmin()
 	{
-		return new Role(permission.get(name));
+		ArrayList<RoleComponent> basic = new ArrayList<RoleComponent>();
+		for (String s: basicNames)
+		{
+			basic.add(new Permission(s, true));
+		}
+		return new Role("Admin", basic);
+	}
+	
+	public RoleComponent makeMember()
+	{
+		ArrayList<RoleComponent> basic = new ArrayList<RoleComponent>();
+		for (int i = 0; i < basicNames.size(); i++)
+			basic.add(new Permission(basicNames.get(i), false));
+		RoleComponent r = new Role("Member", basic);
+		r.setBasicPermission("view channel", true);
+		r.setBasicPermission("send message", true);
+		return r;
+	}
+	
+	public RoleComponent makeModerator()
+	{
+		RoleComponent r = makeAdmin();
+		r.setBasicPermission("modify admin", false);
+		r.setBasicPermission("modify moderator", false);
+		return r;
 	}
 
-	/**
-	 * @return the permission
-	 */
-	public HashMap<String, String> getPermission()
+	public ArrayList<RoleComponent> getRoles()
 	{
-		return permission;
+		return roles;
 	}
 
-	/**
-	 * @param permission the permission to set
-	 */
-	public void setPermission(HashMap<String, String> permission)
+	public void setRoles(ArrayList<RoleComponent> roles)
 	{
-		this.permission = permission;
+		this.roles = roles;
 	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(permission);
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RoleBuilder other = (RoleBuilder) obj;
-		return Objects.equals(permission, other.permission);
-	}
-
 }

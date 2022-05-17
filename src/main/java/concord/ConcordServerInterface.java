@@ -24,8 +24,8 @@ public interface ConcordServerInterface extends Remote
 			throws RemoteException;
 	public void invite(int adminId, int userId, int serverId) 
 			throws InvalidActionException, RemoteException;
-	public void accept(int adminId, int userId, int serverId) 
-			throws InvalidActionException, RemoteException;
+	public void accept(int userId, int serverId) 
+			throws RemoteException;
 	public void removeMember(int adminId, int userId, int serverId)
 			throws RemoteException, InvalidActionException;
 	public void changeServerName(int userId, int serverId, String name) 
@@ -40,7 +40,7 @@ public interface ConcordServerInterface extends Remote
 			throws RemoteException;
 	public void unPin(int serverId, Message m)
 			throws RemoteException;
-	public void changeRole(int adminId, int userId, Role r, int serverId) 
+	public void changeRole(int adminId, int userId, RoleComponent r, int serverId) 
 			throws RemoteException, InvalidActionException;
 	public void addBlock(int blockerId, int userId)
 			throws RemoteException;
@@ -72,4 +72,8 @@ public interface ConcordServerInterface extends Remote
 			throws RemoteException;
 	public void deleteServer(int adminId, int serverId)
 			throws RemoteException, InvalidActionException;
+	boolean checkBasicPermission(int userId, int serverId, String name)
+			throws RemoteException;
+	public ArrayList<Channel> getChannelByUserId(int userId, int serverId)
+			throws RemoteException;
 }
