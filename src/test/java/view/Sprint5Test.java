@@ -759,6 +759,126 @@ public class Sprint5Test
 		robot.clickOn("#btnSubmit");
 	}
 	
+	public void testAddMember(FxRobot robot) throws RemoteException
+	{
+		switchToAdmin(robot);
+		
+		robot.clickOn("#btnManageRole");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#ddChooseRole");
+		robot.clickOn("#Member");
+		
+		robot.clickOn("#chkAddMember");
+		robot.clickOn("#chkRemoveMember");
+		robot.clickOn("#btnSubmit");
+		
+		switchToUser(robot);
+
+		robot.clickOn("#btnNewUser");
+		
+		try
+		{
+			Thread.sleep(1000); // wait for new server to load up before clicking
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#btnAddUser");
+		robot.clickOn("#new");
+		
+		robot.clickOn("#btnSubmit");
+	}
+	
+	@SuppressWarnings("unchecked")
+	void testModifyChannel(FxRobot robot)
+	{
+		switchToAdmin(robot);
+		
+		robot.clickOn("#btnManageRole");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#ddChooseRole");
+		robot.clickOn("#Member");
+		
+		robot.clickOn("#chkModifyChannel");
+		robot.clickOn("#btnSubmit");
+		
+		switchToUser(robot);
+		
+		robot.clickOn("#btnManageChannel");
+		robot.clickOn("#newChannelName");
+		robot.write("newchannel");
+		robot.clickOn("#btnCreateChannel");
+		
+		Platform.runLater(()->{
+			ListView<Channel> cnList = (ListView<Channel>) robot.lookup("#cnListView")
+					.queryAll().iterator().next();
+			
+			assertEquals(3, cnList.getItems().size());
+		});
+		
+		robot.clickOn("#btnManageChannel");
+		robot.clickOn("#deleteChannel");
+		
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#newchannel");
+		robot.clickOn("#btnCreateChannel");
+		
+		Platform.runLater(()->{
+			ListView<Channel> cnList = (ListView<Channel>) robot.lookup("#cnListView")
+					.queryAll().iterator().next();
+			
+			assertEquals(2, cnList.getItems().size());
+		});
+	}
+	
+	public void testRemoveMember(FxRobot robot)
+	{
+		switchToAdmin(robot);
+		robot.clickOn("#btnNewUser");
+		
+		try
+		{
+			Thread.sleep(1000); // wait for new server to load up before clicking
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#btnRemoveUser");
+		robot.clickOn("#bojii");
+		
+		robot.clickOn("#btnSubmit");
+		
+		robot.clickOn("#btnMenu");
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testAll(FxRobot robot) throws RemoteException
@@ -787,6 +907,20 @@ public class Sprint5Test
 		
 		robot.clickOn("#newPassword");
 		robot.write("234");
+		
+		robot.clickOn("#btnCreateAcc");
+		robot.clickOn("#btnBack");
+		
+		robot.clickOn("#btnNewAcc");
+		
+		robot.clickOn("#newUsername");
+		robot.write("new");
+		
+		robot.clickOn("#newRealname");
+		robot.write("new");
+		
+		robot.clickOn("#newPassword");
+		robot.write("345");
 		
 		robot.clickOn("#btnCreateAcc");
 		robot.clickOn("#btnBack");
@@ -909,6 +1043,11 @@ public class Sprint5Test
 		// test check boxes working
 		testCheckBoxes(robot);
 		
+		testAddMember(robot);
+		
+		testModifyChannel(robot);
+		
+		testRemoveMember(robot);
 	}
 	
 }
