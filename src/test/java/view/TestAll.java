@@ -240,7 +240,7 @@ public class TestAll
 		robot.clickOn("#btnManageChannel");
 		
 		robot.clickOn("#newChannelName");
-		robot.write("Chan 1");
+		robot.write("Chan1");
 		
 		robot.clickOn("#btnCreateChannel");
 		
@@ -250,7 +250,7 @@ public class TestAll
 			
 			assertEquals(2, cnList.getItems().size());
 			assertEquals("general", cnList.getItems().get(0).getChannelName());
-			assertEquals("Chan 1", cnList.getItems().get(1).getChannelName());
+			assertEquals("Chan1", cnList.getItems().get(1).getChannelName());
 			
 			cnList.scrollTo(1);
 			cnList.getSelectionModel().clearAndSelect(1);
@@ -436,8 +436,8 @@ public class TestAll
 		
 		robot.clickOn("#btnManageChannel");
 		
-		robot.clickOn("#delChannelName");
-		robot.write("Chan 1");
+		robot.clickOn("#deleteChannel");
+		robot.clickOn("#Chan1");
 		
 		robot.clickOn("#btnCreateChannel");
 		Platform.runLater(()->{			
