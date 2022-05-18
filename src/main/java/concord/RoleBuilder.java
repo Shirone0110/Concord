@@ -8,7 +8,7 @@ public class RoleBuilder implements Serializable
 	
 	private static final long serialVersionUID = -5506648028671478543L;
 	private ArrayList<String> basicNames;
-	private ArrayList<RoleComponent> roles;
+	private ArrayList<RoleComponent> roleList;
 	
 	public RoleBuilder()
 	{
@@ -26,11 +26,11 @@ public class RoleBuilder implements Serializable
 		basicNames.add("modify role");
 		basicNames.add("modify message");
 		
-		roles = new ArrayList<RoleComponent>();
+		roleList = new ArrayList<RoleComponent>();
 		
-		roles.add(makeAdmin());
-		roles.add(makeModerator());
-		roles.add(makeMember());
+		roleList.add(makeAdmin());
+		roleList.add(makeModerator());
+		roleList.add(makeMember());
 	}
 	
 	public RoleComponent makeRole(String name, ArrayList<Boolean> permissions)
@@ -40,8 +40,8 @@ public class RoleBuilder implements Serializable
 		{
 			basic.add(new Permission(basicNames.get(i), permissions.get(i)));
 		}
-		RoleComponent r = new Role(name, basic);
-		roles.add(r);
+		Role r = new Role(name, basic);
+		roleList.add(r);
 		return r;
 	}
 	
@@ -60,7 +60,7 @@ public class RoleBuilder implements Serializable
 		ArrayList<RoleComponent> basic = new ArrayList<RoleComponent>();
 		for (int i = 0; i < basicNames.size(); i++)
 			basic.add(new Permission(basicNames.get(i), false));
-		RoleComponent r = new Role("Member", basic);
+		Role r = new Role("Member", basic);
 		r.setBasicPermission("view channel", true);
 		r.setBasicPermission("send message", true);
 		return r;
@@ -68,19 +68,41 @@ public class RoleBuilder implements Serializable
 	
 	public RoleComponent makeModerator()
 	{
-		RoleComponent r = makeAdmin();
+		Role r = (Role) makeAdmin();
+		r.setName("Moderator");
 		r.setBasicPermission("modify admin", false);
 		r.setBasicPermission("modify moderator", false);
 		return r;
 	}
-
-	public ArrayList<RoleComponent> getRoles()
+	
+	public RoleComponent getRole(String name)
 	{
-		return roles;
+		for (RoleComponent r: roleList)
+		{
+			Role cur = (Role) r;
+			if (cur.getName().equals(name))
+				return cur;
+		}
+		return null;
 	}
 
-	public void setRoles(ArrayList<RoleComponent> roles)
+	public ArrayList<RoleComponent> getRoleList()
 	{
-		this.roles = roles;
+		return roleList;
+	}
+
+	public void setRoleList(ArrayList<RoleComponent> roles)
+	{
+		this.roleList = roles;
+	}
+	
+	public ArrayList<String> getBasicNames()
+	{
+		return basicNames;
+	}
+
+	public void setBasicNames(ArrayList<String> basicNames)
+	{
+		this.basicNames = basicNames;
 	}
 }

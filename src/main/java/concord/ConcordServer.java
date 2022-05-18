@@ -108,8 +108,18 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	@Override
 	public ArrayList<Channel> getChannelByUserId(int userId, int serverId) throws RemoteException
 	{
+		/*
+		 * Get list of channel that user can view
+		 */
 		Server s = SM.findServerById(serverId);
-		
+		ArrayList<Channel> chanList = new ArrayList<Channel>();
+		User u = findUserById(userId);
+		for (Channel c: s.getChannels())
+		{
+			if (s.checkViewChannel(u, c))
+				chanList.add(c);
+		}
+		return chanList;
 	}
 	
 	@Override
@@ -123,6 +133,19 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	public User findUserById(int userId) throws RemoteException
 	{
 		return UM.findUserById(userId);
+	}
+	
+	@Override 
+	public RoleBuilder getRoleBuilderByServerId(int serverId) throws RemoteException
+	{
+		Server s = SM.findServerById(serverId);
+		return s.getRoleBuilder();
+	}
+	
+	@Override
+	public ArrayList<RoleComponent> getRoleByServerId(int serverId) throws RemoteException
+	{
+		return getRoleBuilderByServerId(serverId).getRoleList();
 	}
 	
 	@Override
@@ -181,6 +204,7 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 			throws RemoteException, InvalidActionException
 	{
 		SM.deleteServer(findUserById(adminId), serverId);
+		notifyObservers(1);
 	}
 	
 	@Override
@@ -237,11 +261,47 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	}
 
 	@Override
+	public void createRole(int userId, int serverId, String roleName, ArrayList<Boolean> perm)
+			throws RemoteException, InvalidActionException
+	{
+		Server s = SM.findServerById(serverId);
+		User u = findUserById(userId);
+		s.createRole(u, roleName, perm);
+		notifyObservers(2);
+	}
+	
+	@Override
+	public void updateRole(String roleName, int serverId, ArrayList<Boolean> permission) 
+			throws RemoteException
+	{
+		Server s = SM.findServerById(serverId);
+		s.updateRole(roleName, permission);
+		notifyObservers(1);
+		notifyObservers(2);
+	}
+	
+	@Override
 	public void changeRole(int adminId, int userId, RoleComponent r, int serverId) 
 			throws InvalidActionException, RemoteException
 	{
 		Server s = SM.findServerById(serverId);
 		s.changeRole(findUserById(adminId), findUserById(userId), r);
+		notifyObservers(2);
+	}
+	
+	@Override
+	public boolean checkSendMessage(int userId, int channelId, int serverId) throws RemoteException
+	{
+		Server s = SM.findServerById(serverId);
+		return s.checkSendMessage(findUserById(userId), getChannelById(serverId, channelId));
+	}
+
+	@Override
+	public void updateChannelRole(String roleName, int channelId, int serverId, boolean view, boolean send)
+			throws RemoteException
+	{
+		Server s = SM.findServerById(serverId);
+		s.updateChannelRole(roleName, s.getChannelById(channelId), view, send);
 		notifyObservers(2);
 	}
 
@@ -338,4 +398,5 @@ public class ConcordServer extends UnicastRemoteObject implements ConcordServerI
 	{
 		this.concord = concord;
 	}
+	
 }

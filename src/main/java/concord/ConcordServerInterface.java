@@ -76,4 +76,16 @@ public interface ConcordServerInterface extends Remote
 			throws RemoteException;
 	public ArrayList<Channel> getChannelByUserId(int userId, int serverId)
 			throws RemoteException;
+	public ArrayList<RoleComponent> getRoleByServerId(int serverId)
+			throws RemoteException;
+	public void createRole(int userId, int serverId, String roleName, ArrayList<Boolean> perm)
+			throws RemoteException, InvalidActionException;
+	public RoleBuilder getRoleBuilderByServerId(int serverId) 
+			throws RemoteException;
+	public void updateRole(String roleName, int serverId, ArrayList<Boolean> permission)
+			throws RemoteException;
+	public void updateChannelRole(String roleName, int channelId, int serverId, boolean view, boolean send)
+			throws RemoteException;
+	public boolean checkSendMessage(int userId, int channelId, int serverId) 
+			throws RemoteException;
 }

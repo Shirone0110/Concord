@@ -36,7 +36,7 @@ public class Server implements Serializable
 		roleMap = new HashMap<User, RoleComponent>();
 		
 		users.add(admin);
-		roleMap.put(admin, roleBuilder.makeAdmin());
+		roleMap.put(admin, roleBuilder.getRole("Admin"));
 		try
 		{
 			addChannel(admin, "general");
@@ -59,8 +59,10 @@ public class Server implements Serializable
 		 * If general permission = true -> check child
 		 * else -> false
 		 */
-		RoleComponent role = roleMap.get(u);
+		Role role = (Role) roleMap.get(u);
+		System.out.println("User role: " + role.getName() + " view: " + role.getBasicPermission("view channel"));
 		if (!role.getBasicPermission("view channel")) return false;
+		System.out.println(c.getChannelName() + ": " + role.getChannelPermission(c.getChannelName()));
 		return role.getChannelPermission(c.getChannelName()).getViewChannel().getAllowed();
 	}
 	
@@ -70,7 +72,8 @@ public class Server implements Serializable
 		 * If general permission = true -> check child
 		 * else -> false
 		 */
-		RoleComponent role = roleMap.get(u);
+		Role role = (Role) roleMap.get(u);
+		System.out.println(role.getName());
 		if (!role.getBasicPermission("send message")) return false;
 		return role.getChannelPermission(c.getChannelName()).getSendMessage().getAllowed();
 	}
@@ -81,7 +84,7 @@ public class Server implements Serializable
 		if (role.getBasicPermission("modify channel"))
 		{
 			Channel c = new Channel(name, this, channelCount);
-			for (RoleComponent r: roleBuilder.getRoles())
+			for (RoleComponent r: roleBuilder.getRoleList())
 			{
 				Role cur = (Role) r;
 				cur.addChannel(name);
@@ -129,7 +132,7 @@ public class Server implements Serializable
 			if (u.equals(member)) return;
 		}
 		users.add(member);
-		roleMap.put(member, roleBuilder.makeMember());
+		roleMap.put(member, roleBuilder.getRole("Member"));
 	}
 	
 	public void removeMember(User admin, User member) throws InvalidActionException
@@ -145,7 +148,12 @@ public class Server implements Serializable
 	{
 		RoleComponent adRole = roleMap.get(admin);
 		if (adRole.getBasicPermission("modify role"))
-			return roleBuilder.makeRole(name, p);
+		{
+			Role newRole = (Role) roleBuilder.makeRole(name, p);
+			for (Channel c: channels)
+				newRole.addChannel(c.getChannelName());
+			return newRole;
+		}
 		else 
 			throw new InvalidActionException();
 	}
@@ -157,6 +165,34 @@ public class Server implements Serializable
 			roleMap.put(user, role);
 		else 
 			throw new InvalidActionException();
+	}
+	
+	public void updateRole(String roleName, ArrayList<Boolean> perm) 
+	{
+		ArrayList<String> nameList = roleBuilder.getBasicNames();
+		Role cur = (Role) roleBuilder.getRole(roleName);
+		System.out.println("Updating " + cur.getName());
+		for (int i = 0; i < perm.size(); i++)
+		{
+			cur.setBasicPermission(nameList.get(i), perm.get(i));
+			System.out.print(perm.get(i) + " ");
+		}
+		System.out.println();
+	}
+	
+	public void updateChannelRole(String roleName, Channel c, boolean view, boolean send)
+	{
+		Role cur = (Role) roleBuilder.getRole(roleName);
+		ChannelRole chanRole = cur.getChannelPermission(c.getChannelName());
+		chanRole.updateSendMessage(send);
+		chanRole.updateViewChannel(view);
+	}
+	
+
+	public ChannelRole getChannelRole(User u, Channel c)
+	{
+		Role cur = (Role) roleMap.get(u);
+		return cur.getChannelPermission(c.getChannelName());
 	}
 	
 	public void changeServerName(User admin, String name) throws InvalidActionException

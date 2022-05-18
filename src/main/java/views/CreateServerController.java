@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import models.ConcordModel;
+import models.ViewTransitionModel;
 import models.ViewTransitionModelInterface;
 
 public class CreateServerController 
@@ -33,12 +34,14 @@ public class CreateServerController
     Stage stage;
     ConcordClient client;
     ConcordModel model;
+    ViewTransitionModel viewModel;
     
-    public void setModel(Stage s, ConcordClient c, ConcordModel m)
+    public void setModel(Stage s, ConcordClient c, ConcordModel m, ViewTransitionModel vm)
     {
     	stage = s;
     	client = c;
     	model = m;
+    	viewModel = vm;
     	privGroup = new ToggleGroup();
     	radbtnYes.setToggleGroup(privGroup);
     	radbtnNo.setToggleGroup(privGroup);
@@ -53,21 +56,30 @@ public class CreateServerController
 
     @FXML
     void onClickSubmit(ActionEvent event) 
-    		throws RemoteException, InvalidActionException 
     {
     	String nameCreate = newNameTextField.getText();
     	boolean priv = radbtnYes.isSelected();
     	String nameDel = deleteServerTextField.getText();
     	stage.close();
-    	if (nameCreate != "")
-    		client.createServer(nameCreate, priv);
-    	if (nameDel != "")
+    	try
     	{
-    		for (Server s: model.getServers())
-    		{
-    			if (s.getServerName().equals(nameDel))
-    				client.deleteServer(s.getServerId());
-    		}
-    	}
+    		if (nameCreate != "")
+        		client.createServer(nameCreate, priv);
+        	if (nameDel != "")
+        	{
+        		for (Server s: model.getServers())
+        		{
+        			if (s.getServerName().equals(nameDel))
+        				client.deleteServer(s.getServerId());
+        		}
+        	}
+    	}	
+    	catch (RemoteException e)
+		{
+			viewModel.showError();
+		} catch (InvalidActionException e)
+		{
+			viewModel.showWarning("You do not have the permission to delete this server.");
+		}
     }
 }

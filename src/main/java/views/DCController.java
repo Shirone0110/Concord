@@ -67,7 +67,6 @@ public class DCController
     	if (m == null) return;
     	String compare = "Hi " + client.getUser().getUserName() + "! Click on this message to join my server!";
     	System.out.println(m.getContent());
-    	System.out.println(compare);
     	if (m.getContent().equals(compare))
     	{
     		Invitation invi = (Invitation) m;

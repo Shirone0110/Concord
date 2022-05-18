@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ManageRoleController">
+   <center>
+      <VBox prefHeight="430.0" prefWidth="330.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Manage Roles">
+               <VBox.margin>
+                  <Insets left="20.0" top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="30.0" prefWidth="200.0">
+               <children>
+                  <Label text="Manage existing role: ">
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <MenuButton fx:id="chooseRoleDropDown" mnemonicParsing="false" text="Choose Role">
+                     <HBox.margin>
+                        <Insets left="10.0" top="7.0" />
+                     </HBox.margin>
+                  </MenuButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="10.0" prefWidth="200.0">
+               <children>
+                  <Label text="New role name:">
+                     <HBox.margin>
+                        <Insets top="2.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="newRoleName" editable="false" promptText="New Role Name">
+                     <HBox.margin>
+                        <Insets left="43.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <Label text="Manage role's permission:">
+               <VBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <CheckBox fx:id="chkViewChannel" mnemonicParsing="false" text="View Channels">
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="chkSendMessage" mnemonicParsing="false" text="Send Messages">
+                     <HBox.margin>
+                        <Insets left="50.0" top="10.0" />
+                     </HBox.margin>
+                  </CheckBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <CheckBox fx:id="chkRemoveMember" mnemonicParsing="false" text="Remove Members">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="chkAddMember" mnemonicParsing="false" text="Add Members">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </CheckBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <CheckBox fx:id="chkModifyAdmin" mnemonicParsing="false" text="Modify Admins / Manage Server">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </CheckBox>
+            <HBox prefHeight="45.0" prefWidth="200.0">
+               <children>
+                  <CheckBox fx:id="chkModifyMod" mnemonicParsing="false" text="Modify Moderators">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="chkModifyChannel" mnemonicParsing="false" text="Modify Channels">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </CheckBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="30.0" prefWidth="200.0">
+               <children>
+                  <CheckBox fx:id="chkModifyRole" mnemonicParsing="false" text="Modify Roles">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="chkModifyMessage" mnemonicParsing="false" text="Modify Messages">
+                     <HBox.margin>
+                        <Insets left="59.0" />
+                     </HBox.margin>
+                  </CheckBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="30.0" prefWidth="200.0">
+               <children>
+                  <Label text="Manage Channel Permission: ">
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <MenuButton fx:id="channelDropDown" mnemonicParsing="false" text="Choose Channel">
+                     <HBox.margin>
+                        <Insets left="10.0" top="7.0" />
+                     </HBox.margin>
+                  </MenuButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="30.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+               <children>
+                  <CheckBox fx:id="chkSpecificViewChannel" mnemonicParsing="false" text="View Channel">
+                     <HBox.margin>
+                        <Insets left="20.0" top="5.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="chkSpecificSendMessage" mnemonicParsing="false" text="Send Message">
+                     <HBox.margin>
+                        <Insets left="58.0" top="5.0" />
+                     </HBox.margin>
+                  </CheckBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onClickSave" text="Save">
+               <HBox.margin>
+                  <Insets left="20.0" right="100.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickCancel" text="Cancel">
+               <HBox.margin>
+                  <Insets left="100.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

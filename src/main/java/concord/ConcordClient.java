@@ -70,7 +70,7 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		return u;
 	}
 	
-	public void notifyChanged(int index) throws RemoteException
+	public void notifyChanged(int index) 
 	{
 		/*
 		 * 0 = create new User <-> no change
@@ -154,6 +154,16 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		return cs.getChannelByUserId(u.getUserId(), serverId);
 	}
 	
+	public ArrayList<RoleComponent> getRoleByServerId(int serverId) throws RemoteException
+	{
+		return cs.getRoleByServerId(serverId);
+	}
+	
+	public RoleBuilder getRoleBuilderByServerId(int serverId) throws RemoteException
+	{
+		return cs.getRoleBuilderByServerId(serverId);
+	}
+	
 	public void createUser(String uName, String rName, String pw) throws RemoteException
 	{
 		cs.createUser(uName, rName, pw);
@@ -235,6 +245,7 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 	public boolean checkBasicPermission(int serverId, String name) 
 			throws RemoteException
 	{
+		curServer = cs.getServerById(serverId);
 		return cs.checkBasicPermission(u.getUserId(), serverId, name);
 	}
 	
@@ -247,6 +258,13 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 	public void unPin(int serverId, Message m) throws RemoteException
 	{
 		cs.unPin(serverId, m);
+		curServer = cs.getServerById(serverId);
+	}
+	
+	public void createRole(int serverId, String roleName, ArrayList<Boolean> perm)
+			throws InvalidActionException, RemoteException
+	{
+		cs.createRole(u.getUserId(), serverId, roleName, perm);
 		curServer = cs.getServerById(serverId);
 	}
 	
@@ -310,4 +328,25 @@ public class ConcordClient extends UnicastRemoteObject implements ConcordClientI
 		curServer = cs.getServerById(serverId);
 		curChannel = cs.getChannelById(serverId, channelId);
 	}
+
+	public void updateRole(String roleName, int serverId, ArrayList<Boolean> permission)
+			throws RemoteException
+	{
+		cs.updateRole(roleName, serverId, permission);
+		curServer = cs.getServerById(serverId);
+	}
+
+	public void updateChannelRole(String roleName, int channelId, int serverId, boolean view, boolean send)
+			throws RemoteException
+	{
+		cs.updateChannelRole(roleName, channelId, serverId, view, send);
+		curServer = cs.getServerById(serverId);
+	}
+
+	public boolean checkSendMessage(int channelId, int serverId) throws RemoteException
+	{
+		curServer = cs.getServerById(serverId);
+		return cs.checkSendMessage(u.getUserId(), channelId, serverId);
+	}
+	
 }

@@ -17,21 +17,25 @@ public class Permission extends RoleComponent implements Serializable
 		this.allowed = allowed;
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
+	@Override
 	public void setName(String name)
 	{
 		this.name = name;
 	}
 	
+	@Override
 	public Boolean getAllowed()
 	{
 		return allowed;
 	}
 	
+	@Override
 	public void setAllowed(Boolean allowed)
 	{
 		this.allowed = allowed;

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 import concord.Channel;
+import concord.ChannelRole;
 import concord.ConcordClient;
 import concord.ConcordClientInterface;
 import concord.Main;
@@ -62,6 +63,16 @@ public class ServerController
     		messageListView.setItems(concordModel.getMessages());
     		channelId = c.getChannelId();
     		serverId = c.getFrom().getServerId();
+    		try
+			{
+				if (client.checkSendMessage(channelId, serverId)) 
+					messageTextField.setDisable(false);
+				else 
+					messageTextField.setDisable(true);
+			} catch (RemoteException e)
+			{
+				model.showError();
+			}
     	}
     }
 	
@@ -77,15 +88,20 @@ public class ServerController
 		
 		channelListView.setItems(concordModel.getChannels());
 		channelListView.getSelectionModel().selectedItemProperty().addListener((e)->{onSelectedChannel();});
+		if (concordModel.getChannels().size() > 0)
+			channelListView.getSelectionModel().select(0);
 		
 		messageListView.setItems(concordModel.getMessages());
 		usersListView.setItems(concordModel.getUsers());
 		
 		// set ids for later use
-		Channel chan = channelListView.getItems().get(0);
-		channelNameLabel.setText(chan.getChannelName());
-		channelId = chan.getChannelId();
-		serverId = chan.getFrom().getServerId();
+		if (channelListView.getItems().size() > 0)
+		{
+			Channel chan = channelListView.getItems().get(0);
+			channelNameLabel.setText(chan.getChannelName());
+			channelId = chan.getChannelId();
+			serverId = chan.getFrom().getServerId();
+		}
 	}
 
     @FXML
@@ -98,17 +114,6 @@ public class ServerController
     void btnSettingsClicked(ActionEvent event) 
     {
     	model.showUser();
-    }
-
-    @FXML
-    void channelListViewClicked(MouseEvent event) 
-    {
-    	Channel c = channelListView.getSelectionModel().getSelectedItem();
-    	channelNameLabel.setText(c.getChannelName());
-    	concordModel.setMessages(c.getMessages());
-		messageListView.setItems(concordModel.getMessages());
-		channelId = c.getChannelId();
-		serverId = c.getFrom().getServerId();
     }
     
     @FXML
@@ -125,13 +130,13 @@ public class ServerController
 				Stage stage = new Stage();
 		    	stage.initModality(Modality.APPLICATION_MODAL);
 		    	FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(Main.class.getResource("../views/CreateChannelView.fxml"));
+				loader.setLocation(Main.class.getResource("../views/ManageChannelView.fxml"));
 				BorderPane view;
 				try
 				{
 					view = loader.load();
-					CreateChannelController cont = loader.getController();
-					cont.setModel(concordModel, stage, client, serverId);
+					ManageChannelController cont = loader.getController();
+					cont.setModel(concordModel, stage, client, serverId, model);
 					Scene s = new Scene(view);
 					stage.setScene(s);
 					stage.showAndWait();
@@ -169,7 +174,8 @@ public class ServerController
     	try
 		{
 			if (!client.checkBasicPermission(serverId, "add member") 
-			 && !client.checkBasicPermission(serverId, "remove member")) 
+			 && !client.checkBasicPermission(serverId, "remove member")
+			 && !client.checkBasicPermission(serverId, "modify role")) 
 			{
 				model.showWarning("You do not have the permission to manage members");
 			}
@@ -184,7 +190,42 @@ public class ServerController
 				{
 					view = loader.load();
 					ManageUserController cont = loader.getController();
-					cont.setModel(concordModel, stage, client, serverId);
+					cont.setModel(concordModel, stage, client, serverId, model);
+					Scene s = new Scene(view);
+					stage.setScene(s);
+					stage.showAndWait();
+				} catch (IOException e)
+				{
+					model.showError();
+				}
+			}
+		} catch (RemoteException e1)
+		{
+			model.showError();
+		}
+    }
+    
+    @FXML
+    void onClickManageRole(ActionEvent event) 
+    {
+    	try
+		{
+			if (!client.checkBasicPermission(serverId, "modify role")) 
+			{
+				model.showWarning("You do not have the permission to manage roles");
+			}
+			else
+			{
+				Stage stage = new Stage();
+		    	stage.initModality(Modality.APPLICATION_MODAL);
+		    	FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("../views/ManageRoleView.fxml"));
+				BorderPane view;
+				try
+				{
+					view = loader.load();
+					ManageRoleController cont = loader.getController();
+					cont.setModel(concordModel, stage, client, serverId, model);
 					Scene s = new Scene(view);
 					stage.setScene(s);
 					stage.showAndWait();

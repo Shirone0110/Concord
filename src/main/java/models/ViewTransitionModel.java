@@ -86,15 +86,23 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		catch (IOException e)
 		{
 			showError();
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public void showServer(Server s)
 	{
-		concordModel.setChannels(s.getChannels());
-		concordModel.setMessages(s.getChannels().get(0).getMessages());
+		try
+		{
+			ArrayList<Channel> chanList = client.getChannelByUserId(s.getServerId());
+			concordModel.setChannels(chanList);
+			if (chanList.size() > 0)
+				concordModel.setMessages(chanList.get(0).getMessages());
+		} catch (RemoteException e)
+		{
+			showError();
+		}
 		concordModel.setUsers(s.getUsers());
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
@@ -110,7 +118,6 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		catch (IOException e)
 		{
 			showError();
-			e.printStackTrace();
 		}		
 	}
 

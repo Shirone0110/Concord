@@ -20,96 +20,116 @@ public class Role extends RoleComponent implements Serializable
 		channelRoles = new ArrayList<RoleComponent>();
 	}
 	
+	@Override
 	public void addChannel(String name)
 	{
+		System.out.println(this + ", New channel role " + name);
 		channelRoles.add(new ChannelRole(name));
+		System.out.println(this + ", " + channelRoles.size());
 	}
 	
+	@Override
 	public void removeChannel(String name)
 	{
 		for (RoleComponent role: channelRoles)
 		{
-			if (role.getName().equals(name))
+			ChannelRole cr = (ChannelRole) role;
+			if (cr.getName().equals(name))
 			{
-				channelRoles.remove(role);
+				channelRoles.remove(cr);
 				return;
 			}
 		}
 	}
 	
+	@Override
 	public ArrayList<RoleComponent> getBasic()
 	{
 		return basic;
 	}
 
+	@Override
 	public void setBasic(ArrayList<RoleComponent> roleList)
 	{
 		this.basic = roleList;
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
+	@Override
 	public void setName(String name)
 	{
 		this.name = name;
 	}
 	
+	@Override
 	public void addBasic(RoleComponent r)
 	{
 		basic.add(r);
 	}
 	
+	@Override
 	public void removeBasic(RoleComponent r)
 	{
 		basic.remove(r);
 	}
 	
+	@Override
 	public RoleComponent getChild(int index)
 	{
 		return basic.get(index);
 	}
 
+	@Override
 	public ArrayList<RoleComponent> getChannelRoles()
 	{
 		return channelRoles;
 	}
 
+	@Override
 	public void setChannelRoles(ArrayList<RoleComponent> channelRoles)
 	{
 		this.channelRoles = channelRoles;
 	}
 	
+	@Override
 	public boolean getBasicPermission(String name)
 	{
 		for (RoleComponent r: basic)
 		{
-			if (r.getName().equals(name))
-				return r.getAllowed();
+			Permission p = (Permission) r;
+			if (p.getName().equals(name))
+				return p.getAllowed();
 		}
 		return false;
 	}
 
+	@Override
 	public void setBasicPermission(String name, boolean p)
 	{
 		for (RoleComponent r: basic)
 		{
-			if (r.getName().equals(name))
+			Permission per = (Permission) r;
+			if (per.getName().equals(name))
 			{
-				r.setAllowed(p);
+				per.setAllowed(p);
 				return;
 			}
 		}
 	}
 	
-	public RoleComponent getChannelPermission(String name)
+	@Override
+	public ChannelRole getChannelPermission(String name)
 	{
 		for (RoleComponent r: channelRoles)
 		{
-			if (r.getName().equals(name))
-				return r;
+			ChannelRole cr = (ChannelRole) r;
+			if (cr.getName().equals(name))
+				return cr;
 		}
 		return null;
 	}

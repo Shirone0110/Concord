@@ -3,13 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.CreateChannelController">
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ManageChannelController">
    <bottom>
       <HBox prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -27,37 +28,33 @@
       </HBox>
    </bottom>
    <center>
-      <VBox prefHeight="150.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="80.0" prefWidth="250.0">
+            <Label text="Create New Channel">
+               <VBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Label text="Create New Channel">
-                     <VBox.margin>
+                  <Label text="Channel Name">
+                     <HBox.margin>
                         <Insets left="20.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
+                     </HBox.margin>
                   </Label>
-                  <HBox prefHeight="50.0" prefWidth="200.0">
-                     <children>
-                        <Label text="Channel Name">
-                           <HBox.margin>
-                              <Insets left="10.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField id="newChannelName" fx:id="nameTextField" promptText="Enter Name ...">
-                           <HBox.margin>
-                              <Insets left="5.0" top="7.0" />
-                           </HBox.margin>
-                        </TextField>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </HBox>
+                  <TextField id="newChannelName" fx:id="nameTextField" promptText="Enter Name ...">
+                     <HBox.margin>
+                        <Insets left="5.0" top="7.0" />
+                     </HBox.margin>
+                  </TextField>
                </children>
-            </VBox>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
             <Label text="Delete Channel">
                <font>
                   <Font size="14.0" />
@@ -68,16 +65,16 @@
             </Label>
             <HBox prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Label text="Channel Name">
+                  <Label text="Channel">
                      <HBox.margin>
-                        <Insets left="10.0" top="10.0" />
+                        <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField id="delChannelName" fx:id="deleteNameTextField" promptText="Enter Name ...">
+                  <MenuButton fx:id="deleteDropDown" mnemonicParsing="false" text="Choose Channel">
                      <HBox.margin>
-                        <Insets left="5.0" top="7.0" />
+                        <Insets left="40.0" top="7.0" />
                      </HBox.margin>
-                  </TextField>
+                  </MenuButton>
                </children>
                <VBox.margin>
                   <Insets top="5.0" />

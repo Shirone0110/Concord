@@ -105,7 +105,7 @@ public class ContentController
     @FXML
     void serverListViewClicked(MouseEvent event)
     {
-    	MouseButton button = event.getButton();
+    	/*MouseButton button = event.getButton();
         if (button == MouseButton.PRIMARY)
         {
         	Server s = serverListView.getSelectionModel().getSelectedItem();
@@ -114,7 +114,7 @@ public class ContentController
         else if (button == MouseButton.SECONDARY)
         {
         	
-        }
+        }*/
     }
     
     @FXML
@@ -129,7 +129,7 @@ public class ContentController
 		{
 			view = loader.load();
 			CreateServerController cont = loader.getController();
-			cont.setModel(stage, client, concordModel);
+			cont.setModel(stage, client, concordModel, model);
 			Scene s = new Scene(view);
 			stage.setScene(s);
 			stage.showAndWait();

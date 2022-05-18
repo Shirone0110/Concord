@@ -7,7 +7,7 @@
      <object class="concord.DirectConversation">
       <void property="defaultTime">
        <object class="java.util.Date">
-        <long>1652761336686</long>
+        <long>1652854357018</long>
        </object>
       </void>
       <void property="messages">
@@ -75,7 +75,7 @@
             </void>
             <void property="roleBuilder">
              <object class="concord.RoleBuilder" id="RoleBuilder0">
-              <void id="ArrayList0" property="roles">
+              <void id="ArrayList0" property="roleList">
                <void id="Role0" index="0">
                 <void id="ArrayList1" property="basic">
                  <void id="Permission0" index="0">
@@ -85,6 +85,9 @@
                 <void property="channelRoles">
                  <void method="add">
                   <object class="concord.ChannelRole">
+                   <void property="name">
+                    <string>general</string>
+                   </void>
                    <void property="sendMessage">
                     <object class="concord.Permission">
                      <void property="allowed">
@@ -113,6 +116,9 @@
                 <void property="channelRoles">
                  <void method="add">
                   <object class="concord.ChannelRole">
+                   <void property="name">
+                    <string>general</string>
+                   </void>
                    <void property="sendMessage">
                     <object class="concord.Permission">
                      <void property="allowed">
@@ -141,6 +147,9 @@
                 <void property="channelRoles">
                  <void method="add">
                   <object class="concord.ChannelRole">
+                   <void property="name">
+                    <string>general</string>
+                   </void>
                    <void property="sendMessage">
                     <object class="concord.Permission">
                      <void property="allowed">
@@ -172,87 +181,7 @@
              <object class="java.util.HashMap">
               <void method="put">
                <object idref="User0"/>
-               <object class="concord.Role">
-                <void property="basic">
-                 <object class="java.util.ArrayList">
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>view channel</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>send message</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="name">
-                     <string>add member</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="name">
-                     <string>remove member</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="name">
-                     <string>modify admin</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="name">
-                     <string>modify moderator</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="name">
-                     <string>modify channel</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="name">
-                     <string>modify role</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="name">
-                     <string>modify message</string>
-                    </void>
-                   </object>
-                  </void>
-                 </object>
-                </void>
-                <void property="channelRoles">
-                 <object class="java.util.ArrayList"/>
-                </void>
-                <void property="name">
-                 <string>Member</string>
-                </void>
-               </object>
+               <object idref="Role2"/>
               </void>
               <void method="put">
                <object class="concord.User" id="User1">
@@ -278,108 +207,7 @@
                  <string>lam</string>
                 </void>
                </object>
-               <object class="concord.Role">
-                <void property="basic">
-                 <object class="java.util.ArrayList">
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>view channel</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>send message</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>add member</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>remove member</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>modify admin</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>modify moderator</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>modify channel</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>modify role</string>
-                    </void>
-                   </object>
-                  </void>
-                  <void method="add">
-                   <object class="concord.Permission">
-                    <void property="allowed">
-                     <object idref="Boolean0"/>
-                    </void>
-                    <void property="name">
-                     <string>modify message</string>
-                    </void>
-                   </object>
-                  </void>
-                 </object>
-                </void>
-                <void property="channelRoles">
-                 <object class="java.util.ArrayList"/>
-                </void>
-                <void property="name">
-                 <string>Admin</string>
-                </void>
-               </object>
+               <object idref="Role0"/>
               </void>
              </object>
             </void>
@@ -390,7 +218,7 @@
              <string></string>
             </void>
             <void property="serverName">
-             <string>aaaaa</string>
+             <string>aaaa</string>
             </void>
             <void property="users">
              <object class="java.util.ArrayList">
@@ -406,49 +234,7 @@
           </void>
           <void property="time">
            <object class="java.util.Date">
-            <long>1652761336687</long>
-           </object>
-          </void>
-          <void property="user">
-           <object idref="User1"/>
-          </void>
-         </object>
-        </void>
-        <void method="add">
-         <object class="concord.Invitation">
-          <void property="content">
-           <string>Hi bojii! Click on this message to join my server!</string>
-          </void>
-          <void property="other">
-           <object idref="User0"/>
-          </void>
-          <void property="server">
-           <object idref="Server0"/>
-          </void>
-          <void property="time">
-           <object class="java.util.Date">
-            <long>1652766962749</long>
-           </object>
-          </void>
-          <void property="user">
-           <object idref="User1"/>
-          </void>
-         </object>
-        </void>
-        <void method="add">
-         <object class="concord.Invitation">
-          <void property="content">
-           <string>Hi bojii! Click on this message to join my server!</string>
-          </void>
-          <void property="other">
-           <object idref="User0"/>
-          </void>
-          <void property="server">
-           <object idref="Server0"/>
-          </void>
-          <void property="time">
-           <object class="java.util.Date">
-            <long>1652767436276</long>
+            <long>1652854357018</long>
            </object>
           </void>
           <void property="user">

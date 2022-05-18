@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 
 import concord.ConcordClient;
 import concord.InvalidActionException;
+import concord.Role;
+import concord.RoleComponent;
 import concord.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +14,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import models.ConcordModel;
+import models.ViewTransitionModel;
 
 public class ManageUserController
 {
@@ -20,7 +23,9 @@ public class ManageUserController
 	Stage stage;
 	ConcordClient client;
 	int serverId;
-	User addTarget, delTarget;
+	User addTarget, delTarget, modifyTarget;
+	Role roleTarget;
+	ViewTransitionModel viewModel;
 	
     @FXML
     private MenuButton addUserDropDown;
@@ -28,12 +33,19 @@ public class ManageUserController
     @FXML
     private MenuButton delUserDropDown;
     
-    public void setModel(ConcordModel m, Stage s, ConcordClient c, int sid) throws RemoteException
+    @FXML
+    private MenuButton modifyRoleDropDown;
+
+    @FXML
+    private MenuButton modifyUserDropDown;
+    
+    public void setModel(ConcordModel m, Stage s, ConcordClient c, int sid, ViewTransitionModel vm) throws RemoteException
     {
     	model = m;
     	stage = s;
     	client = c;
     	serverId = sid;
+    	viewModel = vm;
     	
     	addUserDropDown.getItems().clear();
 		for (Integer id: client.getAllUser())
@@ -79,6 +91,39 @@ public class ManageUserController
 			});
 			delUserDropDown.getItems().add(item);
 		}
+		
+		modifyUserDropDown.getItems().clear();
+		for (User u: model.getUsers())
+		{
+			MenuItem item = new MenuItem(u.getUserName());
+			item.setId(u.getUserName());
+			item.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e)
+				{
+					modifyTarget = u;
+					modifyUserDropDown.setText(u.getUserName());
+				}
+			});
+			modifyUserDropDown.getItems().add(item);
+		}
+		
+		modifyRoleDropDown.getItems().clear();
+		for (RoleComponent role: client.getRoleByServerId(sid))
+		{
+			Role cur = (Role) role;
+			MenuItem item = new MenuItem(cur.getName());
+			item.setId(cur.getName());
+			item.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e)
+				{
+					roleTarget = cur;
+					modifyRoleDropDown.setText(cur.getName());
+				}
+			});
+			modifyRoleDropDown.getItems().add(item);
+		}
     }
 
     @FXML
@@ -97,7 +142,7 @@ public class ManageUserController
 				client.invite(addTarget.getUserId(), serverId);	
 			} catch (InvalidActionException e)
 			{
-				e.printStackTrace();
+				viewModel.showWarning("You do not have the permission to invite.");
 			}
     	}
     	
@@ -109,9 +154,28 @@ public class ManageUserController
 			}
     		catch (InvalidActionException e)
 			{
-				
-				e.printStackTrace();
+				viewModel.showWarning("You do not have the permission to kick users.");
 			}
+    	}
+    	
+    	
+    	if (modifyTarget != null)
+    	{
+    		if (roleTarget == null)
+    		{
+    			viewModel.showWarning("Please select a new role for the user.");
+    		}
+    		else
+    		{
+    			try
+    			{
+    				client.changeRole(modifyTarget.getUserId(), roleTarget, serverId);
+    			}
+    			catch (InvalidActionException e)
+    			{
+    				viewModel.showWarning("You do not have the permission to change roles.");
+    			}
+    		}
     	}
     	stage.close();
     }

@@ -90,17 +90,27 @@ public abstract class RoleComponent
 		throw new UnsupportedOperationException();
 	}
 	
-	public void setViewChannel(RoleComponent viewChannel)
-	{
-		throw new UnsupportedOperationException();
-	}
-	
 	public RoleComponent getSendMessage()
 	{
 		throw new UnsupportedOperationException();
 	}
 	
+	public void updateSendMessage(boolean send)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public void setViewChannel(RoleComponent viewChannel)
+	{
+		throw new UnsupportedOperationException();
+	}
+
 	public void setSendMessage(RoleComponent sendMessage)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public void updateViewChannel(boolean view)
 	{
 		throw new UnsupportedOperationException();
 	}
