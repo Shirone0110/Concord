@@ -44,6 +44,7 @@ public class Main extends Application
 		
 		this.stage = stage;
 		Scene s = new Scene(view);
+		s.getStylesheets().add(Main.class.getResource("../Decoration.css").toExternalForm());
 		stage.setScene(s);
 		stage.show();
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() 

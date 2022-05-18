@@ -144,6 +144,7 @@ public class ServerController
 					ManageChannelController cont = loader.getController();
 					cont.setModel(concordModel, stage, client, serverId, model);
 					Scene s = new Scene(view);
+					s.getStylesheets().add(Main.class.getResource("../Decoration.css").toExternalForm());
 					stage.setScene(s);
 					stage.showAndWait();
 				} catch (IOException e)
@@ -198,6 +199,7 @@ public class ServerController
 					ManageUserController cont = loader.getController();
 					cont.setModel(concordModel, stage, client, serverId, model);
 					Scene s = new Scene(view);
+					s.getStylesheets().add(Main.class.getResource("../Decoration.css").toExternalForm());
 					stage.setScene(s);
 					stage.showAndWait();
 				} catch (IOException e)
@@ -233,6 +235,7 @@ public class ServerController
 					ManageRoleController cont = loader.getController();
 					cont.setModel(concordModel, stage, client, serverId, model);
 					Scene s = new Scene(view);
+					s.getStylesheets().add(Main.class.getResource("../Decoration.css").toExternalForm());
 					stage.setScene(s);
 					stage.showAndWait();
 				} catch (IOException e)

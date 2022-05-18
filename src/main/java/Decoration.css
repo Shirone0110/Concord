@@ -1,0 +1,67 @@
+.root
+{
+    -fx-font-size: 11pt;
+    -fx-font-family: "Cambria";
+    -fx-base: #e6f9ff;
+    -fx-background: #b3ecff;
+    -fx-focus-color: #23272A;
+    -fx-image: white;
+}
+
+.label
+{
+	-fx-font-family: "Cambria";
+	-fx-font-size: 10pt;
+}
+
+.check-box
+{
+	-fx-font-family: "Cambria";
+	-fx-font-size: 10pt;
+}
+
+.button
+{
+	-fx-font-size: 9pt;
+    -fx-background: #ccf3ff;
+}
+
+.list-cell:selected:focused, .list-cell:selected 
+{
+    -fx-text-fill: black;
+}
+
+.list-cell:odd 
+{
+    -fx-background-color: rgb(245, 255, 255)
+}
+
+.list-cell:even 
+{ 
+    -fx-background-color: #e6ffff
+}
+
+.list-cell:hover 
+{
+    -fx-background-color: #ffe6cc
+}
+
+.menu-item:
+{
+	-fx-background-color: rgb(245, 255, 255)
+}
+
+.menu-item:focused, .menu-item:hovered 
+{
+    -fx-background-color: #e6ffff
+}
+
+.menu-item:focused .label, .menu-item:hovered .label 
+{
+	-fx-text-fill: black;
+}
+
+.context-menu
+{
+	-fx-background-color: white;
+}

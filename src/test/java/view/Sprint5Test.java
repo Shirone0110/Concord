@@ -22,6 +22,7 @@ import concord.ConcordServer;
 import concord.DirectConversation;
 import concord.DirectConversationManager;
 import concord.InvalidCredentialException;
+import concord.Main;
 import concord.Message;
 import concord.Role;
 import concord.Server;
@@ -71,6 +72,7 @@ public class Sprint5Test
 			cc.setModel(model);
 			
 			Scene s = new Scene(view);
+			s.getStylesheets().add(Main.class.getResource("../Decoration.css").toExternalForm());
 			stage.setScene(s);
 			stage.show();
 		} 

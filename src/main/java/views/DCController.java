@@ -127,6 +127,7 @@ public class DCController
 			CreateDcController cont = loader.getController();
 			cont.setModel(stage, client);
 			Scene s = new Scene(view);
+			s.getStylesheets().add(Main.class.getResource("../Decoration.css").toExternalForm());
 			stage.setScene(s);
 			stage.showAndWait();
 		} catch (IOException e)

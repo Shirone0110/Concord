@@ -16,7 +16,7 @@
             <ListView id="svListView" fx:id="serverListView" onMouseClicked="#serverListViewClicked" prefHeight="340.0" prefWidth="100.0" />
             <Button id="btnManageServer" mnemonicParsing="false" onAction="#onClickManageServer" text="Manage Servers">
                <VBox.margin>
-                  <Insets bottom="5.0" left="3.0" top="5.0" />
+                  <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
                <font>
                   <Font size="11.0" />

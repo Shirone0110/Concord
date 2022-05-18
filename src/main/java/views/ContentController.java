@@ -131,6 +131,7 @@ public class ContentController
 			CreateServerController cont = loader.getController();
 			cont.setModel(stage, client, concordModel, model);
 			Scene s = new Scene(view);
+			s.getStylesheets().add(Main.class.getResource("../Decoration.css").toExternalForm());
 			stage.setScene(s);
 			stage.showAndWait();
 		} catch (IOException e)
