@@ -75,12 +75,12 @@
             </HBox>
             <HBox prefHeight="45.0" prefWidth="200.0">
                <children>
-                  <CheckBox fx:id="chkRemoveMember" mnemonicParsing="false" text="Remove Members">
+                  <CheckBox id="chkRemoveMember" fx:id="chkRemoveMember" mnemonicParsing="false" text="Remove Members">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </CheckBox>
-                  <CheckBox fx:id="chkAddMember" mnemonicParsing="false" text="Add Members">
+                  <CheckBox id="chkAddMember" fx:id="chkAddMember" mnemonicParsing="false" text="Add Members">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
@@ -90,19 +90,19 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <CheckBox fx:id="chkModifyAdmin" mnemonicParsing="false" text="Modify Admins / Manage Server">
+            <CheckBox id="chkModifyAdmin" fx:id="chkModifyAdmin" mnemonicParsing="false" text="Modify Admins / Manage Server">
                <VBox.margin>
                   <Insets left="20.0" />
                </VBox.margin>
             </CheckBox>
             <HBox prefHeight="45.0" prefWidth="200.0">
                <children>
-                  <CheckBox fx:id="chkModifyMod" mnemonicParsing="false" text="Modify Moderators">
+                  <CheckBox id="chkModifyMod" fx:id="chkModifyMod" mnemonicParsing="false" text="Modify Moderators">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </CheckBox>
-                  <CheckBox fx:id="chkModifyChannel" mnemonicParsing="false" text="Modify Channels">
+                  <CheckBox id="chkModifyChannel" fx:id="chkModifyChannel" mnemonicParsing="false" text="Modify Channels">
                      <HBox.margin>
                         <Insets left="25.0" />
                      </HBox.margin>
@@ -114,12 +114,12 @@
             </HBox>
             <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
-                  <CheckBox fx:id="chkModifyRole" mnemonicParsing="false" text="Modify Roles">
+                  <CheckBox id="chkModifyRole" fx:id="chkModifyRole" mnemonicParsing="false" text="Modify Roles">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </CheckBox>
-                  <CheckBox fx:id="chkModifyMessage" mnemonicParsing="false" text="Modify Messages">
+                  <CheckBox id="chkModifyMessage" fx:id="chkModifyMessage" mnemonicParsing="false" text="Modify Messages">
                      <HBox.margin>
                         <Insets left="59.0" />
                      </HBox.margin>

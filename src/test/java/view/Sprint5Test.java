@@ -23,6 +23,7 @@ import concord.DirectConversation;
 import concord.DirectConversationManager;
 import concord.InvalidCredentialException;
 import concord.Message;
+import concord.Role;
 import concord.Server;
 import concord.ServerManager;
 import concord.User;
@@ -675,6 +676,89 @@ public class Sprint5Test
 		});
 	}
 	
+	public void testCheckBoxes(FxRobot robot) throws RemoteException
+	{
+		switchToAdmin(robot);
+		
+		robot.clickOn("#btnManageRole");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#ddChooseRole");
+		robot.clickOn("#Member");
+		
+		robot.clickOn("#chkRemoveMember");
+		robot.clickOn("#chkModifyChannel");
+		robot.clickOn("#chkModifyMessage");
+		
+		robot.clickOn("#btnSubmit");
+		
+		Role r = (Role) cs.getRoleBuilderByServerId(0).getRole("Member");
+		assert(r.getBasicPermission("add member") == false);
+		assertTrue(r.getBasicPermission("remove member"));
+		assert(r.getBasicPermission("modify admin") == false);
+		assert(r.getBasicPermission("modify moderator") == false);
+		assertTrue(r.getBasicPermission("modify channel"));
+		assert(r.getBasicPermission("modify role") == false);
+		assertTrue(r.getBasicPermission("modify message"));
+		
+		robot.clickOn("#btnManageRole");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#ddChooseRole");
+		robot.clickOn("#Member");
+		
+		robot.clickOn("#chkRemoveMember");
+		robot.clickOn("#chkModifyChannel");
+		robot.clickOn("#chkModifyMessage");
+		robot.clickOn("#chkAddMember");
+		robot.clickOn("#chkModifyAdmin");
+		robot.clickOn("#chkModifyMod");
+		
+		robot.clickOn("#btnSubmit");
+		
+		r = (Role) cs.getRoleBuilderByServerId(0).getRole("Member");
+		assert(r.getBasicPermission("remove member") == false);
+		assertTrue(r.getBasicPermission("add member"));
+		assertTrue(r.getBasicPermission("modify admin"));
+		assertTrue(r.getBasicPermission("modify moderator"));
+		assert(r.getBasicPermission("modify channel") == false);
+		assert(r.getBasicPermission("modify role") == false);
+		assert(r.getBasicPermission("modify message") == false);
+		
+		robot.clickOn("#btnManageRole");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#ddChooseRole");
+		robot.clickOn("#Member");
+		
+		robot.clickOn("#chkAddMember");
+		robot.clickOn("#chkModifyAdmin");
+		robot.clickOn("#chkModifyMod");
+		
+		robot.clickOn("#btnSubmit");
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testAll(FxRobot robot) throws RemoteException
@@ -821,6 +905,10 @@ public class Sprint5Test
 		
 		// go back to admin and add a new channel and test all over to test that works with new channel
 		testMoreChannel(robot);
+		
+		// test check boxes working
+		testCheckBoxes(robot);
+		
 	}
 	
 }

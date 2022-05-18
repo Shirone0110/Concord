@@ -139,13 +139,15 @@ class ServerTest
 	}
 	
 	@Test
-	void testRole()
+	void testRole() throws InvalidActionException
 	{
 		ArrayList<Boolean> tmp = new ArrayList<Boolean>();
 		for (int i = 0; i < 9; i++) tmp.add(false);
 		try
 		{
 			RoleComponent r = s.createRole(ad, "noob", tmp);
+			Role cur = (Role) r;
+			assertEquals(1, cur.getChannelRoles().size());
 			s.changeRole(ad, noob, r);
 		} 
 		catch (InvalidActionException e)
@@ -153,6 +155,22 @@ class ServerTest
 			e.printStackTrace();
 			fail("threw exception when create role");
 		}
+		
+		Channel c = s.addChannel(ad, "new channel");
+		Role cur = (Role) s.getRoleMap().get(ad);
+		assertEquals(2, cur.getChannelRoles().size());
+		
+		cur.setBasicPermission("send message", false);
+		assert(s.checkSendMessage(ad, c) == false);
+		
+		cur.setBasicPermission("send message", true);
+		cur.getChannelPermission("new channel").getSendMessage().setAllowed(false);
+		assert(s.checkSendMessage(ad, c) == false);
+		
+		cur.getChannelPermission("new channel").getSendMessage().setAllowed(true);
+		
+		cur.setBasicPermission("add member", false);
+		assert(cur.getBasicPermission("add member") == false);
 		
 		assertThrows(InvalidActionException.class, 
 				()->{ 

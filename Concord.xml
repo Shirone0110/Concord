@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="17" class="java.beans.XMLDecoder">
+ <object class="concord.Concord" id="Concord0">
+  <void id="DirectConversationManager0" property="d">
+   <void property="dcList">
+    <void method="add">
+     <object class="concord.DirectConversation">
+      <void property="defaultTime">
+       <object class="java.util.Date">
+        <long>1652866120065</long>
+       </object>
+      </void>
+      <void property="messages">
+       <object class="java.util.ArrayList"/>
+      </void>
+      <void property="users">
+       <object class="java.util.ArrayList">
+        <void method="add">
+         <object class="concord.User" id="User0">
+          <void property="blocks">
+           <object class="java.util.ArrayList"/>
+          </void>
+          <void property="online">
+           <boolean>true</boolean>
+          </void>
+          <void property="password">
+           <string>123</string>
+          </void>
+          <void property="profileData">
+           <string></string>
+          </void>
+          <void property="profilePic">
+           <string></string>
+          </void>
+          <void property="realName">
+           <string>lam</string>
+          </void>
+          <void property="userName">
+           <string>lam</string>
+          </void>
+         </object>
+        </void>
+        <void method="add">
+         <object class="concord.User" id="User1">
+          <void property="blocks">
+           <object class="java.util.ArrayList"/>
+          </void>
+          <void property="online">
+           <boolean>true</boolean>
+          </void>
+          <void property="password">
+           <string>234</string>
+          </void>
+          <void property="profileData">
+           <string></string>
+          </void>
+          <void property="profilePic">
+           <string></string>
+          </void>
+          <void property="realName">
+           <string>bojii</string>
+          </void>
+          <void property="userId">
+           <int>1</int>
+          </void>
+          <void property="userName">
+           <string>bojii</string>
+          </void>
+         </object>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </void>
+   <void property="numberOfDc">
+    <int>1</int>
+   </void>
+  </void>
+  <void id="UserManager0" property="u">
+   <void property="numberOfUser">
+    <int>2</int>
+   </void>
+   <void property="userList">
+    <void method="add">
+     <object idref="User0"/>
+    </void>
+    <void method="add">
+     <object idref="User1"/>
+    </void>
+   </void>
+  </void>
+ </object>
+</java>
