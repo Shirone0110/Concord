@@ -759,6 +759,7 @@ public class Sprint5Test
 		robot.clickOn("#btnSubmit");
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void testAddMember(FxRobot robot) throws RemoteException
 	{
 		switchToAdmin(robot);
@@ -797,6 +798,62 @@ public class Sprint5Test
 		robot.clickOn("#new");
 		
 		robot.clickOn("#btnSubmit");
+
+		robot.clickOn("#btnMenu");
+		
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#btnLogout");
+		
+		robot.clickOn("#userNameTextField");
+		robot.write("new");
+		
+		robot.clickOn("#passwordTextField");
+		robot.write("345");
+		
+		robot.clickOn("#loginSubmitButton");
+		
+		Platform.runLater(()->{			
+			ListView<DirectConversation> dcList = (ListView<DirectConversation>) robot.lookup("#dcListView")
+					.queryAll().iterator().next();
+			
+			dcList.scrollTo(0);
+			dcList.getSelectionModel().clearAndSelect(0);
+		});
+		
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Platform.runLater(()->{
+			ListView<Message> msgList = (ListView<Message>) robot.lookup("#msgListView")
+					.queryAll().iterator().next();
+			msgList.scrollTo(0);
+			msgList.getSelectionModel().clearAndSelect(0);
+		});
+		
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertEquals(1, cs.getServerByUserId(2).size());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -857,9 +914,9 @@ public class Sprint5Test
 		});
 	}
 	
-	public void testRemoveMember(FxRobot robot)
+	public void testRemoveMember(FxRobot robot) throws RemoteException
 	{
-		switchToAdmin(robot);
+		switchToUser(robot);
 		robot.clickOn("#btnNewUser");
 		
 		try
@@ -872,11 +929,72 @@ public class Sprint5Test
 		}
 		
 		robot.clickOn("#btnRemoveUser");
-		robot.clickOn("#bojii");
+		robot.clickOn("#new");
 		
 		robot.clickOn("#btnSubmit");
 		
+		assertEquals(0, cs.getServerByUserId(2).size());
+		
 		robot.clickOn("#btnMenu");
+	}
+	
+	public void testModifyRole(FxRobot robot) throws RemoteException
+	{
+		switchToAdmin(robot);
+		robot.clickOn("#btnManageRole");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#ddChooseRole");
+		robot.press(KeyCode.DOWN).release(KeyCode.DOWN);
+		robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
+		
+		robot.clickOn("#txtNewRole");
+		robot.write("newRole");
+		robot.clickOn("#btnSubmit");
+		
+		assertEquals(4, cs.getRoleBuilderByServerId(0).getRoleList().size());
+		
+		robot.clickOn("#btnManageRole");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		robot.clickOn("#ddChooseRole");
+		robot.clickOn("#Member");
+		robot.clickOn("#chkModifyRole");
+		robot.clickOn("#btnSubmit");
+		
+		switchToUser(robot);
+		
+		robot.clickOn("#btnNewUser");
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#btnModifyUser");
+		robot.clickOn("#new");
+		robot.clickOn("#btnRole");
+		robot.clickOn("#newRole");
+		
+		robot.clickOn("#btnSubmit");
+
+		assertEquals("newRole", cs.getServerById(0).getRoleMap().get(cs.findUserById(2)).getName());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -1035,19 +1153,20 @@ public class Sprint5Test
 			e.printStackTrace();
 		}
 		
-		testOneChannel(robot);
+		//testOneChannel(robot);
 		
 		// go back to admin and add a new channel and test all over to test that works with new channel
-		testMoreChannel(robot);
+		//testMoreChannel(robot);
 		
 		// test check boxes working
-		testCheckBoxes(robot);
+		//testCheckBoxes(robot);
 		
 		testAddMember(robot);
 		
-		testModifyChannel(robot);
+		testModifyRole(robot);
+		
+		//testModifyChannel(robot);
 		
 		testRemoveMember(robot);
 	}
-	
 }
