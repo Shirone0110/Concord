@@ -30,7 +30,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <MenuButton fx:id="chooseRoleDropDown" mnemonicParsing="false" text="Choose Role">
+                  <MenuButton id="ddChooseRole" fx:id="chooseRoleDropDown" mnemonicParsing="false" text="Choose Role">
                      <HBox.margin>
                         <Insets left="10.0" top="7.0" />
                      </HBox.margin>
@@ -44,7 +44,7 @@
                         <Insets top="2.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="newRoleName" editable="false" promptText="New Role Name">
+                  <TextField id="txtNewRole" fx:id="newRoleName" editable="false" promptText="New Role Name">
                      <HBox.margin>
                         <Insets left="43.0" />
                      </HBox.margin>
@@ -61,12 +61,12 @@
             </Label>
             <HBox prefHeight="45.0" prefWidth="200.0">
                <children>
-                  <CheckBox fx:id="chkViewChannel" mnemonicParsing="false" text="View Channels">
+                  <CheckBox id="chkViewChannel" fx:id="chkViewChannel" mnemonicParsing="false" text="View Channels">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </CheckBox>
-                  <CheckBox fx:id="chkSendMessage" mnemonicParsing="false" text="Send Messages">
+                  <CheckBox id="chkSendMessage" fx:id="chkSendMessage" mnemonicParsing="false" text="Send Messages">
                      <HBox.margin>
                         <Insets left="50.0" top="10.0" />
                      </HBox.margin>
@@ -136,7 +136,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <MenuButton fx:id="channelDropDown" mnemonicParsing="false" text="Choose Channel">
+                  <MenuButton id="ddChooseChannel" fx:id="channelDropDown" mnemonicParsing="false" text="Choose Channel">
                      <HBox.margin>
                         <Insets left="10.0" top="7.0" />
                      </HBox.margin>
@@ -148,12 +148,12 @@
                   <Insets top="5.0" />
                </VBox.margin>
                <children>
-                  <CheckBox fx:id="chkSpecificViewChannel" mnemonicParsing="false" text="View Channel">
+                  <CheckBox id="chkSpecViewChannel" fx:id="chkSpecificViewChannel" mnemonicParsing="false" text="View Channel">
                      <HBox.margin>
                         <Insets left="20.0" top="5.0" />
                      </HBox.margin>
                   </CheckBox>
-                  <CheckBox fx:id="chkSpecificSendMessage" mnemonicParsing="false" text="Send Message">
+                  <CheckBox id="chkSpecSendMessage" fx:id="chkSpecificSendMessage" mnemonicParsing="false" text="Send Message">
                      <HBox.margin>
                         <Insets left="58.0" top="5.0" />
                      </HBox.margin>
@@ -166,12 +166,12 @@
    <bottom>
       <HBox prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onClickSave" text="Save">
+            <Button id="btnSubmit" mnemonicParsing="false" onAction="#onClickSave" text="Save">
                <HBox.margin>
                   <Insets left="20.0" right="100.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onClickCancel" text="Cancel">
+            <Button id="btnCancel" mnemonicParsing="false" onAction="#onClickCancel" text="Cancel">
                <HBox.margin>
                   <Insets left="100.0" />
                </HBox.margin>

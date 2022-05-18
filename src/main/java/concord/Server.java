@@ -59,10 +59,16 @@ public class Server implements Serializable
 		 * If general permission = true -> check child
 		 * else -> false
 		 */
+		roleMap.forEach((key, value)->System.out.println(key.getUserName() + " " + value.getName()));
 		Role role = (Role) roleMap.get(u);
+		for (RoleComponent r: role.getBasic())
+		{
+			Permission p = (Permission) r;
+			System.out.println(p.getName() + " " + p.getAllowed());
+		}
 		System.out.println("User role: " + role.getName() + " view: " + role.getBasicPermission("view channel"));
 		if (!role.getBasicPermission("view channel")) return false;
-		System.out.println(c.getChannelName() + ": " + role.getChannelPermission(c.getChannelName()));
+		System.out.println(c.getChannelName() + ": " + role.getChannelPermission(c.getChannelName()).getViewChannel().getAllowed());
 		return role.getChannelPermission(c.getChannelName()).getViewChannel().getAllowed();
 	}
 	
@@ -73,7 +79,7 @@ public class Server implements Serializable
 		 * else -> false
 		 */
 		Role role = (Role) roleMap.get(u);
-		System.out.println(role.getName());
+		System.out.println("User role: " + role.getName() + " send: " + role.getBasicPermission("send message"));
 		if (!role.getBasicPermission("send message")) return false;
 		return role.getChannelPermission(c.getChannelName()).getSendMessage().getAllowed();
 	}
@@ -186,6 +192,7 @@ public class Server implements Serializable
 		ChannelRole chanRole = cur.getChannelPermission(c.getChannelName());
 		chanRole.updateSendMessage(send);
 		chanRole.updateViewChannel(view);
+		System.out.println("Updating channel role: " + chanRole.getViewChannel().getAllowed());
 	}
 	
 

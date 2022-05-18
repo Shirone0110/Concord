@@ -66,9 +66,15 @@ public class ServerController
     		try
 			{
 				if (client.checkSendMessage(channelId, serverId)) 
+				{
 					messageTextField.setDisable(false);
+					return;
+				}
 				else 
+				{
 					messageTextField.setDisable(true);
+					return;
+				}
 			} catch (RemoteException e)
 			{
 				model.showError();

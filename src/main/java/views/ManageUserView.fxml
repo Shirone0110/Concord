@@ -28,7 +28,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <MenuButton fx:id="addUserDropDown" mnemonicParsing="false" text="Choose User">
+                  <MenuButton id="btnAddUser" fx:id="addUserDropDown" mnemonicParsing="false" text="Choose User">
                      <HBox.margin>
                         <Insets left="30.0" top="5.0" />
                      </HBox.margin>
@@ -53,7 +53,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <MenuButton fx:id="delUserDropDown" mnemonicParsing="false" text="Choose User">
+                  <MenuButton id="btnRemoveUser" fx:id="delUserDropDown" mnemonicParsing="false" text="Choose User">
                      <HBox.margin>
                         <Insets left="30.0" top="5.0" />
                      </HBox.margin>
@@ -78,7 +78,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <MenuButton fx:id="modifyUserDropDown" mnemonicParsing="false" text="Choose User">
+                  <MenuButton id="btnModifyUser" fx:id="modifyUserDropDown" mnemonicParsing="false" text="Choose User">
                      <HBox.margin>
                         <Insets left="30.0" top="5.0" />
                      </HBox.margin>
@@ -92,7 +92,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <MenuButton fx:id="modifyRoleDropDown" mnemonicParsing="false" text="Choose Role">
+                  <MenuButton id="btnRole" fx:id="modifyRoleDropDown" mnemonicParsing="false" text="Choose Role">
                      <HBox.margin>
                         <Insets left="30.0" top="5.0" />
                      </HBox.margin>
@@ -105,12 +105,12 @@
    <bottom>
       <HBox prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onClickSubmit" text="Submit">
+            <Button id="btnSubmit" mnemonicParsing="false" onAction="#onClickSubmit" text="Submit">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onClickCancel" text="Cancel">
+            <Button id="btnCancel" mnemonicParsing="false" onAction="#onClickCancel" text="Cancel">
                <HBox.margin>
                   <Insets left="150.0" />
                </HBox.margin>
