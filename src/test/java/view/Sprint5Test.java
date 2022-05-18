@@ -1153,19 +1153,19 @@ public class Sprint5Test
 			e.printStackTrace();
 		}
 		
-		//testOneChannel(robot);
+		testOneChannel(robot);
 		
 		// go back to admin and add a new channel and test all over to test that works with new channel
-		//testMoreChannel(robot);
+		testMoreChannel(robot);
 		
 		// test check boxes working
-		//testCheckBoxes(robot);
+		testCheckBoxes(robot);
 		
 		testAddMember(robot);
 		
 		testModifyRole(robot);
 		
-		//testModifyChannel(robot);
+		testModifyChannel(robot);
 		
 		testRemoveMember(robot);
 	}
